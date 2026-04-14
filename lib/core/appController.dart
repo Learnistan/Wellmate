@@ -7,11 +7,11 @@ class AppController extends ChangeNotifier {
 
   AppController(this.repository);
 
-  bool _isFirstLaunch = true;
-  bool _isLoggedIn = false;
+  bool? _isFirstLaunch;
+  bool? _isLoggedIn;
 
-  bool get isFirstLaunch => _isFirstLaunch;
-  bool get isLoggedIn => _isLoggedIn;
+  bool? get isFirstLaunch => _isFirstLaunch;
+  bool? get isLoggedIn => _isLoggedIn;
 
   Future<void> initialize() async {
     // TODO: later from SharedPreferences
