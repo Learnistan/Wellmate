@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer;
 import 'core/appController.dart';
 import 'core/localization/localeProvider.dart';
 import 'core/router/appRouter.dart';
 import 'core/storage/data/dataSources/local_storage_dataSource.dart';
 import 'core/storage/data/repository/appStorageRepositoryImpl.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'features/home/presentation/pages/homePage.dart';
 import 'l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +14,11 @@ void main() {
   final repository = AppStorageRepositoryImpl(localDataSource);
   final appController = AppController(repository);
 
-  runApp(MyApp(appController));
+  runApp(
+    ProviderScope(
+        child: MyApp(appController)
+    )
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -42,7 +46,8 @@ class _MyAppState extends State<MyApp> {
       create: (_) => LocaleProvider(),
       child: Consumer<LocaleProvider>(
         builder: (context, provider, _) {
-          return MaterialApp(
+          return MaterialApp.router(
+            routerConfig: appRouter.router,
             debugShowCheckedModeBanner: false,
 
             locale: provider.locale,
@@ -59,8 +64,6 @@ class _MyAppState extends State<MyApp> {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-
-            home: const HomePage(),
           );
         },
       ),
