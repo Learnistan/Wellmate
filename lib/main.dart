@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'core/appController.dart';
+import 'core/localization/localeProvider.dart';
 import 'core/router/appRouter.dart';
 import 'core/storage/data/dataSources/local_storage_dataSource.dart';
 import 'core/storage/data/repository/appStorageRepositoryImpl.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'features/home/presentation/pages/homePage.dart';
+import 'l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   final localDataSource = LocalStorageDataSource();
@@ -33,8 +38,32 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: appRouter.router,
+    return ChangeNotifierProvider(
+      create: (_) => LocaleProvider(),
+      child: Consumer<LocaleProvider>(
+        builder: (context, provider, _) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+
+            locale: provider.locale,
+
+            supportedLocales: const [
+              Locale('en'),
+              Locale('fa'), // Dari
+              Locale('ps'), // Pashto
+            ],
+
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+
+            home: const HomePage(),
+          );
+        },
+      ),
     );
   }
 }
