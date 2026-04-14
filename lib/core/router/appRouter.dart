@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wellmate/features/language/presentation/languagePage.dart';
 import 'package:wellmate/features/shell/presentation/mainShell.dart';
 import '../../features/auth/presentation/pages/loginPage.dart';
 import '../../features/home/presentation/pages/homePage.dart';
@@ -17,14 +18,21 @@ class AppRouter {
     redirect: (context, state) {
       final isFirstLaunch = appController.isFirstLaunch;
       final isLoggedIn = appController.isLoggedIn;
+      final goingToIntro = state.matchedLocation == '/intro';
+      final goingToLanguage = state.matchedLocation == '/language';
 
       if (isFirstLaunch == null || isLoggedIn == null) {
         return '/'; // stay here (blank page)
       }
 
-      // First Launch → Intro
+
+      // First launch flow
       if (isFirstLaunch) {
-        return '/intro';
+        // allow onboarding pages
+        if (goingToLanguage || goingToIntro) {
+          return null;
+        }
+        return '/language';
       }
 
       // Not logged in → Auth
@@ -39,6 +47,10 @@ class AppRouter {
       GoRoute(
         path: '/',
         builder: (context, state) => const SizedBox(),
+      ),
+      GoRoute(
+        path: '/language',
+        builder: (context, state) => LanguagePage(),
       ),
       GoRoute(
         path: '/intro',
