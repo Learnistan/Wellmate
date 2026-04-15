@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:wellmate/core/theme/textStyles.dart';
+
+import '../../../../l10n/app_localizations.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context);
 
     return Scaffold(
       body: Padding(
@@ -16,7 +20,7 @@ class HomePage extends StatelessWidget {
             Text(
               'Home',
               textAlign: TextAlign.start,
-              style: const TextStyle(fontSize: 22),
+              style: AppTextStyles.semiBold(locale)
             ),
           ],
         ),

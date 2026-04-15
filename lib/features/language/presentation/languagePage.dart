@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:wellmate/core/theme/textStyles.dart';
 
 import '../../../core/localization/localeProvider.dart';
 import '../../../l10n/app_localizations.dart';
@@ -11,6 +12,7 @@ class LanguagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context);
 
     return Scaffold(
       body: Padding(
@@ -21,8 +23,7 @@ class LanguagePage extends StatelessWidget {
           children: [
             Text(
               loc.welcome,
-              textAlign: TextAlign.start,
-              style: const TextStyle(fontSize: 22),
+              style: AppTextStyles.semiBold(locale)
             ),
 
             const SizedBox(height: 30),

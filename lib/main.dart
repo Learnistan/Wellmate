@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer;
+import 'package:wellmate/core/theme/appTheme.dart';
 import 'core/appController.dart';
 import 'core/localization/localeProvider.dart';
 import 'core/router/appRouter.dart';
@@ -49,7 +50,7 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp.router(
             routerConfig: appRouter.router,
             debugShowCheckedModeBanner: false,
-
+            theme: AppTheme.buildTheme(provider.locale),
             locale: provider.locale,
 
             supportedLocales: const [
