@@ -1,4 +1,16 @@
 {
   "welcome": "Welcome",
-  "login": "Login"
+  "login": "Login",
+
+  "skip": "Skip",
+  "introTitle1": "Welcome to wellmate",
+  "introDesc1": "Your small daily companion for a calmer mind and a better mood.",
+  "introTitle2": "When everything feels overwhelming",
+  "introDesc2": "WellMate helps you slow down, clear your mind, and gently build small habits that bring you back to balance.",
+  "introTitle3": "Your journey begins here",
+  "introDesc3": "Step by step, you’ll grow, reflect, and complete your personal journey toward a better balance in life.",
+
+  "start": "Start",
+  "next": "Next"
+
 }
