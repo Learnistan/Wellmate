@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
 import '../../../../core/appController.dart';
 
-class IntroPage extends StatelessWidget {
+class MultipleChoiceQuestionsPage extends StatelessWidget {
+  final AppController appController;
 
-  const IntroPage({super.key});
+  const MultipleChoiceQuestionsPage({super.key, required this.appController});
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +13,10 @@ class IntroPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text("Intro"),
+              const Text("MultipleChoice Questions"),
               ElevatedButton(
                   onPressed: () => {
-                    context.go("/questions")
+                    appController.completeOnboarding()
                   },
                   child: const Text("Let's Go")
               )

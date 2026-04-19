@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellmate/features/language/presentation/languagePage.dart';
+import 'package:wellmate/features/onboarding/presentation/pages/multipleChoiceQuestionsPage.dart';
 import 'package:wellmate/features/shell/presentation/mainShell.dart';
 import '../../features/auth/presentation/pages/loginPage.dart';
 import '../../features/home/presentation/pages/homePage.dart';
@@ -20,6 +21,7 @@ class AppRouter {
       final isLoggedIn = appController.isLoggedIn;
       final goingToIntro = state.matchedLocation == '/intro';
       final goingToLanguage = state.matchedLocation == '/language';
+      final goingToQuestions = state.matchedLocation == '/questions';
 
       if (isFirstLaunch == null || isLoggedIn == null) {
         return '/'; // stay here (blank page)
@@ -29,7 +31,7 @@ class AppRouter {
       // First launch flow
       if (isFirstLaunch) {
         // allow onboarding pages
-        if (goingToLanguage || goingToIntro) {
+        if (goingToLanguage || goingToIntro || goingToQuestions) {
           return null;
         }
         return '/language';
@@ -54,7 +56,7 @@ class AppRouter {
       ),
       GoRoute(
         path: '/intro',
-        builder: (context, state) => IntroPage(appController: appController),
+        builder: (context, state) => IntroPage(),
       ),
       GoRoute(
         path: '/login',
@@ -67,6 +69,10 @@ class AppRouter {
       GoRoute(
         path: '/home',
         builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+        path: '/questions',
+        builder: (context, state) => MultipleChoiceQuestionsPage(appController: appController),
       ),
     ],
   );
