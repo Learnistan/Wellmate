@@ -1,4 +1,4 @@
-package com.learnistan.wellmate.wellmate
+package com.learnistan.wellmate
 
 import io.flutter.embedding.android.FlutterActivity
 
