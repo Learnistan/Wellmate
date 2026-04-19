@@ -3,6 +3,8 @@ import '../../../../core/appController.dart';
 import '../../../../l10n/app_localizations.dart';
 import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
+import 'package:wellmate/core/widgets/ButtonCom.dart';
+import 'package:go_router/go_router.dart';
 
 class IntroPage extends StatefulWidget {
   final AppController appController;
@@ -25,13 +27,13 @@ class _IntroPageState extends State<IntroPage> {
       );
     } else {
       widget.appController.completeOnboarding();
-      Navigator.pushReplacementNamed(context, '/home');
+      context.go('/home');
     }
   }
 
   void _skip() {
     widget.appController.completeOnboarding();
-    Navigator.pushReplacementNamed(context, '/home');
+    context.go('/home');
   }
 
   @override
@@ -43,13 +45,16 @@ class _IntroPageState extends State<IntroPage> {
       body: SafeArea(
         child: Column(
           children: [
-            Align(
-              alignment: AlignmentDirectional.topEnd,
-              child: TextButton(
-                onPressed: _skip,
-                child: Text(
-                  l10n.skip,
-                  style: AppTextStyles.title,
+            Padding(
+              padding: const EdgeInsetsDirectional.only(end: 10),
+              child: Align(
+                alignment: AlignmentDirectional.topEnd,
+                child: TextButton(
+                  onPressed: _skip,
+                  child: Text(
+                    l10n.skip,
+                    style: AppTextStyles.semiBold(locale),
+                  ),
                 ),
               ),
             ),
@@ -107,27 +112,14 @@ class _IntroPageState extends State<IntroPage> {
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SizedBox(
-                width: 326,
-                height: 48,
-                child: ElevatedButton(
+                child: AppButton(
+                  text: _currentPage == 2 ? l10n.start : l10n.next,
                   onPressed: _nextPage,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    textStyle: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  child: Text(
-                    _currentPage == 2 ? l10n.start : l10n.next,
-                  ),
                 ),
-              ),
+
             ),
 
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -151,38 +143,42 @@ class IntroContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            imagePath,
-            height: 330,
-            width: 374,
-            fit: BoxFit.contain,
-          ),
+    final size = MediaQuery.of(context).size;
 
-          const SizedBox(height: 30),
-
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: AppTextStyles.introTitle(locale),
-          ),
-
-          const SizedBox(height: 10),
-
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            style: AppTextStyles.semiBold(locale).copyWith(
-              fontSize: 16,
-              fontWeight: FontWeight.normal,
-              color: Colors.grey,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              imagePath,
+              height: size.height * 0.3,
+              width: size.width * 0.8,
+              fit: BoxFit.contain,
             ),
-          ),
-        ],
+
+            const SizedBox(height: 20),
+
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: AppTextStyles.introTitle(locale),
+            ),
+
+            const SizedBox(height: 10),
+
+            Text(
+              description,
+              textAlign: TextAlign.center,
+              style: AppTextStyles.semiBold(locale).copyWith(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

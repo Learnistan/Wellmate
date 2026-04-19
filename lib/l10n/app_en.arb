@@ -11,6 +11,10 @@
   "introDesc3": "Step by step, you’ll grow, reflect, and complete your personal journey toward a better balance in life.",
 
   "start": "Start",
-  "next": "Next"
+  "next": "Next",
+
+  "continueText": "Continue",
+  "changeLater": "You can change it later in settings",
+  "chooseLanguage": "Choose your Language"
 
 }

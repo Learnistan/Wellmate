@@ -16,6 +16,7 @@ class AppTextStyles {
       fontFamily: isRTL ? AppFonts.dari : AppFonts.english,
       fontWeight: FontWeight.w600,
       fontSize: 16,
+      color: AppColors.textPrimary
     );
   }
 
