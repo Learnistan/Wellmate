@@ -144,6 +144,8 @@ class IntroContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final width = MediaQuery.of(context).size.width;
+    final fontSize = (width * 0.075).clamp(24, 32).toDouble();
 
     return SingleChildScrollView(
       child: Padding(
@@ -160,11 +162,15 @@ class IntroContent extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: AppTextStyles.introTitle(locale),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: AppTextStyles.introTitle(locale).copyWith(
+              fontSize: fontSize,
             ),
+          ),
 
             const SizedBox(height: 10),
 
