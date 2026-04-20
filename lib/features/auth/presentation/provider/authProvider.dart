@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../domain/entities/userEntity.dart';
 import '../../domain/useCases/signIn.dart';
@@ -13,15 +14,34 @@ class AuthProvider with ChangeNotifier {
     required this.signInUseCase,
     required this.signUpUseCase,
     required this.signOutUseCase,
-  });
+  }) {
+    _listenToAuthChange();
+  }
 
   UserEntity? _user;
-  bool _isLoading = false;
+  bool _isLoading = true;
   String? _error;
 
   UserEntity? get user => _user;
   bool get isLoading => _isLoading;
   String? get error => _error;
+  bool get isAuthenticated => _user != null;
+
+  void _listenToAuthChange() {
+    FirebaseAuth.instance.authStateChanges().listen((firebaseUser) {
+      if (firebaseUser != null) {
+        _user = UserEntity(
+          id: firebaseUser.uid,
+          email: firebaseUser.email ?? ''
+        );
+      } else {
+        _user = null;
+      }
+
+      _isLoading = false;
+      notifyListeners();
+    });
+  }
 
   /// LOGIN
   Future<void> login(String email, String password) async {

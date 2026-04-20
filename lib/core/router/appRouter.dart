@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wellmate/features/auth/presentation/provider/authProvider.dart';
 import 'package:wellmate/features/language/presentation/languagePage.dart';
 import 'package:wellmate/features/shell/presentation/mainShell.dart';
 import '../../features/auth/presentation/pages/loginPage.dart';
@@ -9,44 +11,57 @@ import '../appController.dart';
 
 class AppRouter {
   final AppController appController;
+  final AuthProvider authProvider;
 
-  AppRouter(this.appController);
+  AppRouter(this.appController, this.authProvider);
 
   late final router = GoRouter(
-    refreshListenable: appController,
-    initialLocation: '/',
-    redirect: (context, state) {
-      final isFirstLaunch = appController.isFirstLaunch;
-      final isLoggedIn = appController.isLoggedIn;
-      final goingToIntro = state.matchedLocation == '/intro';
-      final goingToLanguage = state.matchedLocation == '/language';
+    refreshListenable: Listenable.merge([appController, authProvider]),
+    initialLocation: '/loading',
+      redirect: (context, state) {
+        final location = state.uri.path;
 
-      if (isFirstLaunch == null || isLoggedIn == null) {
-        return '/'; // stay here (blank page)
-      }
+        final isFirstLaunch = appController.isFirstLaunch;
+        final isLoggedIn = authProvider.isAuthenticated;
+        final isAuthLoading = authProvider.isLoading;
 
+        final isGoingToLogin = location == '/login';
+        final isGoingToLanguage = location == '/language';
+        final isGoingToIntro = location == '/intro';
+        final isGoingToShell = location == '/shell';
+        final isGoingToLoading = location == '/loading';
 
-      // First launch flow
-      if (isFirstLaunch) {
-        // allow onboarding pages
-        if (goingToLanguage || goingToIntro) {
-          return null;
+        // 1. Loading state
+        if (isFirstLaunch == null || isAuthLoading) {
+          return isGoingToLoading ? null : '/loading';
         }
-        return '/language';
-      }
 
-      // Not logged in → Auth
-      if (!isLoggedIn) {
-        return '/login';
-      }
+        // 2. First launch flow
+        if (isFirstLaunch == true) {
+          if (isGoingToLanguage || isGoingToIntro) return null;
+          return '/language';
+        }
 
-      // Logged in → Shell
-      return '/shell';
-    },
+        // 3. Not logged in
+        if (!isLoggedIn) {
+          if (isGoingToLogin) return null;
+          return '/login';
+        }
+
+        // 4. Logged in
+        if (isLoggedIn) {
+          if (isGoingToShell) return null;
+          return '/shell';
+        }
+
+        return null;
+      },
     routes: [
       GoRoute(
-        path: '/',
-        builder: (context, state) => const SizedBox(),
+        path: '/loading',
+        builder: (context, state) => const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        ),
       ),
       GoRoute(
         path: '/language',

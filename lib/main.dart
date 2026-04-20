@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer;
+import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer, Provider;
 import 'package:wellmate/core/theme/appTheme.dart';
 import 'core/appController.dart';
 import 'core/localization/localeProvider.dart';
@@ -31,9 +31,9 @@ void main() async {
   final appController = AppController(repository);
 
   runApp(
-      ProviderScope(
-          child: MyApp(appController, authRepository)
-      )
+    ProviderScope(
+      child: MyApp(appController, authRepository),
+    ),
   );
 }
 
@@ -48,8 +48,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-  late final appRouter = AppRouter(widget.appController);
+  AppRouter? appRouter;
 
   @override
   void initState() {
@@ -72,26 +71,34 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ],
-      child: Consumer<LocaleProvider>(
-        builder: (context, provider, _) {
-          return MaterialApp.router(
-            routerConfig: appRouter.router,
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.buildTheme(provider.locale),
-            locale: provider.locale,
+      child: Builder(
+        builder: (context) {
+          // ✅ SAFE: provider exists here
+          final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-            supportedLocales: const [
-              Locale('en'),
-              Locale('fa'), // Dari
-              Locale('ps'), // Pashto
-            ],
+          // ✅ initialize ONLY ONCE
+          appRouter ??= AppRouter(widget.appController, authProvider);
 
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
+          return Consumer<LocaleProvider>(
+            builder: (context, provider, _) {
+              return MaterialApp.router(
+                routerConfig: appRouter!.router,
+                debugShowCheckedModeBanner: false,
+                theme: AppTheme.buildTheme(provider.locale),
+                locale: provider.locale,
+                supportedLocales: const [
+                  Locale('en'),
+                  Locale('fa'),
+                  Locale('ps'),
+                ],
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+              );
+            },
           );
         },
       ),
