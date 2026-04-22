@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wellmate/features/auth/presentation/pages/registerPage.dart';
 import 'package:wellmate/features/auth/presentation/provider/authProvider.dart';
 import 'package:wellmate/features/language/presentation/languagePage.dart';
 import 'package:wellmate/features/shell/presentation/mainShell.dart';
@@ -30,6 +31,7 @@ class AppRouter {
         final isGoingToIntro = location == '/intro';
         final isGoingToShell = location == '/shell';
         final isGoingToLoading = location == '/loading';
+        final isGoingToRegister = location == '/register';
 
         // 1. Loading state
         if (isFirstLaunch == null || isAuthLoading) {
@@ -44,7 +46,7 @@ class AppRouter {
 
         // 3. Not logged in
         if (!isLoggedIn) {
-          if (isGoingToLogin) return null;
+          if (isGoingToLogin || isGoingToRegister) return null;
           return '/login';
         }
 
@@ -82,6 +84,10 @@ class AppRouter {
       GoRoute(
         path: '/home',
         builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+        path: '/register',
+        builder: (context, state) => RegisterPage(),
       ),
     ],
   );

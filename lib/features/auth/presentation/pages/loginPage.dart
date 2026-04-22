@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:wellmate/core/appController.dart';
 
@@ -39,11 +40,12 @@ class LoginPage extends StatelessWidget {
                   child: Text("Login"),
                 ),
 
-              if (authProvider.error != null)
-                Text(authProvider.error!),
-
-              if (authProvider.user != null)
-                Text("Welcome ${authProvider.user!.email}"),
+              TextButton(
+                onPressed: () {
+                  context.go('/register');
+                },
+                child: const Text("Create account"),
+              )
 
             ],
           )

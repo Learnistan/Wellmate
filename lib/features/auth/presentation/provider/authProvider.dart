@@ -79,8 +79,8 @@ class AuthProvider with ChangeNotifier {
 
   /// LOGOUT
   Future<void> logout() async {
-    await signOutUseCase();
-    _user = null;
+    _isLoading = true;
     notifyListeners();
+    await signOutUseCase();
   }
 }
