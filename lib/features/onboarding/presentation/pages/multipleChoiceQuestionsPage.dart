@@ -48,7 +48,6 @@ class _MultipleChoiceQuestionsPageState
     },
   ];
 
-  /// 🔥 MAP QUESTION KEYS
   String getQuestion(AppLocalizations loc, String key) {
     switch (key) {
       case 'q1': return loc.q1;
@@ -61,7 +60,6 @@ class _MultipleChoiceQuestionsPageState
     }
   }
 
-  /// 🔥 MAP ANSWER KEYS
   String getAnswer(AppLocalizations loc, String key) {
     switch (key) {
       case 'q1_a1': return loc.q1_a1;
@@ -136,7 +134,6 @@ class _MultipleChoiceQuestionsPageState
             child: Column(
               children: [
 
-                /// TOP ROW
                 Row(
                   children: [
                     IconButton(
@@ -154,13 +151,11 @@ class _MultipleChoiceQuestionsPageState
                   ],
                 ),
 
-                /// CENTER CONTENT
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
 
-                      /// ✅ QUESTION
                       Text(
                         getQuestion(loc, question["question"] as String),
                         textAlign: TextAlign.center,
@@ -172,7 +167,6 @@ class _MultipleChoiceQuestionsPageState
 
                       const SizedBox(height: 30),
 
-                      /// ✅ ANSWERS
                       ...List.generate(question["answers"].length, (index) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12),
@@ -192,7 +186,6 @@ class _MultipleChoiceQuestionsPageState
                   ),
                 ),
 
-                /// BUTTON
                 AppButton(
                   text: currentIndex == questions.length - 1
                       ? loc.continueText
