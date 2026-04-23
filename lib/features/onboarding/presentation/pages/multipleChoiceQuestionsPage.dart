@@ -23,56 +23,74 @@ class _MultipleChoiceQuestionsPageState
 
   final List<Map<String, dynamic>> questions = [
     {
-      "question": "how is your heart feeling right now?",
-      "answers": [
-        "Calm and at peace",
-        "A little heavy",
-        "Restless"
-      ]
+      "question": "q1",
+      "answers": ["q1_a1", "q1_a2", "q1_a3"]
     },
     {
-      "question": "How is your body feeling today?",
-      "answers": [
-        "Relaxed and light",
-        "Tightness in my chest or shoulders",
-        "Very tired and heavy"
-      ]
+      "question": "q2",
+      "answers": ["q2_a1", "q2_a2", "q2_a3"]
     },
     {
-      "question":
-      "or are you feeling pulled away by difficult memories or worries?",
-      "answers": [
-        "My mind is clear",
-        "Pulled by a few worries",
-        "Caught in an emotional storm"
-      ]
+      "question": "q3",
+      "answers": ["q3_a1", "q3_a2", "q3_a3"]
     },
     {
-      "question": "how much energy do you feel you have to give?",
-      "answers": [
-        "I have energy for the day",
-        "Just enough for the basics",
-        "I need quiet rest today"
-      ]
+      "question": "q4",
+      "answers": ["q4_a1", "q4_a2", "q4_a3"]
     },
     {
-      "question":
-      "How connected are you feeling to your family or friends today?",
-      "answers": [
-        "Strongly connected",
-        "A bit lonely today",
-        "I prefer to be alone right now"
-      ]
+      "question": "q5",
+      "answers": ["q5_a1", "q5_a2", "q5_a3"]
     },
     {
-      "question": "what feels like the best way to find comfort?",
-      "answers": [
-        "Prayer or quiet reflection",
-        "Talking with someone I trust",
-        "A calming distraction"
-      ]
+      "question": "q6",
+      "answers": ["q6_a1", "q6_a2", "q6_a3"]
     },
   ];
+
+  /// 🔥 MAP QUESTION KEYS
+  String getQuestion(AppLocalizations loc, String key) {
+    switch (key) {
+      case 'q1': return loc.q1;
+      case 'q2': return loc.q2;
+      case 'q3': return loc.q3;
+      case 'q4': return loc.q4;
+      case 'q5': return loc.q5;
+      case 'q6': return loc.q6;
+      default: return key;
+    }
+  }
+
+  /// 🔥 MAP ANSWER KEYS
+  String getAnswer(AppLocalizations loc, String key) {
+    switch (key) {
+      case 'q1_a1': return loc.q1_a1;
+      case 'q1_a2': return loc.q1_a2;
+      case 'q1_a3': return loc.q1_a3;
+
+      case 'q2_a1': return loc.q2_a1;
+      case 'q2_a2': return loc.q2_a2;
+      case 'q2_a3': return loc.q2_a3;
+
+      case 'q3_a1': return loc.q3_a1;
+      case 'q3_a2': return loc.q3_a2;
+      case 'q3_a3': return loc.q3_a3;
+
+      case 'q4_a1': return loc.q4_a1;
+      case 'q4_a2': return loc.q4_a2;
+      case 'q4_a3': return loc.q4_a3;
+
+      case 'q5_a1': return loc.q5_a1;
+      case 'q5_a2': return loc.q5_a2;
+      case 'q5_a3': return loc.q5_a3;
+
+      case 'q6_a1': return loc.q6_a1;
+      case 'q6_a2': return loc.q6_a2;
+      case 'q6_a3': return loc.q6_a3;
+
+      default: return key;
+    }
+  }
 
   void nextQuestion() {
     if (selectedIndex == null) return;
@@ -118,6 +136,7 @@ class _MultipleChoiceQuestionsPageState
             child: Column(
               children: [
 
+                /// TOP ROW
                 Row(
                   children: [
                     IconButton(
@@ -135,13 +154,15 @@ class _MultipleChoiceQuestionsPageState
                   ],
                 ),
 
+                /// CENTER CONTENT
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
 
+                      /// ✅ QUESTION
                       Text(
-                        question["question"],
+                        getQuestion(loc, question["question"] as String),
                         textAlign: TextAlign.center,
                         style: AppTextStyles.semiBold(locale).copyWith(
                           fontSize: 24,
@@ -151,11 +172,13 @@ class _MultipleChoiceQuestionsPageState
 
                       const SizedBox(height: 30),
 
+                      /// ✅ ANSWERS
                       ...List.generate(question["answers"].length, (index) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12),
                           child: _AnswerTile(
-                            title: question["answers"][index],
+                            title: getAnswer(
+                                loc, question["answers"][index] as String),
                             isSelected: selectedIndex == index,
                             onTap: () {
                               setState(() {
@@ -169,12 +192,13 @@ class _MultipleChoiceQuestionsPageState
                   ),
                 ),
 
+                /// BUTTON
                 AppButton(
                   text: currentIndex == questions.length - 1
                       ? loc.continueText
                       : loc.next,
                   onPressed:
-                  selectedIndex != null ? nextQuestion : () {},
+                  selectedIndex != null ? nextQuestion : null,
                 ),
 
                 const SizedBox(height: 20),
