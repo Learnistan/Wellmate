@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/appController.dart';
 import '../../../../l10n/app_localizations.dart';
 import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
 import 'package:wellmate/core/widgets/ButtonCom.dart';
-import 'package:go_router/go_router.dart';
 
 class IntroPage extends StatefulWidget {
-  final AppController appController;
 
-  const IntroPage({super.key, required this.appController});
+  const IntroPage({super.key});
 
   @override
   State<IntroPage> createState() => _IntroPageState();
@@ -26,14 +25,12 @@ class _IntroPageState extends State<IntroPage> {
         curve: Curves.easeIn,
       );
     } else {
-      widget.appController.completeOnboarding();
-      context.go('/home');
+      context.go('/questions');
     }
   }
 
   void _skip() {
-    widget.appController.completeOnboarding();
-    context.go('/home');
+    context.go('/questions');
   }
 
   @override
