@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer;
+import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer, Provider;
 import 'package:wellmate/core/theme/appTheme.dart';
 import 'core/appController.dart';
 import 'core/localization/localeProvider.dart';
@@ -7,33 +9,46 @@ import 'core/router/appRouter.dart';
 import 'core/storage/data/dataSources/local_storage_dataSource.dart';
 import 'core/storage/data/repository/appStorageRepositoryImpl.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'features/auth/data/dataSources/authRemoteDataSource.dart';
+import 'features/auth/data/repositories/authRepositoryImpl.dart';
+import 'features/auth/domain/useCases/signIn.dart';
+import 'features/auth/domain/useCases/signOut.dart';
+import 'features/auth/domain/useCases/signUp.dart';
+import 'features/auth/presentation/provider/authProvider.dart';
 import 'l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  final firebaseAuth = FirebaseAuth.instance;
+  final remoteDataSource = AuthRemoteDataSource(firebaseAuth);
+  final authRepository = AuthRepositoryImpl(remoteDataSource);
+
   final localDataSource = LocalStorageDataSource();
   final repository = AppStorageRepositoryImpl(localDataSource);
   final appController = AppController(repository);
 
   runApp(
     ProviderScope(
-        child: MyApp(appController)
-    )
+      child: MyApp(appController, authRepository),
+    ),
   );
 }
 
 class MyApp extends StatefulWidget {
   final AppController appController;
+  final AuthRepositoryImpl repository;
 
-  const MyApp(this.appController, {super.key});
+  const MyApp(this.appController, this.repository, {super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-
-  late final appRouter = AppRouter(widget.appController);
+  AppRouter? appRouter;
 
   @override
   void initState() {
@@ -43,28 +58,47 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => LocaleProvider(),
-      child: Consumer<LocaleProvider>(
-        builder: (context, provider, _) {
-          return MaterialApp.router(
-            routerConfig: appRouter.router,
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.buildTheme(provider.locale),
-            locale: provider.locale,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => LocaleProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(
+            signInUseCase: SignIn(widget.repository),
+            signUpUseCase: SignUp(widget.repository),
+            signOutUseCase: SignOut(widget.repository),
+          ),
+        ),
+      ],
+      child: Builder(
+        builder: (context) {
+          // ✅ SAFE: provider exists here
+          final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-            supportedLocales: const [
-              Locale('en'),
-              Locale('fa'), // Dari
-              Locale('ps'), // Pashto
-            ],
+          // ✅ initialize ONLY ONCE
+          appRouter ??= AppRouter(widget.appController, authProvider);
 
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
+          return Consumer<LocaleProvider>(
+            builder: (context, provider, _) {
+              return MaterialApp.router(
+                routerConfig: appRouter!.router,
+                debugShowCheckedModeBanner: false,
+                theme: AppTheme.buildTheme(provider.locale),
+                locale: provider.locale,
+                supportedLocales: const [
+                  Locale('en'),
+                  Locale('fa'),
+                  Locale('ps'),
+                ],
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+              );
+            },
           );
         },
       ),
