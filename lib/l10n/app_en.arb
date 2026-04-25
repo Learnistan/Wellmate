@@ -1,4 +1,48 @@
 {
   "welcome": "Welcome",
-  "login": "Login"
+  "login": "Login",
+
+  "skip": "Skip",
+  "introTitle1": "Welcome to wellmate",
+  "introDesc1": "Your small daily companion for a calmer mind and a better mood.",
+  "introTitle2": "When everything feels overwhelming",
+  "introDesc2": "WellMate helps you slow down, clear your mind, and gently build small habits that bring you back to balance.",
+  "introTitle3": "Your journey begins here",
+  "introDesc3": "Step by step, you’ll grow, reflect, and complete your personal journey toward a better balance in life.",
+
+  "start": "Start",
+  "next": "Next",
+  "continueText": "Continue",
+  "changeLater": "You can change it later in settings",
+  "chooseLanguage": "Choose your Language",
+
+  "q1": "Salaam. Checking in with your inner self today—How is your heart feeling right now?",
+  "q1_a1": "Calm and at peace",
+  "q1_a2": "A little heavy",
+  "q1_a3": "Restless",
+
+  "q2": "Our bodies often carry the weight of our daily worries. How is your body feeling today?",
+  "q2_a1": "Relaxed and light",
+  "q2_a2": "Tightness in my chest or shoulders",
+  "q2_a3": "Very tired and heavy",
+
+  "q3": "Are your thoughts resting quietly today, or Are you feeling pulled away by difficult memories or worries?",
+  "q3_a1": "My mind is clear",
+  "q3_a2": "Pulled by a few worries",
+  "q3_a3": "Caught in an emotional storm",
+
+  "q4": "Thinking about the day ahead, how much energy do you feel you have today?",
+  "q4_a1": "I have energy for the day",
+  "q4_a2": "Just enough for the basics",
+  "q4_a3": "I need quiet rest today",
+
+  "q5": "We draw strength from our loved ones. How connected are you feeling to your family or friends today?",
+  "q5_a1": "Strongly connected",
+  "q5_a2": "A bit lonely today",
+  "q5_a3": "I prefer to be alone right now",
+
+  "q6": "If you face a difficult moment today, what feels like the best way to find comfort right now?",
+  "q6_a1": "Prayer or quiet reflection",
+  "q6_a2": "Talking with someone I trust",
+  "q6_a3": "A calming distraction"
 }

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wellmate/features/auth/presentation/pages/registerPage.dart';
 import 'package:wellmate/features/auth/presentation/provider/authProvider.dart';
 import 'package:wellmate/features/language/presentation/languagePage.dart';
+import 'package:wellmate/features/onboarding/presentation/pages/multipleChoiceQuestionsPage.dart';
 import 'package:wellmate/features/shell/presentation/mainShell.dart';
 import '../../features/auth/presentation/pages/loginPage.dart';
 import '../../features/home/presentation/pages/homePage.dart';
@@ -71,7 +72,7 @@ class AppRouter {
       ),
       GoRoute(
         path: '/intro',
-        builder: (context, state) => IntroPage(appController: appController),
+        builder: (context, state) => IntroPage(),
       ),
       GoRoute(
         path: '/login',
@@ -87,7 +88,11 @@ class AppRouter {
       ),
       GoRoute(
         path: '/register',
-        builder: (context, state) => RegisterPage(),
+        builder: (context, state) => RegisterPage()
+      ),
+      GoRoute(
+        path: '/questions',
+        builder: (context, state) => MultipleChoiceQuestionsPage(appController: appController),
       ),
     ],
   );
