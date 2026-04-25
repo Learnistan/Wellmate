@@ -33,6 +33,7 @@ class AppRouter {
         final isGoingToShell = location == '/shell';
         final isGoingToLoading = location == '/loading';
         final isGoingToRegister = location == '/register';
+        final isGoingToQuestions = location == '/questions';
 
         // 1. Loading state
         if (isFirstLaunch == null || isAuthLoading) {
@@ -41,7 +42,7 @@ class AppRouter {
 
         // 2. First launch flow
         if (isFirstLaunch == true) {
-          if (isGoingToLanguage || isGoingToIntro) return null;
+          if (isGoingToLanguage || isGoingToIntro || isGoingToQuestions) return null;
           return '/language';
         }
 
