@@ -248,7 +248,7 @@ class _AnswerTile extends StatelessWidget {
                 style: AppTextStyles.semiBold(locale).copyWith(
                   color: isSelected
                       ? AppColors.textPrimary
-                      : AppColors.textSecondary,
+                      : AppColors.primary,
                 ),
               ),
             ),

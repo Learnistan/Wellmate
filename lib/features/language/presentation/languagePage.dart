@@ -129,7 +129,7 @@ class _LanguageTile extends StatelessWidget {
               child: Text(
                 title,
                 style: AppTextStyles.semiBold(locale).copyWith(
-                  color: isSelected ? AppColors.textPrimary : AppColors.textSecondary
+                  color: isSelected ? AppColors.textPrimary : AppColors.primary
                 ),
               ),
             ),

@@ -1,3 +1,3 @@
 class AppAssets {
-  static const Yuga = 'assets/images/Yuga.png';
+  static const carpet = 'assets/images/carpet.webp';
 }
