@@ -44,5 +44,25 @@
   "q6": "اگر امروز با یک لحظه سخت رو به رو شوی، چه چیزی میتواند بهترین راه آرامش و تسلی برایت باشد؟",
   "q6_a1": "دعا یا سکوت",
   "q6_a2": "صحبت با کسی که به او اعتماد دارم",
-  "q6_a3": "یک سرگرمی آرام بخش"
+  "q6_a3": "یک سرگرمی آرام بخش",
+
+  "createAccount": "ایجاد حساب",
+  "createAccountSubtitle": "Start your journey to a calmer mind",
+  "email": "ایمیل",
+  "password": "رمز عبور",
+  "confirmPassword": "تأیید رمز عبور",
+  "signUp": "ثبت‌نام",
+  "alreadyHaveAccountQuestion": "قبلاً حساب دارید؟ ",
+  "alreadyHaveAccount": "وارد شوید",
+
+  "emailRequired": "ایمیل ضروری است",
+  "invalidEmail": "یک ایمیل معتبر وارد کنید",
+  "passwordRequired": "رمز عبور ضروری است",
+  "passwordTooShort": "رمز عبور باید حداقل ۶ کاراکتر باشد",
+  "passwordMismatch": "رمزهای عبور مطابقت ندارند",
+
+  "welcomeBack": "خوش برگشتید",
+  "loginSubtitle": "برای ادامه مسیر خود وارد شوید",
+  "forgotPassword": "رمز عبور را فراموش کرده‌اید؟",
+  "dontHaveAccount": "حساب ندارید؟"
 }

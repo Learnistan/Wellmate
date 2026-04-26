@@ -44,5 +44,25 @@
   "q6": "که نن له یوې سختې شېبې سره مخ شئ، څه شی به ستاسو لپاره د آرامۍ او تسلۍ غوره لاره وي؟",
   "q6_a1": "دعا یا چوپ تفکر",
   "q6_a2": "له باور وړ چا سره خبرې",
-  "q6_a3": "یو ارام کوونکی مصروفیت"
+  "q6_a3": "یو ارام کوونکی مصروفیت",
+
+  "createAccount": "اکاونټ جوړ کړئ",
+  "createAccountSubtitle": "Start your journey to a calmer mind",
+  "email": "برېښنالیک",
+  "password": "پټنوم",
+  "confirmPassword": "د پټنوم تایید",
+  "signUp": "نوم‌لیکنه",
+  "alreadyHaveAccount": "ننوزئ",
+  "alreadyHaveAccountQuestion": "مخکې اکاونټ لرئ؟",
+
+  "emailRequired": "برېښنالیک اړین دی",
+  "invalidEmail": "مهرباني وکړئ یو سم برېښنالیک داخل کړئ",
+  "passwordRequired": "پټنوم اړین دی",
+  "passwordTooShort": "پټنوم باید لږ تر لږه ۶ توري ولري",
+  "passwordMismatch": "پټنومونه سره برابر نه دي",
+
+  "welcomeBack": "بیا ښه راغلاست",
+  "loginSubtitle": "د خپل سفر د دوام لپاره ننوځئ",
+  "forgotPassword": "پټنوم مو هېر کړی؟",
+  "dontHaveAccount": "اکاونټ نه لرئ؟"
 }

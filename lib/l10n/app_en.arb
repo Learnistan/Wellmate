@@ -44,5 +44,26 @@
   "q6": "If you face a difficult moment today, what feels like the best way to find comfort right now?",
   "q6_a1": "Prayer or quiet reflection",
   "q6_a2": "Talking with someone I trust",
-  "q6_a3": "A calming distraction"
+  "q6_a3": "A calming distraction",
+
+  "createAccount": "Create Account",
+  "createAccountSubtitle": "Start your journey to a calmer mind",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "signUp": "Sign Up",
+  "alreadyHaveAccountQuestion": "Already have an account?",
+  "alreadyHaveAccount": "Log in",
+
+  "emailRequired": "Email is required",
+  "invalidEmail": "Enter a valid email",
+  "passwordRequired": "Password is required",
+  "passwordTooShort": "Password must be at least 6 characters",
+  "passwordMismatch": "Passwords do not match",
+
+  "welcomeBack": "Welcome back",
+  "loginSubtitle": "Log in to continue your journey",
+  "forgotPassword": "Forgot password?",
+  "dontHaveAccount": "Don’t have an account?"
+
 }
