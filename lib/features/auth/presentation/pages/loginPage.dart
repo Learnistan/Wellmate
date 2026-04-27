@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:wellmate/core/appController.dart';
+import 'package:wellmate/core/constants/assets.dart';
+import 'package:wellmate/core/widgets/SocialIcon.dart';
 
 import '../provider/authProvider.dart';
 import '../../../../core/widgets/ButtonCom.dart';
@@ -168,11 +170,11 @@ class _LoginPageState extends State<LoginPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _socialIcon("assets/images/google.png"),
+                          SocialIcon(path: AppAssets.GoogleIcon),
                           const SizedBox(width: 10),
-                          _socialIcon("assets/images/facebook.png"),
+                          SocialIcon(path: AppAssets.FacebookIcon),
                           const SizedBox(width: 10),
-                          _socialIcon("assets/images/apple-logo.png"),
+                          SocialIcon(path: AppAssets.AppleIcon),
                         ],
                       ),
 
@@ -213,21 +215,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
             );
           },
-        ),
-      ),
-    );
-  }
-
-  Widget _socialIcon(String path) {
-    return SizedBox(
-      width: 50.09,
-      height: 40.91,
-      child: Center(
-        child: Image.asset(
-          path,
-          width: 30.09,
-          height: 30.91,
-          fit: BoxFit.contain,
         ),
       ),
     );

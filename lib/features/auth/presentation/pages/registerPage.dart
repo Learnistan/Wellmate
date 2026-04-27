@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wellmate/core/constants/assets.dart';
 import '../provider/authProvider.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,6 +9,7 @@ import '../../../../core/widgets/AppInputField.dart';
 import '../../../../core/theme/textStyles.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../core/widgets/SocialIcon.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -201,11 +203,11 @@ class _RegisterPageState extends State<RegisterPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              _socialIcon("assets/images/google.png"),
+                              SocialIcon(path: AppAssets.GoogleIcon),
                               const SizedBox(width: 10),
-                              _socialIcon("assets/images/facebook.png"),
+                              SocialIcon(path: AppAssets.FacebookIcon),
                               const SizedBox(width: 10),
-                              _socialIcon("assets/images/apple-logo.png"),
+                              SocialIcon(path: AppAssets.AppleIcon),
                             ],
                           ),
 
@@ -253,18 +255,4 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _socialIcon(String path) {
-    return SizedBox(
-      width: 50.09,
-      height: 40.91,
-      child: Center(
-        child: Image.asset(
-          path,
-          width: 30.09,
-          height: 30.91,
-          fit: BoxFit.contain,
-        ),
-      ),
-    );
-  }
 }
