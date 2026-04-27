@@ -10,13 +10,37 @@ import '../../../../core/theme/textStyles.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../l10n/app_localizations.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   final AppController appController;
 
-  LoginPage({super.key, required this.appController});
+  const LoginPage({
+    super.key,
+    required this.appController,
+  });
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  void _submit() {
+    final authProvider = context.read<AuthProvider>();
+
+    authProvider.login(
+      emailController.text.trim(),
+      passwordController.text.trim(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,144 +48,171 @@ class LoginPage extends StatelessWidget {
     final loc = AppLocalizations.of(context)!;
     final locale = Localizations.localeOf(context);
 
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              const Spacer(flex: 2),
-
-              Text(
-                loc.welcomeBack,
-                textAlign: TextAlign.center,
-                style: AppTextStyles.semiBold(locale).copyWith(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              keyboardDismissBehavior:
+              ScrollViewKeyboardDismissBehavior.onDrag,
+              padding: EdgeInsets.only(
+                left: 20,
+                right: 20,
+                bottom: keyboardHeight + 20,
+              ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
                 ),
-              ),
-
-              const SizedBox(height: 6),
-
-              Text(
-                loc.loginSubtitle,
-                textAlign: TextAlign.center,
-                style: AppTextStyles.semiBold(locale).copyWith(
-                  fontSize: 20,
-                  color: Colors.grey,
-                ),
-              ),
-
-              const Spacer(),
-
-              AppInputField(
-                controller: emailController,
-                label: loc.email,
-              ),
-
-              const SizedBox(height: 12),
-
-              AppInputField(
-                controller: passwordController,
-                label: loc.password,
-                obscureText: true,
-              ),
-
-              const SizedBox(height: 6),
-
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton(
-                  onPressed: () {
-                    // TODO: forgot password
-                  },
-                  child: Text(
-                    loc.forgotPassword,
-                    style: AppTextStyles.semiBold(locale).copyWith(
-                      fontSize: 12,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              authProvider.isLoading
-                  ? const CircularProgressIndicator()
-                  : AppButton(
-                text: loc.login,
-                onPressed: () {
-                  authProvider.login(
-                    emailController.text,
-                    passwordController.text,
-                  );
-                },
-              ),
-
-              const SizedBox(height: 14),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.18,
-                    height: 2,
-                    color: AppColors.secondary,
-                  ),
-                  const SizedBox(width: 8),
-                  const Text("Or", style: TextStyle(color: Colors.grey)),
-                  const SizedBox(width: 8),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.18,
-                    height: 2,
-                    color: AppColors.secondary,
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 14),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _socialIcon("assets/images/google.png"),
-                  const SizedBox(width: 10),
-                  _socialIcon("assets/images/facebook.png"),
-                  const SizedBox(width: 10),
-                  _socialIcon("assets/images/apple-logo.png"),
-                ],
-              ),
-
-              const Spacer(flex: 2),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    loc.dontHaveAccount,
-                    style: AppTextStyles.semiBold(locale).copyWith(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      context.go('/register');
-                    },
-                    child: Text(
-                      loc.signUp,
-                      style: AppTextStyles.semiBold(locale).copyWith(
-                        color: AppColors.primary,
+                child: IntrinsicHeight(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: SizedBox()
                       ),
-                    ),
-                  ),
-                ],
-              ),
 
-              const SizedBox(height: 10),
-            ],
-          ),
+                      Text(
+                        loc.welcomeBack,
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.semiBold(locale).copyWith(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+
+                      const SizedBox(height: 6),
+
+                      Text(
+                        loc.loginSubtitle,
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.semiBold(locale).copyWith(
+                          fontSize: 20,
+                          color: Colors.grey,
+                        ),
+                      ),
+
+                      const SizedBox(height: 40),
+
+                      AppInputField(
+                        controller: emailController,
+                        label: loc.email,
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      AppInputField(
+                        controller: passwordController,
+                        label: loc.password,
+                        obscureText: true,
+                      ),
+
+                      const SizedBox(height: 6),
+
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton(
+                          onPressed: () {
+                            // TODO: forgot password
+                          },
+                          child: Text(
+                            loc.forgotPassword,
+                            style: AppTextStyles.semiBold(locale).copyWith(
+                              fontSize: 12,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      authProvider.isLoading
+                          ? const CircularProgressIndicator()
+                          : AppButton(
+                        text: loc.login,
+                        onPressed: _submit,
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.18,
+                            height: 2,
+                            color: AppColors.secondary,
+                          ),
+                          const SizedBox(width: 8),
+                          const Text(
+                            "Or",
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          const SizedBox(width: 8),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.18,
+                            height: 2,
+                            color: AppColors.secondary,
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _socialIcon("assets/images/google.png"),
+                          const SizedBox(width: 10),
+                          _socialIcon("assets/images/facebook.png"),
+                          const SizedBox(width: 10),
+                          _socialIcon("assets/images/apple-logo.png"),
+                        ],
+                      ),
+
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  loc.dontHaveAccount,
+                                  style: AppTextStyles.semiBold(locale).copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    context.go('/register');
+                                  },
+                                  child: Text(
+                                    loc.signUp,
+                                    style: AppTextStyles.semiBold(locale).copyWith(
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      )
+
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -174,8 +225,8 @@ class LoginPage extends StatelessWidget {
       child: Center(
         child: Image.asset(
           path,
-          width: 40.09,
-          height: 40.91,
+          width: 30.09,
+          height: 30.91,
           fit: BoxFit.contain,
         ),
       ),
