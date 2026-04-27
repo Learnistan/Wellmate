@@ -60,5 +60,25 @@
   "feeling_anxious": "اندېښمن",
   "feeling_sad": "خفه",
   "carpet_title": "د هرات غالۍ اوبدنه",
-  "read_about": "د هرات د غالیو په اړه ولولئ"
+  "read_about": "د هرات د غالیو په اړه ولولئ",
+
+  "createAccount": "اکاونټ جوړ کړئ",
+  "createAccountSubtitle": "د ارام ذهن په لور خپل سفر پیل کړئ",
+  "email": "برېښنالیک",
+  "password": "پټنوم",
+  "confirmPassword": "د پټنوم تایید",
+  "signUp": "نوم‌لیکنه",
+  "alreadyHaveAccount": "ننوزئ",
+  "alreadyHaveAccountQuestion": "مخکې اکاونټ لرئ؟",
+
+  "emailRequired": "برېښنالیک اړین دی",
+  "invalidEmail": "مهرباني وکړئ یو سم برېښنالیک داخل کړئ",
+  "passwordRequired": "پټنوم اړین دی",
+  "passwordTooShort": "پټنوم باید لږ تر لږه ۶ توري ولري",
+  "passwordMismatch": "پټنومونه سره برابر نه دي",
+
+  "welcomeBack": "بیا ښه راغلاست",
+  "loginSubtitle": "د خپل سفر د دوام لپاره ننوځئ",
+  "forgotPassword": "پټنوم مو هېر کړی؟",
+  "dontHaveAccount": "اکاونټ نه لرئ؟"
 }

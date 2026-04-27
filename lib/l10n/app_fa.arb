@@ -60,5 +60,26 @@
   "feeling_anxious": "مضطرب",
   "feeling_sad": "غمگین",
   "carpet_title": "قالی بافی هرات",
-  "read_about": "دربارهٔ قالی هرات بخوانید"
+  "read_about": "دربارهٔ قالی هرات بخوانید",
+
+  "createAccount": "ایجاد حساب",
+  "createAccountSubtitle": "سفر خود را به یک ذهن آرام تر آغاز کنید",
+  "email": "ایمیل",
+  "password": "رمز عبور",
+  "confirmPassword": "تأیید رمز عبور",
+  "signUp": "ثبت‌نام",
+  "alreadyHaveAccountQuestion": "قبلاً حساب دارید؟ ",
+  "alreadyHaveAccount": "وارد شوید",
+
+  "emailRequired": "ایمیل ضروری است",
+  "invalidEmail": "یک ایمیل معتبر وارد کنید",
+  "passwordRequired": "رمز عبور ضروری است",
+  "passwordTooShort": "رمز عبور باید حداقل ۶ کاراکتر باشد",
+  "passwordMismatch": "رمزهای عبور مطابقت ندارند",
+
+  "welcomeBack": "خوش برگشتید",
+  "loginSubtitle": "برای ادامه مسیر خود وارد شوید",
+  "forgotPassword": "رمز عبور را فراموش کرده‌اید؟",
+  "dontHaveAccount": "حساب ندارید؟"
+
 }

@@ -60,5 +60,26 @@
   "feeling_anxious": "Anxious",
   "feeling_sad": "Sad",
   "carpet_title": "Herat Carpet Weaving",
-  "read_about": "Read about Herat's carpet"
+  "read_about": "Read about Herat's carpet",
+
+  "createAccount": "Create Account",
+  "createAccountSubtitle": "Start your journey to a calmer mind",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "signUp": "Sign Up",
+  "alreadyHaveAccountQuestion": "Already have an account?",
+  "alreadyHaveAccount": "Log in",
+
+  "emailRequired": "Email is required",
+  "invalidEmail": "Enter a valid email",
+  "passwordRequired": "Password is required",
+  "passwordTooShort": "Password must be at least 6 characters",
+  "passwordMismatch": "Passwords do not match",
+
+  "welcomeBack": "Welcome back",
+  "loginSubtitle": "Log in to continue your journey",
+  "forgotPassword": "Forgot password?",
+  "dontHaveAccount": "Don’t have an account?"
+
 }
