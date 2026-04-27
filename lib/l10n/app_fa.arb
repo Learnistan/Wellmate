@@ -68,7 +68,7 @@
   "password": "رمز عبور",
   "confirmPassword": "تأیید رمز عبور",
   "signUp": "ثبت‌نام",
-  "alreadyHaveAccountQuestion": "قبلاً حساب دارید؟ ",
+  "alreadyHaveAccountQuestion": "حساب کاربری دارید؟",
   "alreadyHaveAccount": "وارد شوید",
 
   "emailRequired": "ایمیل ضروری است",
@@ -77,8 +77,8 @@
   "passwordTooShort": "رمز عبور باید حداقل ۶ کاراکتر باشد",
   "passwordMismatch": "رمزهای عبور مطابقت ندارند",
 
-  "welcomeBack": "خوش برگشتید",
-  "loginSubtitle": "برای ادامه مسیر خود وارد شوید",
+  "welcomeBack": "خوش آمدید",
+  "loginSubtitle": "وارد شوید تا به مسیر خود ادامه دهید",
   "forgotPassword": "رمز عبور را فراموش کرده‌اید؟",
   "dontHaveAccount": "حساب ندارید؟"
 

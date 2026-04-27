@@ -30,7 +30,7 @@ class AppInputField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         labelStyle: AppTextStyles.semiBold(locale).copyWith(
-          color: AppColors.textSecondary,
+          color: AppColors.primary,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
