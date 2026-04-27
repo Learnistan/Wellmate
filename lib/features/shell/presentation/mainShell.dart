@@ -24,17 +24,20 @@ class MainShell extends ConsumerWidget {
       ProfilePage(),
     ];
 
-    return Scaffold(
-      body: IndexedStack(
-        index: index,
-        children: pages,
-      ),
-      bottomNavigationBar: CurvedNavBar(
-        currentIndex: index,
-        onTap: (i) {
-          ref.read(navigationIndexProvider.notifier).state = i;
-        },
-      ),
+    return SafeArea(
+      child: Scaffold(
+        extendBody: true,
+        body: IndexedStack(
+          index: index,
+          children: pages,
+        ),
+        bottomNavigationBar: CurvedNavBar(
+          currentIndex: index,
+          onTap: (i) {
+            ref.read(navigationIndexProvider.notifier).state = i;
+          },
+        ),
+      )
     );
   }
 }

@@ -46,13 +46,29 @@
   "q6_a2": "صحبت با کسی که به او اعتماد دارم",
   "q6_a3": "یک سرگرمی آرام بخش",
 
+  "morning_message": "صبح بخیر",
+  "noon_message": "ظهر بخیر",
+  "afternoon_message": "بعد از ظهر بخیر",
+  "evening_message": "عصر بخیر",
+  "night_message": "شام بخیر",
+  "midnight_message": "نیمه شب بخیر",
+
+  "home_ask_feeling": "امروز چه حسی داری؟",
+  "feeling_calm": "آرام",
+  "feeling_good": "خوب",
+  "feeling_tired": "خسته",
+  "feeling_anxious": "مضطرب",
+  "feeling_sad": "غمگین",
+  "carpet_title": "قالی بافی هرات",
+  "read_about": "دربارهٔ قالی هرات بخوانید",
+
   "createAccount": "ایجاد حساب",
   "createAccountSubtitle": "سفر خود را به یک ذهن آرام تر آغاز کنید",
   "email": "ایمیل",
   "password": "رمز عبور",
   "confirmPassword": "تأیید رمز عبور",
   "signUp": "ثبت‌نام",
-  "alreadyHaveAccountQuestion": "قبلاً حساب دارید؟ ",
+  "alreadyHaveAccountQuestion": "حساب کاربری دارید؟",
   "alreadyHaveAccount": "وارد شوید",
 
   "emailRequired": "ایمیل ضروری است",
@@ -61,8 +77,9 @@
   "passwordTooShort": "رمز عبور باید حداقل ۶ کاراکتر باشد",
   "passwordMismatch": "رمزهای عبور مطابقت ندارند",
 
-  "welcomeBack": "خوش برگشتید",
-  "loginSubtitle": "برای ادامه مسیر خود وارد شوید",
+  "welcomeBack": "خوش آمدید",
+  "loginSubtitle": "وارد شوید تا به مسیر خود ادامه دهید",
   "forgotPassword": "رمز عبور را فراموش کرده‌اید؟",
   "dontHaveAccount": "حساب ندارید؟"
+
 }

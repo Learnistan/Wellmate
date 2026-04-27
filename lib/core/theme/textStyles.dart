@@ -38,7 +38,18 @@ class AppTextStyles {
       fontFamily: isRTL ? AppFonts.dari : AppFonts.english,
       fontSize: 20,
       fontWeight: FontWeight.normal,
-      color: AppColors.textSecondary,
+      color: AppColors.primary,
+    );
+  }
+
+  static TextStyle grayText(Locale locale) {
+    final isRTL = locale.languageCode == 'fa' || locale.languageCode == 'ps';
+
+    return TextStyle(
+      fontFamily: isRTL ? AppFonts.dari : AppFonts.english,
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: AppColors.appGray,
     );
   }
 }

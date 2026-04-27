@@ -46,6 +46,22 @@
   "q6_a2": "Talking with someone I trust",
   "q6_a3": "A calming distraction",
 
+  "morning_message": "Good Morning",
+  "noon_message": "Good Noon",
+  "afternoon_message": "Good Afternoon",
+  "evening_message": "Good Evening",
+  "night_message": "Good Night",
+  "midnight_message": "Good Midnight",
+
+  "home_ask_feeling": "How are you feeling today?",
+  "feeling_calm": "Calm",
+  "feeling_good": "Good",
+  "feeling_tired": "Tired",
+  "feeling_anxious": "Anxious",
+  "feeling_sad": "Sad",
+  "carpet_title": "Herat Carpet Weaving",
+  "read_about": "Read about Herat's carpet",
+
   "createAccount": "Create Account",
   "createAccountSubtitle": "Start your journey to a calmer mind",
   "email": "Email",
