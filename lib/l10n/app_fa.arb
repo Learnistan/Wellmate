@@ -80,6 +80,16 @@
   "welcomeBack": "خوش آمدید",
   "loginSubtitle": "وارد شوید تا به مسیر خود ادامه دهید",
   "forgotPassword": "رمز عبور را فراموش کرده‌اید؟",
-  "dontHaveAccount": "حساب ندارید؟"
+  "dontHaveAccount": "حساب ندارید؟",
+
+  "daily_activity_title": "بررسی روزانه",
+  "daily_activity_subtitle": "چند لحظه وقت بگذار و حال جسم و ذهنت را بررسی کن.",
+  "add_activity_title": "   فعالیت‌های بیشتری اضافه کنید",
+  "activity_breathing": "تنفس آرام",
+  "activity_movement": "حرکت آگاهانه",
+  "activity_hydration": "بررسی نوشیدن آب",
+  "activity_body_scan": "اسکن تعاملی بدن",
+  "activity_burning_thoughts": "رها کردن افکار",
+  "minute": "دقیقه"
 
 }

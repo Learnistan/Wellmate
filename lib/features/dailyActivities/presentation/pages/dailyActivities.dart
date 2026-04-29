@@ -1,30 +1,254 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../../core/localization/localeProvider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wellmate/core/theme/colors.dart';
+import 'package:wellmate/core/theme/textStyles.dart';
 import '../../../../l10n/app_localizations.dart';
 
-class DailyActivitiesPage extends StatelessWidget {
+class DailyActivitiesPage extends StatefulWidget {
   const DailyActivitiesPage({super.key});
+
+  @override
+  State<DailyActivitiesPage> createState() => _DailyActivitiesPageState();
+}
+
+class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
+
+  final List activityColors = [
+    {"dark": Colors.pink[200], "light": Colors.pink[50]},
+    {"dark": Colors.blue[200], "light": Colors.blue[50]},
+    {"dark": Colors.green[200], "light": Colors.green[50]},
+    {"dark": Colors.purple[200], "light": Colors.purple[50]},
+    {"dark": Colors.orange[200], "light": Colors.orange[50]},
+    {"dark": Colors.teal[200], "light": Colors.teal[50]}
+  ];
 
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context);
+
+    final List<ActivityItem> dailyActivities = [
+      ActivityItem(
+        title: loc.activity_breathing,
+        time: "2",
+        iconPath: Icons.air,
+      ),
+      ActivityItem(
+        title: loc.activity_movement,
+        time: "15",
+        iconPath: Icons.directions_walk,
+      ),
+      ActivityItem(
+        title: loc.activity_hydration,
+        time: "10",
+        iconPath: Icons.water_drop_outlined,
+      ),
+      ActivityItem(
+        title: loc.activity_body_scan,
+        time: "5",
+        iconPath: Icons.man,
+      ),
+      ActivityItem(
+        title: loc.activity_burning_thoughts,
+        time: "5",
+        iconPath: Icons.local_fire_department,
+      ),
+    ];
 
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(height: 30),
+
             Text(
-              "Daily Activities",
-              textAlign: TextAlign.start,
-              style: const TextStyle(fontSize: 22),
+              loc.daily_activity_title,
+              style: AppTextStyles.semiBold(locale).copyWith(
+                fontSize: 24,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            Text(
+              loc.daily_activity_subtitle,
+              style: AppTextStyles.semiBold(locale),
+            ),
+
+            const SizedBox(height: 20,),
+
+            Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1,
+                  color: AppColors.appGray,
+                ),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(50),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    loc.add_activity_title,
+                    style: AppTextStyles.grayText(locale).copyWith(color: Colors.grey[800]),
+                  ),
+
+                  SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print("hi");
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: const CircleBorder(),
+                        padding: EdgeInsets.zero,
+                        backgroundColor: AppColors.primary,
+                      ),
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            Expanded(
+              child: ListView.builder(
+                itemCount: dailyActivities.length,
+                itemBuilder: (context, index) {
+                  final item = dailyActivities[index];
+                  final color =
+                  activityColors[index % activityColors.length];
+
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        context.push('/breathing');
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                      margin: const EdgeInsets.only(bottom: 14),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Colors.white,
+                            color["light"],
+                          ],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                            color: Colors.black.withOpacity(0.06),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(left: 10),
+                            width: 6,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: color["dark"],
+                              borderRadius: const BorderRadius.all(Radius.circular(10))
+                            ),
+                          ),
+
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 16,
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    item.iconPath,
+                                    color: color["dark"],
+                                  ),
+
+                                  const SizedBox(width: 16),
+
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          item.title,
+                                          style:
+                                          AppTextStyles.semiBold(locale)
+                                              .copyWith(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+
+                                        const SizedBox(height: 6),
+
+                                        Text(
+                                          "${item.time} ${loc.minute}",
+                                          style: TextStyle(
+                                            color: Colors.grey.shade700,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Icon(
+                                    item.isChecked
+                                        ? Icons.check_circle
+                                        : Icons.circle_outlined,
+                                    color: item.isChecked
+                                        ? color
+                                        : Colors.grey.shade400,
+                                    size: 28,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
       ),
     );
   }
+}
+
+class ActivityItem {
+  final String title;
+  final String time;
+  final IconData iconPath;
+  bool isChecked;
+
+  ActivityItem({
+    required this.title,
+    required this.time,
+    required this.iconPath,
+    this.isChecked = false,
+  });
 }

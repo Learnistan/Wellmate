@@ -80,6 +80,16 @@
   "welcomeBack": "Welcome back",
   "loginSubtitle": "Log in to continue your journey",
   "forgotPassword": "Forgot password?",
-  "dontHaveAccount": "Don’t have an account?"
+  "dontHaveAccount": "Don’t have an account?",
+
+  "daily_activity_title": "Daily Check-in",
+  "daily_activity_subtitle": "Take a moment to check in with your body and mind.",
+  "add_activity_title": "   Add more activities",
+  "activity_breathing": "Slow Breathing",
+  "activity_movement": "Mindful Movement",
+  "activity_hydration": "Hydration Check",
+  "activity_body_scan": "Interactive Body Scan",
+  "activity_burning_thoughts": "Burning Thoughts",
+  "minute": "min"
 
 }

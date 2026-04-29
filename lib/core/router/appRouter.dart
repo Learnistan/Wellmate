@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellmate/features/auth/presentation/pages/registerPage.dart';
 import 'package:wellmate/features/auth/presentation/provider/authProvider.dart';
+import 'package:wellmate/features/dailyActivities/presentation/pages/breathingActivityPage.dart';
+import 'package:wellmate/features/dailyActivities/presentation/pages/movementActivityPage.dart';
 import 'package:wellmate/features/language/presentation/languagePage.dart';
 import 'package:wellmate/features/onboarding/presentation/pages/multipleChoiceQuestionsPage.dart';
 import 'package:wellmate/features/shell/presentation/mainShell.dart';
@@ -94,6 +96,14 @@ class AppRouter {
       GoRoute(
         path: '/questions',
         builder: (context, state) => MultipleChoiceQuestionsPage(appController: appController),
+      ),
+      GoRoute(
+        path: '/breathing',
+        builder: (context, state) => BreathingActivityPage(),
+      ),
+      GoRoute(
+        path: '/movement',
+        builder: (context, state) => MovementActivityPage(),
       ),
     ],
   );

@@ -80,5 +80,15 @@
   "welcomeBack": "بیا ښه راغلاست",
   "loginSubtitle": "د خپل سفر د دوام لپاره ننوځئ",
   "forgotPassword": "پټنوم مو هېر کړی؟",
-  "dontHaveAccount": "اکاونټ نه لرئ؟"
+  "dontHaveAccount": "اکاونټ نه لرئ؟",
+
+  "daily_activity_title": "ورځنی ځان‌کتنه",
+  "daily_activity_subtitle": "یو څو شېبې وخت ورکړه او د خپل بدن او ذهن حال وګوره.",
+  "add_activity_title": "   نور فعالیتونه اضافه کړئ",
+  "activity_breathing": "ارام تنفس",
+  "activity_movement": "هوښیار حرکت",
+  "activity_hydration": "د اوبو څښلو ارزونه",
+  "activity_body_scan": "د بدن تعاملي ارزونه",
+  "activity_burning_thoughts": "د فکرونو خوشې کول",
+  "minute": "دقیقې"
 }
