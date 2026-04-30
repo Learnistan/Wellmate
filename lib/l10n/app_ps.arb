@@ -90,5 +90,14 @@
   "activity_hydration": "د اوبو څښلو ارزونه",
   "activity_body_scan": "د بدن تعاملي ارزونه",
   "activity_burning_thoughts": "د فکرونو خوشې کول",
-  "minute": "دقیقې"
+  "minute": "دقیقې",
+
+  "breathingActivity": "د ساه اخیستلو تمرین",
+  "breatheIn": "ساه دننه واخلئ",
+  "hold": "صبر وکړئ",
+  "breatheOut": "ساه بهر کړئ",
+  "wellDone": "ډیر ښه",
+  "letsBegin": "راځئ چې پیل یي کړو"
+
+
 }
