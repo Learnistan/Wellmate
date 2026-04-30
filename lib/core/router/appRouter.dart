@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellmate/features/auth/presentation/pages/registerPage.dart';
 import 'package:wellmate/features/auth/presentation/provider/authProvider.dart';
+import 'package:wellmate/features/dailyActivities/presentation/pages/bodyScanActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/breathingActivityPage.dart';
+import 'package:wellmate/features/dailyActivities/presentation/pages/burningThoughtsActivityPage.dart';
+import 'package:wellmate/features/dailyActivities/presentation/pages/hydrationActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/movementActivityPage.dart';
 import 'package:wellmate/features/language/presentation/languagePage.dart';
 import 'package:wellmate/features/onboarding/presentation/pages/multipleChoiceQuestionsPage.dart';
@@ -32,7 +35,6 @@ class AppRouter {
         final isGoingToLogin = location == '/login';
         final isGoingToLanguage = location == '/language';
         final isGoingToIntro = location == '/intro';
-        final isGoingToShell = location == '/shell';
         final isGoingToLoading = location == '/loading';
         final isGoingToRegister = location == '/register';
         final isGoingToQuestions = location == '/questions';
@@ -56,7 +58,20 @@ class AppRouter {
 
         // 4. Logged in
         if (isLoggedIn) {
-          if (isGoingToShell) return null;
+          final allowedRoutes = [
+            '/shell',
+            '/home',
+            '/breathing',
+            '/movement',
+            '/hydration',
+            '/body-scan',
+            '/burning-thoughts'
+          ];
+
+          if (allowedRoutes.contains(location)) {
+            return null;
+          }
+
           return '/shell';
         }
 
@@ -104,6 +119,18 @@ class AppRouter {
       GoRoute(
         path: '/movement',
         builder: (context, state) => MovementActivityPage(),
+      ),
+      GoRoute(
+        path: '/hydration',
+        builder: (context, state) => HydrationActivityPage(),
+      ),
+      GoRoute(
+        path: '/body-scan',
+        builder: (context, state) => BodyScanActivityPage(),
+      ),
+      GoRoute(
+        path: '/burning-thoughts',
+        builder: (context, state) => BurningThoughtsActivityPage(),
       ),
     ],
   );

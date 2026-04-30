@@ -32,26 +32,31 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
         title: loc.activity_breathing,
         time: "2",
         iconPath: Icons.air,
+        route: '/breathing'
       ),
       ActivityItem(
         title: loc.activity_movement,
         time: "15",
         iconPath: Icons.directions_walk,
+        route: '/movement'
       ),
       ActivityItem(
         title: loc.activity_hydration,
         time: "10",
         iconPath: Icons.water_drop_outlined,
+        route: '/hydration'
       ),
       ActivityItem(
         title: loc.activity_body_scan,
         time: "5",
         iconPath: Icons.man,
+        route: '/body-scan'
       ),
       ActivityItem(
         title: loc.activity_burning_thoughts,
         time: "5",
         iconPath: Icons.local_fire_department,
+        route: '/burning-thoughts'
       ),
     ];
 
@@ -134,7 +139,7 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
                   return GestureDetector(
                     onTap: () {
                       setState(() {
-                        context.push('/breathing');
+                        context.push(item.route);
                       });
                     },
                     child: Container(
@@ -244,11 +249,13 @@ class ActivityItem {
   final String time;
   final IconData iconPath;
   bool isChecked;
+  final String route;
 
   ActivityItem({
     required this.title,
     required this.time,
     required this.iconPath,
     this.isChecked = false,
+    required this.route
   });
 }
