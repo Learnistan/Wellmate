@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import '../../../../core/localization/localeProvider.dart';
 import '../../../../l10n/app_localizations.dart';
 
-class BreathingActivityPage extends StatelessWidget {
-  const BreathingActivityPage({super.key});
+class BodyScanActivityPage extends StatelessWidget {
+  const BodyScanActivityPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class BreathingActivityPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text(
-                "Breathing Activity",
+                "Body Scan Activity",
                 textAlign: TextAlign.start,
                 style: TextStyle(fontSize: 22),
               ),
