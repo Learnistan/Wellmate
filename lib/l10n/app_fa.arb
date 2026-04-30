@@ -90,6 +90,14 @@
   "activity_hydration": "بررسی نوشیدن آب",
   "activity_body_scan": "اسکن تعاملی بدن",
   "activity_burning_thoughts": "رها کردن افکار",
-  "minute": "دقیقه"
+  "minute": "دقیقه",
+
+  "breathingActivity": "تمرین تنفس",
+  "breatheIn": "نفس بکشید",
+  "hold": "نگه دارید",
+  "breatheOut": "نفس بدهید",
+  "wellDone": "آفرین",
+  "letsBegin": "بیایید شروع کنیم"
+
 
 }
