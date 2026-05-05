@@ -90,6 +90,13 @@
   "activity_hydration": "Hydration Check",
   "activity_body_scan": "Interactive Body Scan",
   "activity_burning_thoughts": "Burning Thoughts",
-  "minute": "min"
+  "minute": "min",
+
+  "breathingActivity": "Breathing Activity",
+  "breatheIn": "Breathe In",
+  "hold": "Hold",
+  "breatheOut": "Breathe Out",
+  "wellDone": "Well Done",
+  "letsBegin": "Lets Begin"
 
 }
