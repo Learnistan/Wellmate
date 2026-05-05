@@ -147,10 +147,7 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
           ),
           title: Text(
             loc.breathingActivity,
-            style: AppTextStyles.semiBold(locale).copyWith(
-              color: AppColors.primary,
-              fontSize: 24,
-            ),
+            style: AppTextStyles.semiBold(locale).copyWith(fontSize: 20),
           ),
         ),
         body: LayoutBuilder(
