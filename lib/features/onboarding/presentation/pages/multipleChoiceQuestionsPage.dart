@@ -34,18 +34,18 @@ class _MultipleChoiceQuestionsPageState
       "question": "q3",
       "answers": ["q3_a1", "q3_a2", "q3_a3"]
     },
-    {
-      "question": "q4",
-      "answers": ["q4_a1", "q4_a2", "q4_a3"]
-    },
-    {
-      "question": "q5",
-      "answers": ["q5_a1", "q5_a2", "q5_a3"]
-    },
-    {
-      "question": "q6",
-      "answers": ["q6_a1", "q6_a2", "q6_a3"]
-    },
+    // {
+    //   "question": "q4",
+    //   "answers": ["q4_a1", "q4_a2", "q4_a3"]
+    // },
+    // {
+    //   "question": "q5",
+    //   "answers": ["q5_a1", "q5_a2", "q5_a3"]
+    // },
+    // {
+    //   "question": "q6",
+    //   "answers": ["q6_a1", "q6_a2", "q6_a3"]
+    // },
   ];
 
   String getQuestion(AppLocalizations loc, String key) {

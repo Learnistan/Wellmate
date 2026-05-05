@@ -32,31 +32,36 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
         title: loc.activity_breathing,
         time: "2",
         iconPath: Icons.air,
-        route: '/breathing'
+        route: '/breathing',
+        isChecked: false
       ),
       ActivityItem(
         title: loc.activity_movement,
         time: "15",
         iconPath: Icons.directions_walk,
-        route: '/movement'
+        route: '/movement',
+        isChecked: true
       ),
       ActivityItem(
         title: loc.activity_hydration,
         time: "10",
         iconPath: Icons.water_drop_outlined,
-        route: '/hydration'
+        route: '/hydration',
+        isChecked: false
       ),
       ActivityItem(
         title: loc.activity_body_scan,
         time: "5",
         iconPath: Icons.man,
-        route: '/body-scan'
+        route: '/body-scan',
+        isChecked: true
       ),
       ActivityItem(
         title: loc.activity_burning_thoughts,
         time: "5",
         iconPath: Icons.local_fire_department,
-        route: '/burning-thoughts'
+        route: '/burning-thoughts',
+        isChecked: true
       ),
     ];
 
@@ -221,9 +226,7 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
                                     item.isChecked
                                         ? Icons.check_circle
                                         : Icons.circle_outlined,
-                                    color: item.isChecked
-                                        ? color
-                                        : Colors.grey.shade400,
+                                    color: AppColors.primary,
                                     size: 28,
                                   ),
                                 ],
