@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
 
@@ -78,7 +79,10 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
             ),
             actions: [
               TextButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  Navigator.pop(context);
+                  context.pop(true);
+                },
                 child: const Text("Awesome"),
               ),
             ],

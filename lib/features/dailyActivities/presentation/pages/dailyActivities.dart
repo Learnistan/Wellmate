@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
+import 'package:wellmate/core/utils/getIcon.dart';
+import 'package:wellmate/core/utils/getProperText.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../domain/entities/activity.dart';
+import '../providers/activityProvider.dart';
 
 class DailyActivitiesPage extends StatefulWidget {
   const DailyActivitiesPage({super.key});
@@ -23,47 +28,23 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
   ];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    Future.microtask(() {
+      Provider.of<ActivityProvider>(context, listen: false)
+          .seedIfEmpty();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final locale = Localizations.localeOf(context);
 
-    final List<ActivityItem> dailyActivities = [
-      ActivityItem(
-        title: loc.activity_breathing,
-        time: "2",
-        iconPath: Icons.air,
-        route: '/breathing',
-        isChecked: false
-      ),
-      ActivityItem(
-        title: loc.activity_movement,
-        time: "15",
-        iconPath: Icons.directions_walk,
-        route: '/movement',
-        isChecked: true
-      ),
-      ActivityItem(
-        title: loc.activity_hydration,
-        time: "10",
-        iconPath: Icons.water_drop_outlined,
-        route: '/hydration',
-        isChecked: false
-      ),
-      ActivityItem(
-        title: loc.activity_body_scan,
-        time: "5",
-        iconPath: Icons.man,
-        route: '/body-scan',
-        isChecked: true
-      ),
-      ActivityItem(
-        title: loc.activity_burning_thoughts,
-        time: "5",
-        iconPath: Icons.local_fire_department,
-        route: '/burning-thoughts',
-        isChecked: true
-      ),
-    ];
+    final activityProvider = Provider.of<ActivityProvider>(context);
+    final dbActivities = activityProvider.activities;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -135,17 +116,19 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
 
             Expanded(
               child: ListView.builder(
-                itemCount: dailyActivities.length,
+                itemCount: dbActivities.length,
                 itemBuilder: (context, index) {
-                  final item = dailyActivities[index];
+                  final item = dbActivities[index];
                   final color =
                   activityColors[index % activityColors.length];
 
                   return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        context.push(item.route);
-                      });
+                    onTap: () async {
+                      final result = await context.push<bool>(item.route);
+
+                      if (result == true) {
+                        await activityProvider.toggleComplete(item);
+                      }
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
@@ -189,7 +172,7 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
                               child: Row(
                                 children: [
                                   Icon(
-                                    item.iconPath,
+                                    getIcon(item.iconPath),
                                     color: color["dark"],
                                   ),
 
@@ -201,7 +184,7 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
                                       CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          item.title,
+                                          getActivityTitle(item.title, loc),
                                           style:
                                           AppTextStyles.semiBold(locale)
                                               .copyWith(
@@ -223,7 +206,7 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
                                   ),
 
                                   Icon(
-                                    item.isChecked
+                                    item.isCompleted
                                         ? Icons.check_circle
                                         : Icons.circle_outlined,
                                     color: AppColors.primary,
@@ -245,20 +228,4 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
       ),
     );
   }
-}
-
-class ActivityItem {
-  final String title;
-  final String time;
-  final IconData iconPath;
-  bool isChecked;
-  final String route;
-
-  ActivityItem({
-    required this.title,
-    required this.time,
-    required this.iconPath,
-    this.isChecked = false,
-    required this.route
-  });
 }
