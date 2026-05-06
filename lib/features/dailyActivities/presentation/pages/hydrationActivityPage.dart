@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
 
+import '../../../../l10n/app_localizations.dart';
+
 class HydrationActivityPage extends StatefulWidget {
   const HydrationActivityPage({super.key});
 
@@ -20,16 +22,17 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
 
   late AnimationController _waterController;
   late ConfettiController _confettiController;
+  late final loc = AppLocalizations.of(context)!;
 
   String get motivationText {
     if (currentGlasses == 0) {
-      return "Go ahead! Water is good for your body";
+      return loc.drinkWaterMessage1;
     } else if (currentGlasses < 4) {
-      return "Good job! Keep hydrating";
+      return loc.drinkWaterMessage2;
     } else if (currentGlasses < 8) {
-      return "Awesome! Your body thanks you 🙌";
+      return loc.drinkWaterMessage3;
     } else {
-      return "Excellent! Daily hydration goal completed 🎉";
+      return loc.drinkWaterMessage4;
     }
   }
 
@@ -73,9 +76,9 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            title: const Text("🎉 Congratulations!"),
-            content: const Text(
-              "You completed your daily water goal. Great job!",
+            title: Text(loc.hydrationPopupTitle),
+            content: Text(
+              loc.hydrationPopupMessage,
             ),
             actions: [
               TextButton(
@@ -83,7 +86,7 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
                   Navigator.pop(context);
                   context.pop(true);
                 },
-                child: const Text("Awesome"),
+                child: Text(loc.hydrationPopupBtn),
               ),
             ],
           ),
@@ -109,7 +112,7 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Text(
-          "Hydration Check-in",
+          loc.activity_hydration,
           style: AppTextStyles.semiBold(locale).copyWith(fontSize: 20),
         ),
         centerTitle: true,
@@ -142,7 +145,7 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
                 const SizedBox(height: 30),
 
                 Text(
-                  "$currentGlasses / $maxGlasses glasses",
+                  "$currentGlasses / $maxGlasses ${loc.glassesTxt}",
                   style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black54,
@@ -255,8 +258,8 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
                     ),
                     child: Text(
                       currentGlasses == maxGlasses
-                          ? "Completed"
-                          : "I Drank A Glass",
+                          ? loc.hydrationBtn3
+                          : loc.hydrationBtn1,
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white,
@@ -270,7 +273,7 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
                 TextButton(
                   onPressed: resetProgress,
                   child: Text(
-                    "Reset",
+                    loc.hydrationBtn2,
                     style: AppTextStyles.semiBold(locale)
                   ),
                 ),

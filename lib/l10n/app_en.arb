@@ -97,6 +97,18 @@
   "hold": "Hold",
   "breatheOut": "Breathe Out",
   "wellDone": "Well Done",
-  "letsBegin": "Lets Begin"
+  "letsBegin": "Lets Begin",
+
+  "drinkWaterMessage1": "Drink water! Water is good for your body",
+  "drinkWaterMessage2": "Good job! Keep hydrating",
+  "drinkWaterMessage3": "Awesome! Your body thanks you",
+  "drinkWaterMessage4": "Excellent! Daily hydration goal completed",
+  "glassesTxt": "glasses",
+  "hydrationBtn1": "I Drank a Glass",
+  "hydrationBtn2": "Reset",
+  "hydrationBtn3": "Completed",
+  "hydrationPopupTitle": "Congratulations!",
+  "hydrationPopupMessage": "You completed your daily water goal. Great job!",
+  "hydrationPopupBtn": "Awesome"
 
 }
