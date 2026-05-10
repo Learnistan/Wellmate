@@ -4,14 +4,14 @@ class ActivityModel extends Activity {
   ActivityModel({
     int? activityId,
     required String title,
-    required bool isCompleted,
+    required bool isActive,
     required String time,
     required String iconPath,
     required String route,
   }) : super(
     activityId: activityId,
     title: title,
-    isCompleted: isCompleted,
+    isActive: isActive,
     time: time,
     iconPath: iconPath,
     route: route,
@@ -21,7 +21,7 @@ class ActivityModel extends Activity {
     return ActivityModel(
       activityId: map['activityId'],
       title: map['title'],
-      isCompleted: map['isCompleted'] == 1,
+      isActive: map['isActive'] == 1,
       time: map['time'],
       iconPath: map['iconPath'],
       route: map['route'],
@@ -32,7 +32,7 @@ class ActivityModel extends Activity {
     return {
       'activityId': activityId,
       'title': title,
-      'isCompleted': isCompleted ? 1 : 0,
+      'isActive': isActive ? 1 : 0,
       'time': time,
       'iconPath': iconPath,
       'route': route,

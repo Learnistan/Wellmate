@@ -3,7 +3,6 @@ import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
-
   static Database? _database;
 
   DatabaseHelper._init();
@@ -30,10 +29,38 @@ class DatabaseHelper {
       CREATE TABLE activities (
         activityId INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
-        isCompleted INTEGER NOT NULL,
-        time TEXT NOT NULL,
         iconPath TEXT NOT NULL,
-        route TEXT NOT NULL
+        route TEXT NOT NULL,
+        time TEXT NOT NULL,
+        isActive INTEGER NOT NULL DEFAULT 1
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE activity_logs (
+        logId INTEGER PRIMARY KEY AUTOINCREMENT,
+        activity_id INTEGER NOT NULL,
+        date TEXT NOT NULL,
+        isCompleted INTEGER NOT NULL DEFAULT 0,
+        FOREIGN KEY (activity_id) REFERENCES activities (activityId)
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE progress (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        current_level INTEGER NOT NULL,
+        last_completed_date TEXT,
+        selected_journey TEXT
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE profile (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL,
+        email TEXT NOT NULL,
+        created_at TEXT NOT NULL
       )
     ''');
   }

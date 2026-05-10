@@ -29,7 +29,6 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Future.microtask(() {
@@ -57,9 +56,7 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
 
             Text(
               loc.daily_activity_title,
-              style: AppTextStyles.semiBold(locale).copyWith(
-                fontSize: 24,
-              ),
+              style: AppTextStyles.semiBold(locale).copyWith(fontSize: 24),
             ),
 
             const SizedBox(height: 10),
@@ -69,7 +66,7 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
               style: AppTextStyles.semiBold(locale),
             ),
 
-            const SizedBox(height: 20,),
+            const SizedBox(height: 20),
 
             Container(
               padding: const EdgeInsets.all(5),
@@ -78,16 +75,15 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
                   width: 1,
                   color: AppColors.appGray,
                 ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(50),
-                ),
+                borderRadius: const BorderRadius.all(Radius.circular(50)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     loc.add_activity_title,
-                    style: AppTextStyles.grayText(locale).copyWith(color: Colors.grey[800]),
+                    style: AppTextStyles.grayText(locale)
+                        .copyWith(color: Colors.grey[800]),
                   ),
 
                   SizedBox(
@@ -122,101 +118,128 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
                   final color =
                   activityColors[index % activityColors.length];
 
-                  return GestureDetector(
-                    onTap: () async {
-                      final result = await context.push<bool>(item.route);
+                  final bool isActive = item.isActive;
 
-                      if (result == true) {
-                        await activityProvider.toggleComplete(item);
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                      margin: const EdgeInsets.only(bottom: 14),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            Colors.white,
-                            color["light"],
-                          ],
+                  final double opacity = isActive ? 1.0 : 0.4;
+
+                  return Opacity(
+                    opacity: opacity,
+                    child: IgnorePointer(
+                      ignoring: !isActive,
+                      child: GestureDetector(
+                        onTap: () async {
+                          final result =
+                          await context.push<bool>(item.route);
+
+                          if (result == true) {
+                            await activityProvider.toggleComplete(item);
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 15),
+                          margin: const EdgeInsets.only(bottom: 14),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(18),
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Colors.white,
+                                color["light"]!.withOpacity(
+                                    isActive ? 1.0 : 0.5),
+                              ],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                                color: Colors.black.withOpacity(0.06),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(left: 10),
+                                width: 6,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: color["dark"]!
+                                      .withOpacity(isActive ? 1.0 : 0.4),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10)),
+                                ),
+                              ),
+
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 16,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        getIcon(item.iconPath),
+                                        color: color["dark"]!
+                                            .withOpacity(
+                                            isActive ? 1.0 : 0.4),
+                                      ),
+
+                                      const SizedBox(width: 16),
+
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              getActivityTitle(
+                                                  item.title, loc),
+                                              style: AppTextStyles.semiBold(
+                                                  locale)
+                                                  .copyWith(
+                                                fontSize: 16,
+                                                color: isActive
+                                                    ? Colors.black
+                                                    : Colors.grey,
+                                              ),
+                                            ),
+
+                                            const SizedBox(height: 6),
+
+                                            Text(
+                                              "${item.time} ${loc.minute}",
+                                              style: TextStyle(
+                                                color: Colors.grey.shade700
+                                                    .withOpacity(
+                                                    isActive
+                                                        ? 1.0
+                                                        : 0.5),
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      Icon(
+                                        item.isActive
+                                            ? Icons.check_circle
+                                            : Icons.circle_outlined,
+                                        color: isActive
+                                            ? AppColors.primary
+                                            : Colors.grey,
+                                        size: 28,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                            color: Colors.black.withOpacity(0.06),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            width: 6,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              color: color["dark"],
-                              borderRadius: const BorderRadius.all(Radius.circular(10))
-                            ),
-                          ),
-
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 16,
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    getIcon(item.iconPath),
-                                    color: color["dark"],
-                                  ),
-
-                                  const SizedBox(width: 16),
-
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          getActivityTitle(item.title, loc),
-                                          style:
-                                          AppTextStyles.semiBold(locale)
-                                              .copyWith(
-                                            fontSize: 16,
-                                          ),
-                                        ),
-
-                                        const SizedBox(height: 6),
-
-                                        Text(
-                                          "${item.time} ${loc.minute}",
-                                          style: TextStyle(
-                                            color: Colors.grey.shade700,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  Icon(
-                                    item.isCompleted
-                                        ? Icons.check_circle
-                                        : Icons.circle_outlined,
-                                    color: AppColors.primary,
-                                    size: 28,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                   );

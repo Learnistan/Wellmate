@@ -12,7 +12,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
   Future<void> addActivity(Activity activity) async {
     final model = ActivityModel(
       title: activity.title,
-      isCompleted: activity.isCompleted,
+      isActive: activity.isActive,
       time: activity.time,
       iconPath: activity.iconPath,
       route: activity.route,
@@ -31,7 +31,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
     final model = ActivityModel(
       activityId: activity.activityId,
       title: activity.title,
-      isCompleted: activity.isCompleted,
+      isActive: activity.isActive,
       time: activity.time,
       iconPath: activity.iconPath,
       route: activity.route,

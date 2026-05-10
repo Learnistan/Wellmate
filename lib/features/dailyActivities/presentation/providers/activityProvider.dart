@@ -32,7 +32,7 @@ class ActivityProvider extends ChangeNotifier {
     final updated = Activity(
       activityId: activity.activityId,
       title: activity.title,
-      isCompleted: !activity.isCompleted,
+      isActive: !activity.isActive,
       time: activity.time,
       iconPath: activity.iconPath,
       route: activity.route,
