@@ -13,7 +13,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
     final model = ActivityModel(
       title: activity.title,
       isActive: activity.isActive,
-      time: activity.time,
+      time: activity.duration,
       iconPath: activity.iconPath,
       route: activity.route,
     );
@@ -29,10 +29,10 @@ class ActivityRepositoryImpl implements ActivityRepository {
   @override
   Future<void> updateActivity(Activity activity) async {
     final model = ActivityModel(
-      activityId: activity.activityId,
+      id: activity.id,
       title: activity.title,
       isActive: activity.isActive,
-      time: activity.time,
+      time: activity.duration,
       iconPath: activity.iconPath,
       route: activity.route,
     );

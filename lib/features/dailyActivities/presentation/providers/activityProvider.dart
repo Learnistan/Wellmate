@@ -30,10 +30,10 @@ class ActivityProvider extends ChangeNotifier {
 
   Future<void> toggleComplete(Activity activity) async {
     final updated = Activity(
-      activityId: activity.activityId,
+      id: activity.id,
       title: activity.title,
       isActive: !activity.isActive,
-      time: activity.time,
+      duration: activity.duration,
       iconPath: activity.iconPath,
       route: activity.route,
     );

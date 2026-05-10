@@ -25,41 +25,53 @@ class DatabaseHelper {
   }
 
   Future _createDB(Database db, int version) async {
+    // -----------------------
+    // ACTIVITIES (static)
+    // -----------------------
     await db.execute('''
       CREATE TABLE activities (
-        activityId INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
         iconPath TEXT NOT NULL,
         route TEXT NOT NULL,
-        time TEXT NOT NULL,
+        time TEXT,
         isActive INTEGER NOT NULL DEFAULT 1
       )
     ''');
 
+    // -----------------------
+    // ACTIVITY LOGS (daily state)
+    // -----------------------
     await db.execute('''
       CREATE TABLE activity_logs (
-        logId INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         activity_id INTEGER NOT NULL,
         date TEXT NOT NULL,
         isCompleted INTEGER NOT NULL DEFAULT 0,
-        FOREIGN KEY (activity_id) REFERENCES activities (activityId)
+        FOREIGN KEY (activity_id) REFERENCES activities (id)
       )
     ''');
 
+    // -----------------------
+    // PROGRESS (journey state)
+    // -----------------------
     await db.execute('''
       CREATE TABLE progress (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        current_level INTEGER NOT NULL,
-        last_completed_date TEXT,
-        selected_journey TEXT
+        current_level INTEGER NOT NULL DEFAULT 0,
+        last_completed_date TEXT
       )
     ''');
 
+    // -----------------------
+    // USER PROFILE
+    // -----------------------
     await db.execute('''
       CREATE TABLE profile (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL,
-        email TEXT NOT NULL,
+        username TEXT,
+        age INTEGER,
+        selected_journey TEXT,
         created_at TEXT NOT NULL
       )
     ''');

@@ -210,7 +210,7 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
                                             const SizedBox(height: 6),
 
                                             Text(
-                                              "${item.time} ${loc.minute}",
+                                              "${item.duration} ${loc.minute}",
                                               style: TextStyle(
                                                 color: Colors.grey.shade700
                                                     .withOpacity(

@@ -30,8 +30,8 @@ class ActivityLocalDataSource {
     await db.update(
       'activities',
       activity.toMap(),
-      where: 'activityId = ?',
-      whereArgs: [activity.activityId],
+      where: 'id = ?',
+      whereArgs: [activity.id],
     );
   }
 }

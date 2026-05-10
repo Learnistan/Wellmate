@@ -2,24 +2,24 @@ import '../../domain/entities/activity.dart';
 
 class ActivityModel extends Activity {
   ActivityModel({
-    int? activityId,
+    int? id,
     required String title,
     required bool isActive,
     required String time,
     required String iconPath,
     required String route,
   }) : super(
-    activityId: activityId,
+    id: id,
     title: title,
     isActive: isActive,
-    time: time,
+    duration: time,
     iconPath: iconPath,
     route: route,
   );
 
   factory ActivityModel.fromMap(Map<String, dynamic> map) {
     return ActivityModel(
-      activityId: map['activityId'],
+      id: map['id'],
       title: map['title'],
       isActive: map['isActive'] == 1,
       time: map['time'],
@@ -30,10 +30,10 @@ class ActivityModel extends Activity {
 
   Map<String, dynamic> toMap() {
     return {
-      'activityId': activityId,
+      'id': id,
       'title': title,
       'isActive': isActive ? 1 : 0,
-      'time': time,
+      'time': duration,
       'iconPath': iconPath,
       'route': route,
     };
