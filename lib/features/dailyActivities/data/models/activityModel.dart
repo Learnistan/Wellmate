@@ -5,14 +5,14 @@ class ActivityModel extends Activity {
     int? id,
     required String title,
     required bool isActive,
-    required String time,
+    required String duration,
     required String iconPath,
     required String route,
   }) : super(
     id: id,
     title: title,
     isActive: isActive,
-    duration: time,
+    duration: duration,
     iconPath: iconPath,
     route: route,
   );
@@ -22,7 +22,7 @@ class ActivityModel extends Activity {
       id: map['id'],
       title: map['title'],
       isActive: map['isActive'] == 1,
-      time: map['time'],
+      duration: map['duration'],
       iconPath: map['iconPath'],
       route: map['route'],
     );
@@ -33,7 +33,7 @@ class ActivityModel extends Activity {
       'id': id,
       'title': title,
       'isActive': isActive ? 1 : 0,
-      'time': duration,
+      'duration': duration,
       'iconPath': iconPath,
       'route': route,
     };

@@ -122,7 +122,11 @@ class AppRouter {
       ),
       GoRoute(
         path: '/hydration',
-        builder: (context, state) => HydrationActivityPage(),
+        builder: (context, state) {
+          final int cups = (state.extra as int?) ?? 0;
+
+          return HydrationActivityPage(cups: cups);
+        },
       ),
       GoRoute(
         path: '/body-scan',

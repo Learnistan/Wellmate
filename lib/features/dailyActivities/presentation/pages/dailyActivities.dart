@@ -129,9 +129,8 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
                       child: GestureDetector(
                         onTap: () async {
                           final result =
-                          await context.push<bool>(item.route);
-
-                          if (result == true) {
+                          await context.push<int>(item.route);
+                          if (result == 8) {
                             await activityProvider.toggleComplete(item);
                           }
                         },

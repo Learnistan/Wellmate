@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer, Provider;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellmate/core/theme/appTheme.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/addActivity.dart';
+import 'package:wellmate/features/dailyActivities/domain/useCases/addActivityLog.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/getActivity.dart';
+import 'package:wellmate/features/dailyActivities/domain/useCases/getTodayHydrationGlasses.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/updateActivity.dart';
 import 'package:wellmate/features/dailyActivities/presentation/providers/activityProvider.dart';
 import 'core/appController.dart';
@@ -21,7 +23,7 @@ import 'features/auth/domain/useCases/signIn.dart';
 import 'features/auth/domain/useCases/signOut.dart';
 import 'features/auth/domain/useCases/signUp.dart';
 import 'features/auth/presentation/provider/authProvider.dart';
-import 'features/dailyActivities/data/datasources/activityLocalDataSource.dart';
+import 'features/dailyActivities/data/dataSources/activityLocalDataSource.dart';
 import 'features/dailyActivities/data/repositories/activityRepositoryImpl.dart';
 import 'l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -90,7 +92,9 @@ class _MyAppState extends State<MyApp> {
           create: (_) => ActivityProvider(
             addActivity: AddActivity(widget.repository2),
             getActivities: GetActivities(widget.repository2),
-            updateActivity: UpdateActivity(widget.repository2)
+            updateActivity: UpdateActivity(widget.repository2),
+            addActivityLog: AddActivityLog(widget.repository2),
+            getTodayHydrationGlasses: GetTodayHydrationGlasses(widget.repository2),
           )
         )
       ],

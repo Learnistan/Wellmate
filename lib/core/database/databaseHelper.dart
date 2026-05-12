@@ -9,6 +9,7 @@ class DatabaseHelper {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
+
     _database = await _initDB('app.db');
     return _database!;
   }
@@ -17,44 +18,40 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
 
-    return openDatabase(
+    return await openDatabase(
       path,
       version: 1,
       onCreate: _createDB,
     );
   }
 
-  Future _createDB(Database db, int version) async {
-    // -----------------------
-    // ACTIVITIES (static)
-    // -----------------------
+  Future<void> _createDB(Database db, int version) async {
+
+    // ACTIVITIES
     await db.execute('''
       CREATE TABLE activities (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
         iconPath TEXT NOT NULL,
         route TEXT NOT NULL,
-        time TEXT,
+        duration TEXT NOT NULL,
         isActive INTEGER NOT NULL DEFAULT 1
       )
     ''');
 
-    // -----------------------
-    // ACTIVITY LOGS (daily state)
-    // -----------------------
+    // ACTIVITY LOGS
     await db.execute('''
       CREATE TABLE activity_logs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         activity_id INTEGER NOT NULL,
         date TEXT NOT NULL,
-        isCompleted INTEGER NOT NULL DEFAULT 0,
-        FOREIGN KEY (activity_id) REFERENCES activities (id)
+        value TEXT,
+        FOREIGN KEY (activity_id) REFERENCES activities (id),
+        UNIQUE(activity_id, date)
       )
     ''');
 
-    // -----------------------
-    // PROGRESS (journey state)
-    // -----------------------
+    // PROGRESS
     await db.execute('''
       CREATE TABLE progress (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -63,9 +60,7 @@ class DatabaseHelper {
       )
     ''');
 
-    // -----------------------
-    // USER PROFILE
-    // -----------------------
+    // PROFILE
     await db.execute('''
       CREATE TABLE profile (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
