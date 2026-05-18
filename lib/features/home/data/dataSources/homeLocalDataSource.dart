@@ -1,0 +1,43 @@
+
+import '../../../../core/database/databaseHelper.dart';
+
+class HomeLocalDataSource {
+  final DatabaseHelper dbHelper;
+
+  HomeLocalDataSource(this.dbHelper);
+
+  Future<Map<String, dynamic>?> getProgress() async {
+    final db = await dbHelper.database;
+
+    final result = await db.query(
+      'progress',
+      limit: 1,
+    );
+
+    if (result.isNotEmpty) {
+      return result.first;
+    }
+    return null;
+  }
+
+  Future<void> insertInitialProgress() async {
+    final db = await dbHelper.database;
+
+    await db.insert('progress', {
+      'current_level': 0,
+      'last_completed_date': DateTime.now().toIso8601String().split('T').first,
+    });
+  }
+
+  Future<void> updateProgress(int level) async {
+    final db = await dbHelper.database;
+
+    await db.update(
+      'progress',
+      {
+        'current_level': level,
+        'last_completed_date': DateTime.now().toIso8601String().split('T').first,
+      },
+    );
+  }
+}

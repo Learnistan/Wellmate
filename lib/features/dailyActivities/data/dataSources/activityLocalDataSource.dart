@@ -102,4 +102,13 @@ class ActivityLocalDataSource {
 
     return decoded['glasses'] ?? 0;
   }
+
+  Future<void> ActivateAllActivitiesUseCase() async {
+    final db = await dbHelper.database;
+
+    await db.update(
+      'activities',
+      {'isActive': 1},
+    );
+  }
 }

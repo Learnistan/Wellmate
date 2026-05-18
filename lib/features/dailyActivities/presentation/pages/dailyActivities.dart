@@ -5,6 +5,7 @@ import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
 import 'package:wellmate/core/utils/getIcon.dart';
 import 'package:wellmate/core/utils/getProperText.dart';
+import 'package:wellmate/features/home/presentation/providers/homeProvider.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/activity.dart';
 import '../providers/activityProvider.dart';
@@ -132,6 +133,7 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
                           await context.push<int>(item.route);
                           if (result == 8) {
                             await activityProvider.toggleComplete(item);
+                            context.read<HomeProvider>().increaseLevel();
                           }
                         },
                         child: Container(
@@ -224,7 +226,7 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
                                       ),
 
                                       Icon(
-                                        item.isActive
+                                        !item.isActive
                                             ? Icons.check_circle
                                             : Icons.circle_outlined,
                                         color: isActive

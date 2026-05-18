@@ -15,4 +15,6 @@ abstract class ActivityRepository {
   Future<bool> isActivityCompletedToday(int activityId);
 
   Future<int> getTodayHydrationGlasses();
+
+  Future<void> activateAllActivitiesUseCase();
 }

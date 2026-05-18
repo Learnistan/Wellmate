@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:wellmate/core/constants/assets.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
 import 'package:wellmate/core/utils/timeUtils.dart';
 
 import '../../../../core/theme/colors.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../dailyActivities/presentation/providers/activityProvider.dart';
+import '../providers/homeProvider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +20,25 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   int selectedIndex = -1;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() async {
+      final homeProvider = context.read<HomeProvider>();
+      final activityProvider = context.read<ActivityProvider>();
+
+      await homeProvider.initProgress();
+
+      final shouldReload =
+      await homeProvider.getLastCompletedDifference();
+
+      if (shouldReload) {
+        await activityProvider.loadActivities();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

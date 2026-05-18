@@ -68,4 +68,9 @@ class ActivityRepositoryImpl implements ActivityRepository {
   Future<int> getTodayHydrationGlasses() async {
     return await localDataSource.getTodayHydrationGlasses();
   }
+
+  @override
+  Future<void> activateAllActivitiesUseCase() async {
+    return await localDataSource.ActivateAllActivitiesUseCase();
+  }
 }

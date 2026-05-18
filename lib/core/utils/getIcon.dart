@@ -10,7 +10,7 @@ IconData getIcon(String key) {
       return Icons.water_drop_outlined;
     case 'fire':
       return Icons.local_fire_department;
-    case 'man':
+    case 'body':
       return Icons.man;
     default:
       return Icons.circle;

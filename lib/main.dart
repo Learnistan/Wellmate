@@ -4,12 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer, Provider;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellmate/core/theme/appTheme.dart';
+import 'package:wellmate/features/dailyActivities/domain/useCases/activateAllActivitiesUseCase.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/addActivity.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/addActivityLog.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/getActivity.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/getTodayHydrationGlasses.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/updateActivity.dart';
 import 'package:wellmate/features/dailyActivities/presentation/providers/activityProvider.dart';
+import 'package:wellmate/features/home/data/dataSources/homeLocalDataSource.dart';
+import 'package:wellmate/features/home/data/repositories/homeRepositoryImpl.dart';
+import 'package:wellmate/features/home/domain/useCases/getLastCompletedDifferenceUseCase.dart';
+import 'package:wellmate/features/home/domain/useCases/getProgressUseCase.dart';
+import 'package:wellmate/features/home/domain/useCases/initProgressUseCase.dart';
+import 'package:wellmate/features/home/domain/useCases/updateProgressUseCase.dart';
 import 'core/appController.dart';
 import 'core/database/databaseHelper.dart';
 import 'core/localization/localeProvider.dart';
@@ -25,6 +32,7 @@ import 'features/auth/domain/useCases/signUp.dart';
 import 'features/auth/presentation/provider/authProvider.dart';
 import 'features/dailyActivities/data/dataSources/activityLocalDataSource.dart';
 import 'features/dailyActivities/data/repositories/activityRepositoryImpl.dart';
+import 'features/home/presentation/providers/homeProvider.dart';
 import 'l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -44,14 +52,16 @@ void main() async {
   final appController = AppController(repository);
   final dbHelper = DatabaseHelper.instance;
   final localDataSource2 = ActivityLocalDataSource(dbHelper);
+  final localDataSource3 = HomeLocalDataSource(dbHelper);
 
   final repository2 = ActivityRepositoryImpl(localDataSource2);
+  final repository3 = HomeRepositoryImpl(localDataSource3);
 
   runApp(
     ProviderScope(
       child: ChangeNotifierProvider(
         create: (_) => LocaleProvider(Locale(savedLanguage)),
-        child: MyApp(appController, authRepository, repository2),
+        child: MyApp(appController, authRepository, repository2, repository3),
       )
     ),
   );
@@ -61,8 +71,9 @@ class MyApp extends StatefulWidget {
   final AppController appController;
   final AuthRepositoryImpl repository;
   final ActivityRepositoryImpl repository2;
+  final HomeRepositoryImpl repository3;
 
-  const MyApp(this.appController, this.repository, this.repository2, {super.key});
+  const MyApp(this.appController, this.repository, this.repository2, this.repository3, {super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -81,6 +92,15 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => HomeProvider(
+            InitProgressUseCase(widget.repository3),
+            UpdateProgressUseCase(widget.repository3),
+            GetProgressUseCase(widget.repository3),
+            GetLastCompletedDifferenceUseCase(widget.repository3),
+            ActivateAllActivitiesUseCase(widget.repository2)
+          ),
+        ),
         ChangeNotifierProvider(
           create: (_) => AuthProvider(
             signInUseCase: SignIn(widget.repository),
