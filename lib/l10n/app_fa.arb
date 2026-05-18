@@ -97,7 +97,18 @@
   "hold": "نگه دارید",
   "breatheOut": "نفس بدهید",
   "wellDone": "آفرین",
-  "letsBegin": "بیایید شروع کنیم"
+  "letsBegin": "بیایید شروع کنیم",
 
+  "drinkWaterMessage1": "آب بنوش! آب برای بدنت مفید است",
+  "drinkWaterMessage2": "آفرین! به آب نوشیدن ادامه بده",
+  "drinkWaterMessage3": "عالیه! بدنت ازت ممنونه",
+  "drinkWaterMessage4": "خیلی خوب! هدف روزانه نوشیدن آب تکمیل شد",
+  "glassesTxt": "گیلاس",
+  "hydrationBtn1": "یک گیلاس نوشیدم",
+  "hydrationBtn2": "تنظیم دوباره",
+  "hydrationBtn3": "تکمیل شد",
+  "hydrationPopupTitle": "تبریک!",
+  "hydrationPopupMessage": "هدف روزانه نوشیدن آب را تکمیل کردی. آفرین!",
+  "hydrationPopupBtn": "عالیه"
 
 }

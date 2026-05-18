@@ -29,4 +29,14 @@ class TimeUtils {
   static String getFormattedDate(DateTime date, String locale) {
     return DateFormat('EEEE, d MMMM', locale).format(date);
   }
+
+  int calculateDayDifference(String lastDateString) {
+    final lastDate = DateTime.parse(lastDateString);
+    final today = DateTime.now();
+
+    final last = DateTime(lastDate.year, lastDate.month, lastDate.day);
+    final current = DateTime(today.year, today.month, today.day);
+
+    return current.difference(last).inDays;
+  }
 }

@@ -97,7 +97,18 @@
   "hold": "صبر وکړئ",
   "breatheOut": "ساه بهر کړئ",
   "wellDone": "ډیر ښه",
-  "letsBegin": "راځئ چې پیل یي کړو"
+  "letsBegin": "راځئ چې پیل یي کړو",
 
+  "drinkWaterMessage1": "اوبه وڅښه! اوبه ستا د بدن لپاره ګټورې دي",
+  "drinkWaterMessage2": "ښه کار! اوبه څښلو ته دوام ورکړه",
+  "drinkWaterMessage3": "ډېر ښه! ستا بدن مننه کوي",
+  "drinkWaterMessage4": "عالي! د ورځې د اوبو څښلو هدف بشپړ شو",
+  "glassesTxt": "ګیلاس",
+  "hydrationBtn1": "یو ګیلاس مې وڅښه",
+  "hydrationBtn2": "بیا تنظیم",
+  "hydrationBtn3": "بشپړ شو",
+  "hydrationPopupTitle": "مبارک!",
+  "hydrationPopupMessage": "تا د ورځې د اوبو څښلو هدف بشپړ کړ. ښه کار!",
+  "hydrationPopupBtn": "عالي"
 
 }

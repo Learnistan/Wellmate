@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
+import 'package:wellmate/core/utils/getIcon.dart';
+import 'package:wellmate/core/utils/getProperText.dart';
+import 'package:wellmate/features/home/presentation/providers/homeProvider.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../domain/entities/activity.dart';
+import '../providers/activityProvider.dart';
 
 class DailyActivitiesPage extends StatefulWidget {
   const DailyActivitiesPage({super.key});
@@ -23,47 +29,22 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      Provider.of<ActivityProvider>(context, listen: false)
+          .seedIfEmpty();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final locale = Localizations.localeOf(context);
 
-    final List<ActivityItem> dailyActivities = [
-      ActivityItem(
-        title: loc.activity_breathing,
-        time: "2",
-        iconPath: Icons.air,
-        route: '/breathing',
-        isChecked: false
-      ),
-      ActivityItem(
-        title: loc.activity_movement,
-        time: "15",
-        iconPath: Icons.directions_walk,
-        route: '/movement',
-        isChecked: true
-      ),
-      ActivityItem(
-        title: loc.activity_hydration,
-        time: "10",
-        iconPath: Icons.water_drop_outlined,
-        route: '/hydration',
-        isChecked: false
-      ),
-      ActivityItem(
-        title: loc.activity_body_scan,
-        time: "5",
-        iconPath: Icons.man,
-        route: '/body-scan',
-        isChecked: true
-      ),
-      ActivityItem(
-        title: loc.activity_burning_thoughts,
-        time: "5",
-        iconPath: Icons.local_fire_department,
-        route: '/burning-thoughts',
-        isChecked: true
-      ),
-    ];
+    final activityProvider = Provider.of<ActivityProvider>(context);
+    final dbActivities = activityProvider.activities;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -76,9 +57,7 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
 
             Text(
               loc.daily_activity_title,
-              style: AppTextStyles.semiBold(locale).copyWith(
-                fontSize: 24,
-              ),
+              style: AppTextStyles.semiBold(locale).copyWith(fontSize: 24),
             ),
 
             const SizedBox(height: 10),
@@ -88,7 +67,7 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
               style: AppTextStyles.semiBold(locale),
             ),
 
-            const SizedBox(height: 20,),
+            const SizedBox(height: 20),
 
             Container(
               padding: const EdgeInsets.all(5),
@@ -97,16 +76,15 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
                   width: 1,
                   color: AppColors.appGray,
                 ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(50),
-                ),
+                borderRadius: const BorderRadius.all(Radius.circular(50)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     loc.add_activity_title,
-                    style: AppTextStyles.grayText(locale).copyWith(color: Colors.grey[800]),
+                    style: AppTextStyles.grayText(locale)
+                        .copyWith(color: Colors.grey[800]),
                   ),
 
                   SizedBox(
@@ -135,105 +113,134 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
 
             Expanded(
               child: ListView.builder(
-                itemCount: dailyActivities.length,
+                itemCount: dbActivities.length,
                 itemBuilder: (context, index) {
-                  final item = dailyActivities[index];
+                  final item = dbActivities[index];
                   final color =
                   activityColors[index % activityColors.length];
 
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        context.push(item.route);
-                      });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                      margin: const EdgeInsets.only(bottom: 14),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            Colors.white,
-                            color["light"],
-                          ],
+                  final bool isActive = item.isActive;
+
+                  final double opacity = isActive ? 1.0 : 0.4;
+
+                  return Opacity(
+                    opacity: opacity,
+                    child: IgnorePointer(
+                      ignoring: !isActive,
+                      child: GestureDetector(
+                        onTap: () async {
+                          final result =
+                          await context.push<int>(item.route);
+                          if (result == 8) {
+                            await activityProvider.toggleComplete(item);
+                            context.read<HomeProvider>().increaseLevel();
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 15),
+                          margin: const EdgeInsets.only(bottom: 14),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(18),
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Colors.white,
+                                color["light"]!.withOpacity(
+                                    isActive ? 1.0 : 0.5),
+                              ],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                                color: Colors.black.withOpacity(0.06),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(left: 10),
+                                width: 6,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: color["dark"]!
+                                      .withOpacity(isActive ? 1.0 : 0.4),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10)),
+                                ),
+                              ),
+
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 16,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        getIcon(item.iconPath),
+                                        color: color["dark"]!
+                                            .withOpacity(
+                                            isActive ? 1.0 : 0.4),
+                                      ),
+
+                                      const SizedBox(width: 16),
+
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              getActivityTitle(
+                                                  item.title, loc),
+                                              style: AppTextStyles.semiBold(
+                                                  locale)
+                                                  .copyWith(
+                                                fontSize: 16,
+                                                color: isActive
+                                                    ? Colors.black
+                                                    : Colors.grey,
+                                              ),
+                                            ),
+
+                                            const SizedBox(height: 6),
+
+                                            Text(
+                                              "${item.duration} ${loc.minute}",
+                                              style: TextStyle(
+                                                color: Colors.grey.shade700
+                                                    .withOpacity(
+                                                    isActive
+                                                        ? 1.0
+                                                        : 0.5),
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      Icon(
+                                        !item.isActive
+                                            ? Icons.check_circle
+                                            : Icons.circle_outlined,
+                                        color: isActive
+                                            ? AppColors.primary
+                                            : Colors.grey,
+                                        size: 28,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                            color: Colors.black.withOpacity(0.06),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            width: 6,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              color: color["dark"],
-                              borderRadius: const BorderRadius.all(Radius.circular(10))
-                            ),
-                          ),
-
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 16,
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    item.iconPath,
-                                    color: color["dark"],
-                                  ),
-
-                                  const SizedBox(width: 16),
-
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          item.title,
-                                          style:
-                                          AppTextStyles.semiBold(locale)
-                                              .copyWith(
-                                            fontSize: 16,
-                                          ),
-                                        ),
-
-                                        const SizedBox(height: 6),
-
-                                        Text(
-                                          "${item.time} ${loc.minute}",
-                                          style: TextStyle(
-                                            color: Colors.grey.shade700,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  Icon(
-                                    item.isChecked
-                                        ? Icons.check_circle
-                                        : Icons.circle_outlined,
-                                    color: AppColors.primary,
-                                    size: 28,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                   );
@@ -245,20 +252,4 @@ class _DailyActivitiesPageState extends State<DailyActivitiesPage> {
       ),
     );
   }
-}
-
-class ActivityItem {
-  final String title;
-  final String time;
-  final IconData iconPath;
-  bool isChecked;
-  final String route;
-
-  ActivityItem({
-    required this.title,
-    required this.time,
-    required this.iconPath,
-    this.isChecked = false,
-    required this.route
-  });
 }
