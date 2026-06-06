@@ -1,9 +1,5 @@
+import '../enums/journeys.dart';
 import '../models/journeyModel.dart';
-
-enum Journeys {
-  carpet,
-  minarets,
-}
 
 const Map<Journeys, JourneyModel> journeysData = {
   Journeys.carpet: JourneyModel(

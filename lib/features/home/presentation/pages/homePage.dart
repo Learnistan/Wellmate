@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../core/constants/journeysData.dart';
+import '../../../../core/enums/journeys.dart';
 import '../../../../core/providers/journeyProvider.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/textStyles.dart';

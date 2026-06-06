@@ -5,8 +5,8 @@ import 'package:wellmate/core/theme/textStyles.dart';
 
 import '../../../../core/appController.dart';
 import '../../../../core/constants/journeysData.dart';
+import '../../../../core/enums/journeys.dart';
 import '../../../../core/theme/colors.dart';
-import '../../../../l10n/app_localizations.dart';
 
 class SelectJourneyPage extends StatefulWidget {
   final AppController appController;

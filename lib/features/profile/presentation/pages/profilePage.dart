@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Provider;
 import 'package:provider/provider.dart';
-import 'package:wellmate/core/constants/journeysData.dart';
 import 'package:wellmate/core/providers/journeyProvider.dart';
+import '../../../../core/enums/journeys.dart';
 import '../../../../core/localization/localeProvider.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/provider/authProvider.dart';
