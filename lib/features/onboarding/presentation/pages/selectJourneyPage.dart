@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
+import 'package:wellmate/core/utils/getProperText.dart';
 
 import '../../../../core/appController.dart';
 import '../../../../core/constants/journeysData.dart';
 import '../../../../core/enums/journeys.dart';
 import '../../../../core/theme/colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class SelectJourneyPage extends StatefulWidget {
   final AppController appController;
@@ -21,6 +23,7 @@ class _SelectJourneyPage extends State<SelectJourneyPage> {
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context);
+    final loc = AppLocalizations.of(context)!;
     final journeys = Journeys.values;
 
     return Scaffold(
@@ -33,7 +36,7 @@ class _SelectJourneyPage extends State<SelectJourneyPage> {
             const SizedBox(height: 25),
 
             Text(
-              "Your Journey Awaits",
+              loc.selectJourneyPageTitle,
               textAlign: TextAlign.center,
               style: AppTextStyles.introTitle(locale),
             ),
@@ -41,7 +44,7 @@ class _SelectJourneyPage extends State<SelectJourneyPage> {
             const SizedBox(height: 10),
 
             Text(
-              "Choose a cultural journey that will grow over 14 days",
+              loc.selectJourneyPageSubTitle,
               textAlign: TextAlign.center,
               style: AppTextStyles.introDesc(locale).copyWith(fontSize: 14),
             ),
@@ -97,7 +100,7 @@ class _SelectJourneyPage extends State<SelectJourneyPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    journey.city,
+                                    getJourneyCity(journeyKey, loc),
                                     style: AppTextStyles.introDesc(locale).copyWith(
                                       fontSize: 12
                                     )
@@ -106,7 +109,7 @@ class _SelectJourneyPage extends State<SelectJourneyPage> {
                                   const SizedBox(height: 4),
 
                                   Text(
-                                    journey.name,
+                                    getJourneyName(journeyKey, loc),
                                     style: AppTextStyles.semiBold(locale).copyWith(
                                       fontSize: 16
                                     )
@@ -115,7 +118,7 @@ class _SelectJourneyPage extends State<SelectJourneyPage> {
                                   const SizedBox(height: 2),
 
                                   Text(
-                                    journey.description,
+                                    getJourneyDescription(journeyKey, loc),
                                     style: AppTextStyles.introDesc(locale).copyWith(
                                       fontSize: 10
                                     )
@@ -124,7 +127,7 @@ class _SelectJourneyPage extends State<SelectJourneyPage> {
                                   SizedBox(height: 7,),
 
                                   Text(
-                                      '14 days',
+                                      '14 ${loc.days}',
                                       style: AppTextStyles.introDesc(locale).copyWith(
                                           fontSize: 9
                                       )

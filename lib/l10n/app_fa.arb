@@ -109,6 +109,19 @@
   "hydrationBtn3": "تکمیل شد",
   "hydrationPopupTitle": "تبریک!",
   "hydrationPopupMessage": "هدف روزانه نوشیدن آب را تکمیل کردی. آفرین!",
-  "hydrationPopupBtn": "عالیه"
+  "hydrationPopupBtn": "عالیه",
+
+  "selectJourneyPageTitle": "سفر شما در انتظار است",
+  "selectJourneyPageSubTitle": "یک سفر فرهنگی را انتخاب کنید که در ۱۴ روز رشد خواهد کرد",
+
+  "carpetJourneyName": "قالین مزار",
+  "carpetJourneyCity": "مزار",
+  "carpetJourneyDescription": "مراقبت و بازسازی",
+
+  "minaretsJourneyName": "مناره‌های هرات",
+  "minaretsJourneyCity": "هرات",
+  "minaretsJourneyDescription": "بازسازی و استحکام",
+
+  "days": "روز"
 
 }

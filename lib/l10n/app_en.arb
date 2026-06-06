@@ -109,6 +109,19 @@
   "hydrationBtn3": "Completed",
   "hydrationPopupTitle": "Congratulations!",
   "hydrationPopupMessage": "You completed your daily water goal. Great job!",
-  "hydrationPopupBtn": "Awesome"
+  "hydrationPopupBtn": "Awesome",
+
+  "selectJourneyPageTitle": "Your Journey Awaits",
+  "selectJourneyPageSubTitle": "Choose a cultural journey that will grow over 14 days",
+
+  "carpetJourneyName": "Mazar Carpet",
+  "carpetJourneyCity": "MAZAR",
+  "carpetJourneyDescription": "Care & Rebuilding",
+
+  "minaretsJourneyName": "Minarets of Herat",
+  "minaretsJourneyCity": "HERAT",
+  "minaretsJourneyDescription": "Rebuilding & Strength",
+
+  "days": "days"
 
 }

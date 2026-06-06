@@ -1,3 +1,5 @@
+import 'package:wellmate/core/enums/journeys.dart';
+
 import '../../l10n/app_localizations.dart';
 
 String getActivityTitle(String key, AppLocalizations loc) {
@@ -14,5 +16,32 @@ String getActivityTitle(String key, AppLocalizations loc) {
       return loc.activity_burning_thoughts;
     default:
       return key;
+  }
+}
+
+String getJourneyName(Journeys key, AppLocalizations loc) {
+  switch (key) {
+    case .carpet:
+      return loc.carpetJourneyName;
+    case .minarets:
+      return loc.minaretsJourneyName;
+    }
+}
+
+String getJourneyCity(Journeys key, AppLocalizations loc) {
+  switch (key) {
+    case .carpet:
+      return loc.carpetJourneyCity;
+    case .minarets:
+      return loc.minaretsJourneyCity;
+  }
+}
+
+String getJourneyDescription(Journeys key, AppLocalizations loc) {
+  switch (key) {
+    case .carpet:
+      return loc.carpetJourneyDescription;
+    case .minarets:
+      return loc.minaretsJourneyDescription;
   }
 }
