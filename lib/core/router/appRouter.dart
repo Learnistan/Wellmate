@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:path/path.dart';
 import 'package:wellmate/features/auth/presentation/pages/registerPage.dart';
 import 'package:wellmate/features/auth/presentation/provider/authProvider.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/bodyScanActivityPage.dart';
@@ -10,6 +11,7 @@ import 'package:wellmate/features/dailyActivities/presentation/pages/hydrationAc
 import 'package:wellmate/features/dailyActivities/presentation/pages/movementActivityPage.dart';
 import 'package:wellmate/features/language/presentation/languagePage.dart';
 import 'package:wellmate/features/onboarding/presentation/pages/multipleChoiceQuestionsPage.dart';
+import 'package:wellmate/features/onboarding/presentation/pages/selectJourneyPage.dart';
 import 'package:wellmate/features/shell/presentation/mainShell.dart';
 import '../../features/auth/presentation/pages/loginPage.dart';
 import '../../features/home/presentation/pages/homePage.dart';
@@ -38,6 +40,7 @@ class AppRouter {
         final isGoingToLoading = location == '/loading';
         final isGoingToRegister = location == '/register';
         final isGoingToQuestions = location == '/questions';
+        final isGoingToJourneys = location == '/journeys';
 
         // 1. Loading state
         if (isFirstLaunch == null || isAuthLoading) {
@@ -46,7 +49,7 @@ class AppRouter {
 
         // 2. First launch flow
         if (isFirstLaunch == true) {
-          if (isGoingToLanguage || isGoingToIntro || isGoingToQuestions) return null;
+          if (isGoingToLanguage || isGoingToIntro || isGoingToQuestions || isGoingToJourneys) return null;
           return '/language';
         }
 
@@ -110,7 +113,11 @@ class AppRouter {
       ),
       GoRoute(
         path: '/questions',
-        builder: (context, state) => MultipleChoiceQuestionsPage(appController: appController),
+        builder: (context, state) => MultipleChoiceQuestionsPage(),
+      ),
+      GoRoute(
+        path: '/journeys',
+        builder: (context, state) => SelectJourneyPage(appController: appController)
       ),
       GoRoute(
         path: '/breathing',

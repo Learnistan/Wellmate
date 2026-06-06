@@ -1,0 +1,4 @@
+enum Journeys {
+  carpet,
+  minarets
+}

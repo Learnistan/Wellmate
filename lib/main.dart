@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer, Provider;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wellmate/core/providers/journeyProvider.dart';
 import 'package:wellmate/core/theme/appTheme.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/activateAllActivitiesUseCase.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/addActivity.dart';
@@ -116,6 +117,9 @@ class _MyAppState extends State<MyApp> {
             addActivityLog: AddActivityLog(widget.repository2),
             getTodayHydrationGlasses: GetTodayHydrationGlasses(widget.repository2),
           )
+        ),
+        ChangeNotifierProvider(
+          create: (_) => JourneyProvider()..loadJourney(),
         )
       ],
       child: Builder(
