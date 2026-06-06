@@ -109,6 +109,19 @@
   "hydrationBtn3": "بشپړ شو",
   "hydrationPopupTitle": "مبارک!",
   "hydrationPopupMessage": "تا د ورځې د اوبو څښلو هدف بشپړ کړ. ښه کار!",
-  "hydrationPopupBtn": "عالي"
+  "hydrationPopupBtn": "عالي",
+
+  "selectJourneyPageTitle": "ستاسو سفر انتظار کوي",
+  "selectJourneyPageSubTitle": "یو کلتوري سفر وټاکئ چې په ۱۴ ورځو کې به وده وکړي",
+
+  "carpetJourneyName": "د مزار غالۍ",
+  "carpetJourneyCity": "مزار",
+  "carpetJourneyDescription": "پاملرنه او بیا رغونه",
+
+  "minaretsJourneyName": "د هرات منارې",
+  "minaretsJourneyCity": "هرات",
+  "minaretsJourneyDescription": "بیا رغونه او پیاوړتیا",
+
+  "days": "ورځې"
 
 }

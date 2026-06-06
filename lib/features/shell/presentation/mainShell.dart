@@ -10,13 +10,20 @@ import '../../home/presentation/pages/homePage.dart';
 import 'navigationProvider.dart';
 
 class MainShell extends ConsumerWidget {
+
   const MainShell({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final index = ref.watch(navigationIndexProvider);
+  Widget build(
+      BuildContext context,
+      WidgetRef ref,
+      ) {
+
+    final index =
+    ref.watch(navigationIndexProvider);
 
     final pages = const [
+
       HomePage(),
       MindfulGamesPage(),
       DailyActivitiesPage(),
@@ -25,19 +32,30 @@ class MainShell extends ConsumerWidget {
     ];
 
     return SafeArea(
+
       child: Scaffold(
+
         extendBody: true,
+
         body: IndexedStack(
           index: index,
           children: pages,
         ),
+
         bottomNavigationBar: CurvedNavBar(
+
           currentIndex: index,
+
           onTap: (i) {
-            ref.read(navigationIndexProvider.notifier).state = i;
+
+            ref
+                .read(
+                navigationIndexProvider
+                    .notifier)
+                .state = i;
           },
         ),
-      )
+      ),
     );
   }
 }
