@@ -64,7 +64,7 @@ class ActivityProvider extends ChangeNotifier {
     await loadActivities();
   }
 
-  Future<void> saveHydrationLog({
+  Future<void> saveActivityLog({
     required int activityId,
     required String value,
   }) async {

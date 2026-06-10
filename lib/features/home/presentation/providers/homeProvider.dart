@@ -33,6 +33,7 @@ class HomeProvider extends ChangeNotifier {
   bool get initialized => _initialized;
 
   int? dayDifference;
+  String? lastDate;
 
   // CURRENT LEVEL
   int _level = 0;
@@ -61,6 +62,7 @@ class HomeProvider extends ChangeNotifier {
       _level = 0;
     } else {
       _level = progress['current_level'];
+      lastDate = progress['last_completed_date'];
     }
 
     notifyListeners();
