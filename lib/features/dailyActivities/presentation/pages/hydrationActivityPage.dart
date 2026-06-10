@@ -79,7 +79,7 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
     setState(() {
       currentGlasses++;
 
-      context.read<ActivityProvider>().saveHydrationLog(
+      context.read<ActivityProvider>().saveActivityLog(
         activityId: 3,
         value: '{"glasses":$currentGlasses}',
       );
@@ -105,7 +105,7 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  context.pop(currentGlasses);
+                  context.pop("activity completed");
                 },
                 child: Text(loc.hydrationPopupBtn),
               ),

@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/widgets/ButtonCom.dart';
 import '../../../../core/theme/textStyles.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../providers/activityProvider.dart';
 
 class BreathingActivityPage extends StatefulWidget {
   const BreathingActivityPage({super.key});
@@ -16,7 +18,6 @@ class BreathingActivityPage extends StatefulWidget {
 
 class _BreathingActivityPageState extends State<BreathingActivityPage>
     with TickerProviderStateMixin {
-
   static const int _breathInSeconds = 5;
   static const int _holdSeconds = 3;
   static const int _breathOutSeconds = 5;
@@ -36,6 +37,8 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
 
   String _phaseLabel = "";
   bool _activityStarted = false;
+
+  bool _dialogShown = false;
 
   @override
   void initState() {
@@ -90,10 +93,60 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
         setState(() => _phaseLabel = next);
       }
     });
+
+    _sessionController.addStatusListener((status) {
+      if (status == AnimationStatus.completed && !_dialogShown) {
+        _dialogShown = true;
+
+        _timer?.cancel();
+        _circleController.stop();
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            _showCompletionDialog();
+          }
+        });
+      }
+    });
+  }
+
+  Future<void> _showCompletionDialog() async {
+    if (!mounted) return;
+
+    final loc = AppLocalizations.of(context)!;
+
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(loc.hydrationPopupTitle),
+          content: const Text(
+            'You completed your daily water goal.\nGreat job!',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                context.read<ActivityProvider>().saveActivityLog(
+                  activityId: 1,
+                  value: '',
+                );
+                Navigator.pop(context);
+                context.pop("activity completed");
+              },
+              child: const Text('Awesome'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _startActivity() {
     final loc = AppLocalizations.of(context)!;
+
+    _remainingSeconds = _totalActivitySeconds;
+    _dialogShown = false;
 
     setState(() {
       _activityStarted = true;
@@ -101,7 +154,9 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
     });
 
     _circleController.repeat();
-    _sessionController.forward();
+    _sessionController.forward(from: 0);
+
+    _timer?.cancel();
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingSeconds == 0) {
@@ -115,6 +170,7 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
   String _formatTime(int seconds) {
     final m = seconds ~/ 60;
     final s = seconds % 60;
+
     return "${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}";
   }
 
@@ -126,8 +182,7 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
     super.dispose();
   }
 
-  bool get _isSessionComplete =>
-      _sessionController.status == AnimationStatus.completed;
+  bool get _isSessionComplete => _sessionController.isCompleted;
 
   @override
   Widget build(BuildContext context) {
@@ -135,161 +190,166 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
     final locale = Localizations.localeOf(context);
 
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          centerTitle: true,
+        child: Scaffold(
           backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black87),
-            onPressed: () => context.pop(),
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.black87),
+              onPressed: () => context.pop(),
+            ),
+            title: Text(
+              loc.breathingActivity,
+              style: AppTextStyles.semiBold(locale).copyWith(
+                fontSize: 20,
+              ),
+            ),
           ),
-          title: Text(
-            loc.breathingActivity,
-            style: AppTextStyles.semiBold(locale).copyWith(fontSize: 20),
-          ),
-        ),
-        body: LayoutBuilder(
-          builder: (context, constraints) {
-            final height = constraints.maxHeight;
-            final width = constraints.maxWidth;
+          body: LayoutBuilder(
+            builder: (context, constraints) {
+              final height = constraints.maxHeight;
+              final width = constraints.maxWidth;
 
-            final base = width * 0.45;
-            final spacingSmall = height * 0.02;
-            final spacingMedium = height * 0.04;
+              final base = width * 0.45;
+              final spacingSmall = height * 0.02;
+              final spacingMedium = height * 0.04;
 
-            final loc = AppLocalizations.of(context)!;
-            final locale = Localizations.localeOf(context);
+              final displayText = _isSessionComplete
+                  ? loc.wellDone
+                  : (_activityStarted ? _phaseLabel : loc.letsBegin);
 
-            final displayText = _isSessionComplete
-                ? loc.wellDone
-                : (_activityStarted ? _phaseLabel : loc.letsBegin);
+              return Center(
+                child: SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: height,
+                    ),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: spacingSmall),
 
-            return Center(
-              child: SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: height,
-                  ),
-                  child: IntrinsicHeight(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 400),
+                            transitionBuilder: (child, animation) {
+                              final slide = Tween<Offset>(
+                                begin: const Offset(0, 0.6),
+                                end: Offset.zero,
+                              ).animate(animation);
 
-                        SizedBox(height: spacingSmall),
-
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 400),
-                          transitionBuilder: (child, animation) {
-                            final slide = Tween<Offset>(
-                              begin: const Offset(0, 0.6),
-                              end: Offset.zero,
-                            ).animate(animation);
-
-                            return ClipRect(
-                              child: SlideTransition(
-                                position: slide,
-                                child: FadeTransition(
-                                  opacity: animation,
-                                  child: child,
+                              return ClipRect(
+                                child: SlideTransition(
+                                  position: slide,
+                                  child: FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  ),
                                 ),
+                              );
+                            },
+                            child: _activityStarted
+                                ? Text(
+                              _formatTime(_remainingSeconds),
+                              key: const ValueKey("timer"),
+                              style: AppTextStyles.semiBold(locale)
+                                  .copyWith(
+                                fontSize: width * 0.08,
+                                color: AppColors.primary,
                               ),
-                            );
-                          },
-                          child: _activityStarted
-                              ? Text(
-                            _formatTime(_remainingSeconds),
-                            key: const ValueKey("timer"),
-                            style: AppTextStyles.semiBold(locale).copyWith(
-                              fontSize: width * 0.08,
-                              color: AppColors.primary,
-                            ),
-                          )
-                              : const SizedBox(key: ValueKey("no_timer")),
-                        ),
-
-                        SizedBox(height: spacingSmall),
-
-                        _isSessionComplete
-                            ? _buildDoneCircle(base)
-                            : _buildBreathingCircle(base),
-
-                        SizedBox(height: spacingMedium),
-
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 400),
-                          transitionBuilder: (child, animation) {
-                            final slide = Tween<Offset>(
-                              begin: const Offset(0, 0.6),
-                              end: Offset.zero,
-                            ).animate(animation);
-
-                            return ClipRect(
-                              child: SlideTransition(
-                                position: slide,
-                                child: FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            displayText,
-                            key: ValueKey(displayText),
-                            textAlign: TextAlign.center,
-                            style: AppTextStyles.semiBold(locale).copyWith(
-                              fontSize: width * 0.055,
-                              color: _isSessionComplete
-                                  ? Colors.black54
-                                  : AppColors.primary,
+                            )
+                                : const SizedBox(
+                              key: ValueKey("no_timer"),
                             ),
                           ),
-                        ),
 
-                        SizedBox(height: spacingMedium),
+                          SizedBox(height: spacingSmall),
 
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 400),
-                          transitionBuilder: (child, animation) {
-                            final slide = Tween<Offset>(
-                              begin: const Offset(0, 0.6),
-                              end: Offset.zero,
-                            ).animate(animation);
+                          _isSessionComplete
+                              ? _buildDoneCircle(base)
+                              : _buildBreathingCircle(base),
 
-                            return ClipRect(
-                              child: SlideTransition(
-                                position: slide,
-                                child: FadeTransition(
-                                  opacity: animation,
-                                  child: child,
+                          SizedBox(height: spacingMedium),
+
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 400),
+                            transitionBuilder: (child, animation) {
+                              final slide = Tween<Offset>(
+                                begin: const Offset(0, 0.6),
+                                end: Offset.zero,
+                              ).animate(animation);
+
+                              return ClipRect(
+                                child: SlideTransition(
+                                  position: slide,
+                                  child: FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  ),
                                 ),
+                              );
+                            },
+                            child: Text(
+                              displayText,
+                              key: ValueKey(displayText),
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.semiBold(locale).copyWith(
+                                fontSize: width * 0.055,
+                                color: _isSessionComplete
+                                    ? Colors.black54
+                                    : AppColors.primary,
                               ),
-                            );
-                          },
-                          child: !_activityStarted
-                              ? Padding(
-                            key: const ValueKey("button"),
-                            padding: EdgeInsets.symmetric(horizontal: width * 0.08),
-                            child: AppButton(
-                              text: loc.start,
-                              onPressed: _startActivity,
                             ),
-                          )
-                              : const SizedBox(key: ValueKey("no_button")),
-                        ),
+                          ),
 
-                        SizedBox(height: spacingSmall),
-                      ],
+                          SizedBox(height: spacingMedium),
+
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 400),
+                            transitionBuilder: (child, animation) {
+                              final slide = Tween<Offset>(
+                                begin: const Offset(0, 0.6),
+                                end: Offset.zero,
+                              ).animate(animation);
+
+                              return ClipRect(
+                                child: SlideTransition(
+                                  position: slide,
+                                  child: FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: !_activityStarted
+                                ? Padding(
+                              key: const ValueKey("button"),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.08,
+                              ),
+                              child: AppButton(
+                                text: loc.start,
+                                onPressed: _startActivity,
+                              ),
+                            )
+                                : const SizedBox(
+                              key: ValueKey("no_button"),
+                            ),
+                          ),
+
+                          SizedBox(height: spacingSmall),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
-      ),
     );
   }
 
@@ -297,8 +357,7 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
     return AnimatedBuilder(
       animation: _circleController,
       builder: (context, child) {
-        final scale =
-        _activityStarted ? _sizeAnimation.value : 0.5;
+        final scale = _activityStarted ? _sizeAnimation.value : 0.5;
 
         final coreSize = base * scale;
 
@@ -314,7 +373,7 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
               Container(
                 width: coreSize,
                 height: coreSize,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: AppColors.secondary,
                 ),

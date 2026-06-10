@@ -7,6 +7,7 @@ import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
 import 'package:wellmate/core/utils/getIcon.dart';
 import 'package:wellmate/core/utils/getProperText.dart';
+import 'package:wellmate/core/utils/timeUtils.dart';
 
 import 'package:wellmate/features/home/presentation/providers/homeProvider.dart';
 
@@ -247,11 +248,11 @@ class _DailyActivitiesPageState
 
                           final result =
                           await context
-                              .push<int>(
+                              .push<String>(
                             item.route,
                           );
 
-                          if (result == 8) {
+                          if (result == "activity completed") {
 
                             // COMPLETE ACTIVITY
                             await activityProvider
@@ -259,14 +260,25 @@ class _DailyActivitiesPageState
                               item,
                             );
 
-                            // INCREASE LEVEL
-                            await context
-                                .read<
-                                HomeProvider>()
-                                .increaseLevel();
+                            final homeProvider = context.read<HomeProvider>();
+                            await homeProvider.loadLevel();
 
-                            // GO TO HOME TAB
-                            ref.read(navigationIndexProvider.notifier).state = 0;
+                            final diff = TimeUtils().calculateDayDifference(homeProvider.lastDate ?? "");
+
+                            if (diff != 0) {
+
+                              // INCREASE LEVEL
+                              await homeProvider.increaseLevel();
+                              // GO TO HOME TAB
+                              ref.read(navigationIndexProvider.notifier).state = 0;
+
+                            } else if (diff == 0 && homeProvider.level == 0){
+
+                              await homeProvider.increaseLevel();
+                              ref.read(navigationIndexProvider.notifier).state = 0;
+
+                            }
+
                           }
                         },
 
