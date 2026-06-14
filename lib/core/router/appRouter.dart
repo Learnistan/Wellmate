@@ -6,7 +6,7 @@ import 'package:wellmate/features/auth/presentation/pages/registerPage.dart';
 import 'package:wellmate/features/auth/presentation/provider/authProvider.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/bodyScanActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/breathingActivityPage.dart';
-import 'package:wellmate/features/dailyActivities/presentation/pages/burningThoughtsActivityPage.dart';
+import 'package:wellmate/features/dailyActivities/presentation/pages/moodCalibration.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/hydrationActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/movementActivityPage.dart';
 import 'package:wellmate/features/language/presentation/languagePage.dart';
@@ -68,7 +68,7 @@ class AppRouter {
             '/movement',
             '/hydration',
             '/body-scan',
-            '/burning-thoughts'
+            '/mood-calibration'
           ];
 
           if (allowedRoutes.contains(location)) {
@@ -140,8 +140,8 @@ class AppRouter {
         builder: (context, state) => BodyScanActivityPage(),
       ),
       GoRoute(
-        path: '/burning-thoughts',
-        builder: (context, state) => BurningThoughtsActivityPage(),
+        path: '/mood-calibration',
+        builder: (context, state) => MoodCalibration(),
       ),
     ],
   );

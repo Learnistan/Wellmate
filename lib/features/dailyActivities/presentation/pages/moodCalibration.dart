@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import '../../../../core/localization/localeProvider.dart';
 import '../../../../l10n/app_localizations.dart';
 
-class BurningThoughtsActivityPage extends StatelessWidget {
-  const BurningThoughtsActivityPage({super.key});
+class MoodCalibration extends StatelessWidget {
+  const MoodCalibration({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class BurningThoughtsActivityPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text(
-                "Burning Thoughts Activity",
+                "Mood Calibration Activity",
                 textAlign: TextAlign.start,
                 style: TextStyle(fontSize: 22),
               ),
