@@ -121,8 +121,8 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
       builder: (context) {
         return AlertDialog(
           title: Text(loc.hydrationPopupTitle),
-          content: const Text(
-            'You completed your daily water goal.\nGreat job!',
+          content: Text(
+            loc.breathingDialogMessage,
           ),
           actions: [
             TextButton(
@@ -134,7 +134,7 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
                 Navigator.pop(context);
                 context.pop("activity completed");
               },
-              child: const Text('Awesome'),
+              child: Text(loc.dialogActionButtonTitle),
             ),
           ],
         );

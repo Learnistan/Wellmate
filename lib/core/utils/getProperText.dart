@@ -12,8 +12,8 @@ String getActivityTitle(String key, AppLocalizations loc) {
       return loc.activity_hydration;
     case "activity_body_scan":
       return loc.activity_body_scan;
-    case "activity_burning_thoughts":
-      return loc.activity_burning_thoughts;
+    case "activity_mood_calibration":
+      return loc.activity_mood_calibration;
     default:
       return key;
   }

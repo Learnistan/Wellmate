@@ -35,10 +35,10 @@ final List<Activity> defaultActivities = [
   ),
   Activity(
     id: 5,
-    title: "activity_burning_thoughts",
+    title: "activity_mood_calibration",
     duration: "5",
-    iconPath: "fire",
-    route: '/burning-thoughts',
+    iconPath: "check",
+    route: '/mood-calibration',
     isActive: true
   ),
 

@@ -8,8 +8,8 @@ IconData getIcon(String key) {
       return Icons.directions_walk;
     case 'water':
       return Icons.water_drop_outlined;
-    case 'fire':
-      return Icons.local_fire_department;
+    case 'check':
+      return Icons.check_box_outlined;
     case 'body':
       return Icons.man;
     default:
