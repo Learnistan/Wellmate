@@ -92,6 +92,7 @@
   "activity_burning_thoughts": "رها کردن افکار",
   "activity_mood_calibration": "ارزیابی حالت روحی",
   "minute": "دقیقه",
+  "setLbl": "تنظیم کردن",
 
   "breathingActivity": "تمرین تنفس",
   "breatheIn": "نفس بکشید",
@@ -99,6 +100,7 @@
   "breatheOut": "نفس بدهید",
   "wellDone": "آفرین",
   "letsBegin": "بیایید شروع کنیم",
+  "breathingDialogMessage": "هدف روزانه تنفس خود را تکمیل کردید.\nآفرین!",
 
   "drinkWaterMessage1": "آب بنوش! آب برای بدنت مفید است",
   "drinkWaterMessage2": "آفرین! به آب نوشیدن ادامه بده",
@@ -161,6 +163,14 @@
   "moodCalibrationDialogMessage": "حالت روحی شما با موفقیت ثبت شد.",
   "moodCalibrationDialogTitle": "انجام شد!",
 
-  "dialogActionButtonTitle": "عالی"
+  "dialogActionButtonTitle": "عالی",
+
+  "walkingAskPermissionMessage": "اجازه دسترسی به حرکت لازم است",
+  "walkingPedometerError": "خطای قدم‌شمار",
+  "walkingDialogMessage": "هدف روزانه قدم زدن خود را تکمیل کردید. \nآفرین!",
+  "walkingChooseDurationLbl": "انتخاب مدت زمان",
+  "walkingDurationLbl": "مدت زمان:",
+  "walkingAveragePace": "سرعت میانگین",
+  "walkingCalories": "کالری"
 
 }

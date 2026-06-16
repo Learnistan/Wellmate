@@ -92,6 +92,7 @@
   "activity_burning_thoughts": "Burning Thoughts",
   "activity_mood_calibration": "Mood Calibration",
   "minute": "min",
+  "setLbl": "Set",
 
   "breathingActivity": "Breathing Activity",
   "breatheIn": "Breathe In",
@@ -99,6 +100,7 @@
   "breatheOut": "Breathe Out",
   "wellDone": "Well Done",
   "letsBegin": "Lets Begin",
+  "breathingDialogMessage": "You completed your daily breathing goal.\nGreat job!",
 
   "drinkWaterMessage1": "Drink water! Water is good for your body",
   "drinkWaterMessage2": "Good job! Keep hydrating",
@@ -161,6 +163,14 @@
   "moodCalibrationDialogMessage": "Your mood is logged successfully.",
   "moodCalibrationDialogTitle": "Success!",
 
-  "dialogActionButtonTitle": "Awesome"
+  "dialogActionButtonTitle": "Awesome",
+
+  "walkingAskPermissionMessage": "Motion permission is required",
+  "walkingPedometerError": "Pedometer error",
+  "walkingDialogMessage": "You completed your daily walking goal. \nGreat job!",
+  "walkingChooseDurationLbl": "Choose duration",
+  "walkingDurationLbl": "Duration:",
+  "walkingAveragePace": "Avg pace",
+  "walkingCalories": "Calories"
 
 }

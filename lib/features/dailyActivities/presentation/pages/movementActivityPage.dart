@@ -6,6 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:wellmate/core/theme/colors.dart';
 import '../../../../core/theme/textStyles.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../providers/activityProvider.dart';
 
 class MovementActivityPage extends StatefulWidget {
@@ -19,6 +20,8 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
   // User-selectable duration in minutes. Minimum 1 minute.
   static const int minMinutes = 1;
   static const int maxMinutes = 120;
+
+  late final loc = AppLocalizations.of(context)!;
 
   int _selectedMinutes = 15;
   int get _sessionDuration => _selectedMinutes * 60;
@@ -54,7 +57,7 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
     if (!status.isGranted) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Motion permission is required')),
+          SnackBar(content: Text(loc.walkingAskPermissionMessage)),
         );
       }
       return;
@@ -69,7 +72,7 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
           });
         }
       },
-      onError: (e) => debugPrint('Pedometer error: $e'),
+      onError: (e) => debugPrint('${loc.walkingPedometerError}: $e'),
     );
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -110,9 +113,9 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Congratulations!'),
-          content: const Text(
-            "You completed your daily walking goal. \nGreat job!",
+          title: Text(loc.hydrationPopupTitle),
+          content: Text(
+            loc.walkingDialogMessage,
           ),
           actions: [
             TextButton(
@@ -126,7 +129,7 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
                 _stopSession();
                 context.pop("activity completed");
               },
-              child: const Text('Awesome'),
+              child: Text(loc.dialogActionButtonTitle),
             ),
           ],
         );
@@ -145,6 +148,8 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
       ),
       builder: (context) {
         final locale = Localizations.localeOf(context);
+        final loc = AppLocalizations.of(context)!;
+
         return StatefulBuilder(
           builder: (context, setSheetState) {
             return Padding(
@@ -153,12 +158,12 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Choose duration',
+                    loc.walkingChooseDurationLbl,
                     style: AppTextStyles.semiBold(locale).copyWith(fontSize: 18),
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    '$tempMinutes min',
+                    '$tempMinutes ${loc.minute}',
                     style:
                     AppTextStyles.semiBold(locale).copyWith(fontSize: 40),
                   ),
@@ -180,7 +185,7 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
                           max: maxMinutes.toDouble(),
                           divisions: maxMinutes - minMinutes,
                           activeColor: AppColors.primary,
-                          label: '$tempMinutes min',
+                          label: '$tempMinutes ${loc.minute}',
                           onChanged: (v) =>
                               setSheetState(() => tempMinutes = v.round()),
                         ),
@@ -231,7 +236,7 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
                         });
                         Navigator.of(context).pop();
                       },
-                      child: const Text('Set'),
+                      child: Text(loc.setLbl),
                     ),
                   ),
                 ],
@@ -266,6 +271,8 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context);
+    final loc = AppLocalizations.of(context)!;
+
     // Allow changing duration only when nothing is in progress.
     final canChangeDuration = !_isRunning && _elapsedSeconds == 0;
 
@@ -274,7 +281,7 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         title: Text(
-          'Mindful Movement',
+          loc.activity_movement,
           style: AppTextStyles.semiBold(locale).copyWith(fontSize: 20),
         ),
         centerTitle: true,
@@ -333,7 +340,7 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        'Duration: $_selectedMinutes min',
+                        '${loc.walkingDurationLbl} $_selectedMinutes ${loc.minute}',
                         style: TextStyle(
                           color: canChangeDuration
                               ? AppColors.primary
@@ -359,14 +366,14 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _StatTile(label: 'Avg pace', value: _formattedPace),
+                  _StatTile(label: loc.walkingAveragePace, value: _formattedPace),
                   Container(
                     width: 1.5,
                     height: 80,
                     decoration: BoxDecoration(color: AppColors.appGray),
                   ),
                   _StatTile(
-                    label: 'Calories',
+                    label: loc.walkingCalories,
                     value: '${_caloriesBurned.toStringAsFixed(0)} kcal',
                   ),
                 ],

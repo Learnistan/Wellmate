@@ -92,6 +92,7 @@
   "activity_burning_thoughts": "د فکرونو خوشې کول",
   "activity_mood_calibration": "د احساساتي حالت ارزونه",
   "minute": "دقیقې",
+  "setLbl": "تنظیمول",
 
   "breathingActivity": "د ساه اخیستلو تمرین",
   "breatheIn": "ساه دننه واخلئ",
@@ -99,6 +100,7 @@
   "breatheOut": "ساه بهر کړئ",
   "wellDone": "ډیر ښه",
   "letsBegin": "راځئ چې پیل یي کړو",
+  "breathingDialogMessage": "د ساه اخیستلو هدف مو بشپړ کړ.\nاحسنت!",
 
   "drinkWaterMessage1": "اوبه وڅښه! اوبه ستا د بدن لپاره ګټورې دي",
   "drinkWaterMessage2": "ښه کار! اوبه څښلو ته دوام ورکړه",
@@ -161,6 +163,14 @@
   "moodCalibrationDialogMessage": "ستاسو خُلق په بریالیتوب سره ثبت شو.",
   "moodCalibrationDialogTitle": "بریالیتوب!",
 
-  "dialogActionButtonTitle": "ښه"
+  "dialogActionButtonTitle": "ښه",
+
+  "walkingAskPermissionMessage": "د حرکت اجازه اړینه ده",
+  "walkingPedometerError": "د قدم‌شمار تېروتنه",
+  "walkingDialogMessage": "د قدم وهلو ورځنی هدف مو بشپړ کړ. \nاحسنت!",
+  "walkingChooseDurationLbl": "موده وټاکئ",
+  "walkingDurationLbl": "موده:",
+  "walkingAveragePace": "منځنۍ چټکتیا",
+  "walkingCalories": "کالوري"
 
 }
