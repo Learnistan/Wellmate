@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/activateAllActivitiesUseCase.dart';
 import 'package:wellmate/features/home/domain/useCases/getLastCompletedDifferenceUseCase.dart';
 
+import '../../../../core/services/notificationService.dart';
 import '../../domain/useCases/getProgressUseCase.dart';
 import '../../domain/useCases/initProgressUseCase.dart';
 import '../../domain/useCases/updateProgressUseCase.dart';
@@ -20,12 +21,15 @@ class HomeProvider extends ChangeNotifier {
   final UpdateProgressUseCase updateProgressUseCase;
   final GetProgressUseCase getProgressUseCase;
 
+  final NotificationService notificationService;
+
   HomeProvider(
       this.initProgressUseCase,
       this.updateProgressUseCase,
       this.getProgressUseCase,
       this.getLastCompletedDifferenceUseCase,
       this.activateAllActivitiesUseCase,
+      this.notificationService
       );
 
   bool _initialized = false;
@@ -101,6 +105,11 @@ class HomeProvider extends ChangeNotifier {
 
       await activateAllActivitiesUseCase();
 
+      await notificationService.showInstantNotification(
+        title: "Activity Reminder",
+        body: "You missed your daily activity. Please complete it today.",
+      );
+
       notifyListeners();
 
       return true;
@@ -117,5 +126,12 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
 
     return false;
+  }
+
+  Future<void> refreshInactivityReminder() async {
+    print("MOOONISH");
+    // await notificationService.cancelInactivityReminder();
+    // await notificationService.scheduleInactivityReminder();
+    await notificationService.showInstantNotification(title: "We missed you!", body: "It's a long time that you have not used the app.");
   }
 }
