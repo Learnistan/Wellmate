@@ -102,6 +102,45 @@
   "letsBegin": "Lets Begin",
   "breathingDialogMessage": "You completed your daily breathing goal.\nGreat job!",
 
+  "bodyScanActivity": "Body Scan",
+  "bodyScanInstruction": "Tap the area where you feel tension or stress today",
+  "doThis": "Do this",
+  "gotIt": "Got it",
+
+  "bodyPartHead": "Head",
+  "bodyPartNeck": "Neck",
+  "bodyPartShoulders": "Shoulders",
+  "bodyPartChest": "Chest",
+  "bodyPartArms": "Arms / Hands",
+  "bodyPartAbdomen": "Stomach",
+  "bodyPartHips": "Hips",
+  "bodyPartLegs": "Legs",
+  "bodyPartFeet": "Feet",
+
+  "bodyScanHeadFeedback": "Your mind may feel full today. Take a small pause and let your thoughts slow down.",
+  "bodyScanHeadAction": "Close your eyes, relax your forehead, and take 5 slow breaths.",
+
+  "bodyScanNeckFeedback": "Your neck may need gentle care. Let your body feel supported.",
+  "bodyScanNeckAction": "Slowly move your head left and right. Keep breathing gently.",
+
+  "bodyScanShouldersFeedback": "Your shoulders may be carrying today's stress. You can let some of it go.",
+  "bodyScanShouldersAction": "Lift your shoulders up, then slowly drop them down. Repeat 5 times.",
+
+  "bodyScanChestFeedback": "Your chest may feel tight when stress is high. Give yourself space to breathe.",
+  "bodyScanChestAction": "Put one hand on your chest and take slow, soft breaths.",
+
+  "bodyScanAbdomenFeedback": "Stress can sit in the stomach. Be kind to your body.",
+  "bodyScanAbdomenAction": "Place your hand on your belly and breathe slowly into it.",
+
+  "bodyScanBackFeedback": "Your Hips may be asking for rest. Let yourself soften.",
+  "bodyScanBackAction": "Sit comfortably, relax your back, and breathe out slowly.",
+
+  "bodyScanArmsFeedback": "Your hands may be holding tension. You are safe to release it.",
+  "bodyScanArmsAction": "Open and close your hands slowly 5 times.",
+
+  "bodyScanLegsFeedback": "Your legs may feel heavy or tense. Let them feel steady.",
+  "bodyScanLegsAction": "Place both feet on the floor and notice the ground under you.",
+
   "drinkWaterMessage1": "Drink water! Water is good for your body",
   "drinkWaterMessage2": "Good job! Keep hydrating",
   "drinkWaterMessage3": "Awesome! Your body thanks you",

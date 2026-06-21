@@ -102,6 +102,45 @@
   "letsBegin": "راځئ چې پیل یي کړو",
   "breathingDialogMessage": "د ساه اخیستلو هدف مو بشپړ کړ.\nاحسنت!",
 
+  "bodyScanActivity": "د بدن سکن",
+  "bodyScanInstruction": "هغه برخه ولمسئ چې نن کې تاسو تنش یا فشار احساس کوئ",
+  "doThis": "دا وکړئ",
+  "gotIt": "پوه شوم",
+
+  "bodyPartHead": "سر",
+  "bodyPartNeck": "غاړه",
+  "bodyPartShoulders": "اوږې",
+  "bodyPartChest": "سینه",
+  "bodyPartArms": "لاسونه",
+  "bodyPartAbdomen": "نس",
+  "bodyPartHips": "شا",
+  "bodyPartLegs": "پښې",
+  "bodyPartFeet": "پښې",
+
+  "bodyScanHeadFeedback": "ستاسو ذهن نن ډک احساس کېدای شي. لږ ودرېږئ او پرېږدئ چې فکرونه مو ورو شي.",
+  "bodyScanHeadAction": "سترګې پټې کړئ، تندی مو ارام کړئ، او ۵ ورو ساه واخلئ.",
+
+  "bodyScanNeckFeedback": "ستاسو غاړې ته شاید نرمه پاملرنه اړتیا وي. پرېږدئ بدن مو ملاتړ شوی احساس کړي.",
+  "bodyScanNeckAction": "سر مو ورو ورو ښي او چپ ته وګرځوئ. په ارامۍ سره ساه واخلئ.",
+
+  "bodyScanShouldersFeedback": "ستاسو اوږې شاید د نن ورځې فشار وړي. تاسو کولی شئ یو څه ترې خوشې کړئ.",
+  "bodyScanShouldersAction": "اوږې مو پورته کړئ، بیا یې ورو ورو ښکته کړئ. دا کار ۵ ځله تکرار کړئ.",
+
+  "bodyScanChestFeedback": "کله چې فشار زیات وي، ستاسو سینه ممکن سخته احساس شي. ځان ته ځای ورکړئ چې ساه واخلئ.",
+  "bodyScanChestAction": "یو لاس مو په سینه کېږدئ او ورو، نرمې ساه واخلئ.",
+
+  "bodyScanAbdomenFeedback": "فشار کولی شي په نس کې ځای ونیسي. له خپل ځان سره مهربانه اوسئ.",
+  "bodyScanAbdomenAction": "لاس مو په نس کېږدئ او ورو ورو دننه ساه واخلئ.",
+
+  "bodyScanBackFeedback": "ستاسو شا شاید آرام غواړي. پرېږدئ نرمه شئ.",
+  "bodyScanBackAction": "په آرامۍ سره کېنئ، شا مو ارامه کړئ، او ورو ساه بهر کړئ.",
+
+  "bodyScanArmsFeedback": "ستاسو لاسونه شاید تنش نیولی وي. تاسو خوندي یاست چې یې خوشې کړئ.",
+  "bodyScanArmsAction": "لاسونه مو ورو ورو ۵ ځله پرانیزئ او وتړئ.",
+
+  "bodyScanLegsFeedback": "ستاسو پښې شاید دروندې یا تنده احساس شي. پرېږدئ ثابتې احساس شي.",
+  "bodyScanLegsAction": "دواړه پښې په ځمکه کېږدئ او لاندې ځمکه احساس کړئ.",
+
   "drinkWaterMessage1": "اوبه وڅښه! اوبه ستا د بدن لپاره ګټورې دي",
   "drinkWaterMessage2": "ښه کار! اوبه څښلو ته دوام ورکړه",
   "drinkWaterMessage3": "ډېر ښه! ستا بدن مننه کوي",

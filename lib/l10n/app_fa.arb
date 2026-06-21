@@ -102,6 +102,45 @@
   "letsBegin": "بیایید شروع کنیم",
   "breathingDialogMessage": "هدف روزانه تنفس خود را تکمیل کردید.\nآفرین!",
 
+  "bodyScanActivity": "اسکن بدن",
+  "bodyScanInstruction": "جایی از بدن را لمس کن که امروز در آن احساس تنش یا فشار میکنی",
+  "doThis": "انجام بده",
+  "gotIt": "متوجه شدم",
+
+  "bodyPartHead": "سر",
+  "bodyPartNeck": "گردن",
+  "bodyPartShoulders": "شانه‌ها",
+  "bodyPartChest": "سینه",
+  "bodyPartArms": "بازوها / دست‌ها",
+  "bodyPartAbdomen": "شکم",
+  "bodyPartHips": "کمر",
+  "bodyPartLegs": "پاها",
+  "bodyPartFeet": "کف پا",
+
+  "bodyScanHeadFeedback": "ذهن تو امروز ممکن است پُر احساس شود. کمی مکث کن و بگذار افکارت آرام شوند.",
+  "bodyScanHeadAction": "چشمانت را ببند، پیشانی‌ات را آرام کن، و ۵ نفس عمیق و آرام بکش.",
+
+  "bodyScanNeckFeedback": "گردن تو شاید به مراقبت آرام نیاز داشته باشد. بگذار بدنت احساس حمایت کند.",
+  "bodyScanNeckAction": "به آرامی سرت را به چپ و راست حرکت بده. به آرامی نفس بکش.",
+
+  "bodyScanShouldersFeedback": "شانه‌های تو شاید بار استرس امروز را حمل میکنند. میتوانی کمی از آن را رها کنی.",
+  "bodyScanShouldersAction": "شانه‌هایت را بالا ببر، سپس به آرامی پایین بیانداز. این کار را ۵ بار تکرار کن.",
+
+  "bodyScanChestFeedback": "وقتی استرس زیاد است، سینه‌ات ممکن است احساس فشردگی کند. به خودت فضا بده تا نفس بکشی.",
+  "bodyScanChestAction": "یک دست را روی سینه‌ات بگذار و نفس‌های آرام و نرم بکش.",
+
+  "bodyScanAbdomenFeedback": "استرس میتواند در شکم جا بگیرد. با بدن خود مهربان باش.",
+  "bodyScanAbdomenAction": "دستت را روی شکمت بگذار و به آرامی به داخل آن نفس بکش.",
+
+  "bodyScanBackFeedback": "کمر تو شاید به استراحت نیاز دارد. بگذار خودت را نرم کنی.",
+  "bodyScanBackAction": "به راحتی بنشین، کمرت را آرام کن، و به آرامی نفس بیرون بده.",
+
+  "bodyScanArmsFeedback": "دست‌های تو شاید تنش را نگه داشته‌اند. تو در امان هستی که آن را رها کنی.",
+  "bodyScanArmsAction": "دست‌هایت را به آرامی ۵ بار باز و بسته کن.",
+
+  "bodyScanLegsFeedback": "پاهای تو شاید سنگین یا کشیده احساس شوند. بگذار آنها استوار احساس کنند.",
+  "bodyScanLegsAction": "هر دو پایت را روی زمین بگذار و زمین زیر پایت را احساس کن.",
+
   "drinkWaterMessage1": "آب بنوش! آب برای بدنت مفید است",
   "drinkWaterMessage2": "آفرین! به آب نوشیدن ادامه بده",
   "drinkWaterMessage3": "عالیه! بدنت ازت ممنونه",
