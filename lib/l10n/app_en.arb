@@ -171,6 +171,19 @@
   "walkingChooseDurationLbl": "Choose duration",
   "walkingDurationLbl": "Duration:",
   "walkingAveragePace": "Avg pace",
-  "walkingCalories": "Calories"
+  "walkingCalories": "Calories",
+
+  "gamesTabTitle": "Mindful Games",
+  "gamesTabSubTitle": "Train your mind daily",
+  "gamesTabGuid": "Small mindful exercises to improve focus, emotions, and thinking patterns.",
+  "visualizingGameTitle": "Visualizing",
+  "bubblesGameTitle": "Positive Bubbles",
+  "emotionsGameTitle": "Emotions Sorting",
+  "visualizingGameBenefit": "Imagination & focus",
+  "bubblesGameBenefit": "Positive thinking",
+  "emotionsGameBenefit": "Emotional awareness",
+  "visualizingGameDesc": "Read a word and create a clear mental picture of it. Strengthen imagination, concentration, and the ability to visualize ideas.",
+  "bubblesGameDesc": "Select positive words from moving bubbles. Train your mind to notice uplifting thoughts and develop a more optimistic outlook.",
+  "emotionsGameDesc": "Organize emotions into categories by their meaning. Improve emotional awareness, recognition, and understanding of different feelings and moods."
 
 }

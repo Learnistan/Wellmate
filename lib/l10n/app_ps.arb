@@ -171,6 +171,19 @@
   "walkingChooseDurationLbl": "موده وټاکئ",
   "walkingDurationLbl": "موده:",
   "walkingAveragePace": "منځنۍ چټکتیا",
-  "walkingCalories": "کالوري"
+  "walkingCalories": "کالوري",
+
+  "gamesTabTitle": "ذهني لوبې",
+  "gamesTabSubTitle": "هره ورځ خپل ذهن پیاوړی کړئ",
+  "gamesTabGuid": "لنډ ذهني تمرینونه چې تمرکز، احساسات او د فکر کولو طریقه ښه کوي.",
+  "visualizingGameTitle": "ذهني انځور جوړونه",
+  "bubblesGameTitle": "مثبت بلبلې",
+  "emotionsGameTitle": "د احساساتو ډلبندي",
+  "visualizingGameBenefit": "تخیل او تمرکز",
+  "bubblesGameBenefit": "مثبت فکر کول",
+  "emotionsGameBenefit": "د احساساتو پوهاوی",
+  "visualizingGameDesc": "یوه کلمه ولولئ او په ذهن کې یې روښانه انځور جوړ کړئ. دا تمرین تخیل، تمرکز او د ذهني انځور جوړولو وړتیا پیاوړې کوي.",
+  "bubblesGameDesc": "له خوځنده بلبلو څخه مثبتې کلمې وټاکئ. خپل ذهن وروزئ چې مثبت فکرونو ته پام وکړي او خوشبینانه لید رامنځته کړي.",
+  "emotionsGameDesc": "احساسات د هغوی د مانا له مخې په مناسبو ډلو کې تنظیم کړئ. د احساساتو او مزاجونو پېژندنه، پوهاوی او درک مو پیاوړی کړئ."
 
 }

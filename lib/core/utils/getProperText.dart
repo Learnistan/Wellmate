@@ -19,6 +19,19 @@ String getActivityTitle(String key, AppLocalizations loc) {
   }
 }
 
+List getGameTexts(String key, AppLocalizations loc) {
+  switch (key) {
+    case "game_visualizing":
+      return [loc.visualizingGameTitle, loc.visualizingGameBenefit, loc.visualizingGameDesc];
+    case "game_bubbles":
+      return [loc.bubblesGameTitle, loc.bubblesGameBenefit, loc.bubblesGameDesc];
+    case "game_emotions":
+      return [loc.emotionsGameTitle, loc.emotionsGameBenefit, loc.emotionsGameDesc];
+    default:
+      return [];
+  }
+}
+
 String getJourneyName(Journeys key, AppLocalizations loc) {
   switch (key) {
     case .carpet:
