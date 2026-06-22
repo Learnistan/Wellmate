@@ -184,6 +184,32 @@
   "emotionsGameBenefit": "Emotional awareness",
   "visualizingGameDesc": "Read a word and create a clear mental picture of it. Strengthen imagination, concentration, and the ability to visualize ideas.",
   "bubblesGameDesc": "Select positive words from moving bubbles. Train your mind to notice uplifting thoughts and develop a more optimistic outlook.",
-  "emotionsGameDesc": "Organize emotions into categories by their meaning. Improve emotional awareness, recognition, and understanding of different feelings and moods."
+  "emotionsGameDesc": "Organize emotions into categories by their meaning. Improve emotional awareness, recognition, and understanding of different feelings and moods.",
+
+  "bubblesGameSubTitle": "Tap positive words and collect points",
+  "time": "Time",
+  "score": "Score",
+  "endGameMessage": "Time Finished!",
+  "yourScore": "Your score",
+  "playAgain": "Play Again",
+
+  "kind": "Kind",
+  "brave": "Brave",
+  "peace": "peace",
+  "love": "Love",
+  "hope": "Hope",
+  "smart": "Smart",
+  "strong": "Strong",
+  "smile": "Smile",
+
+  "bad": "Bad",
+  "angry": "Angry",
+  "fear": "Fear",
+  "hate": "Hate",
+  "cry": "Cry",
+  "weak": "Weak",
+  "lazy": "Lazy",
+  "rude": "Rude",
+  "pain": "Pain"
 
 }

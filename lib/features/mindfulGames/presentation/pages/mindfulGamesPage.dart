@@ -77,7 +77,7 @@ class MindfulGamesPage extends StatelessWidget {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(18),
                         onTap: () {
-                          context.go(game.route);
+                          context.push(game.route);
                         },
                         child: Container(
                           padding: const EdgeInsets.all(16),
@@ -197,7 +197,7 @@ class MindfulGamesPage extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 30,)
+            SizedBox(height: 40,)
           ],
         ),
       )
