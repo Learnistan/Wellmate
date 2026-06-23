@@ -2,9 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer, Provider;
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellmate/core/providers/journeyProvider.dart';
 import 'package:wellmate/core/theme/appTheme.dart';
+import 'package:wellmate/features/chatbot/data/dataSources/openAIRemoteDataSource.dart';
+import 'package:wellmate/features/chatbot/data/repositories/chatRepositoyImpl.dart';
+import 'package:wellmate/features/chatbot/domain/useCases/sendMessage.dart';
+import 'package:wellmate/features/chatbot/presentation/providers/chatProvider.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/activateAllActivitiesUseCase.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/addActivity.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/addActivityLog.dart';
@@ -48,6 +53,8 @@ void main() async {
   final remoteDataSource = AuthRemoteDataSource(firebaseAuth);
   final authRepository = AuthRepositoryImpl(remoteDataSource);
 
+  final client = http.Client();
+
   final localDataSource = LocalStorageDataSource();
   final repository = AppStorageRepositoryImpl(localDataSource);
   final appController = AppController(repository);
@@ -62,7 +69,7 @@ void main() async {
     ProviderScope(
       child: ChangeNotifierProvider(
         create: (_) => LocaleProvider(Locale(savedLanguage)),
-        child: MyApp(appController, authRepository, repository2, repository3),
+        child: MyApp(appController, authRepository, repository2, repository3, client),
       )
     ),
   );
@@ -73,8 +80,9 @@ class MyApp extends StatefulWidget {
   final AuthRepositoryImpl repository;
   final ActivityRepositoryImpl repository2;
   final HomeRepositoryImpl repository3;
+  final http.Client client;
 
-  const MyApp(this.appController, this.repository, this.repository2, this.repository3, {super.key});
+  const MyApp(this.appController, this.repository, this.repository2, this.repository3, this.client, {super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -120,6 +128,15 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (_) => JourneyProvider()..loadJourney(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ChatProvider(
+              SendMessage(
+                ChatRepositoryImpl(
+                  OpenAIRemoteDataSource(widget.client)
+                )
+              )
+          ),
         )
       ],
       child: Builder(
