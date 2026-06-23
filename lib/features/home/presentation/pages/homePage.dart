@@ -1,8 +1,8 @@
 // HOME PAGE
 
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -40,10 +40,18 @@ class _HomePageState extends State<HomePage> {
 
   Journeys? _previousJourney;
 
+  late ConfettiController _confettiController;
+
+  bool _confettiPlayed = false;
+
   @override
   void initState() {
 
     super.initState();
+
+    _confettiController = ConfettiController(
+      duration: const Duration(seconds: 2),
+    );
 
     Future.microtask(() async {
 
@@ -92,6 +100,18 @@ class _HomePageState extends State<HomePage> {
 
       _videoController!.addListener(() {
 
+        final videoValue = _videoController!.value;
+
+        if (videoValue.isInitialized &&
+            !videoValue.isPlaying &&
+            !_confettiPlayed &&
+            videoValue.position >= videoValue.duration &&
+            videoValue.duration != Duration.zero) {
+          _confettiPlayed = true;
+          print("HIHIHI");
+          _confettiController.play();
+        }
+
         final level =
             context.read<HomeProvider>().level;
 
@@ -107,9 +127,11 @@ class _HomePageState extends State<HomePage> {
             _videoController!
                 .value.position.inSeconds;
 
-        if (currentSecond >= endSecond &&
-            _videoController!
-                .value.isPlaying) {
+        final isLastLevel = level == pauseSeconds.length - 1;
+
+        if (!isLastLevel &&
+            currentSecond >= endSecond &&
+            _videoController!.value.isPlaying) {
 
           _videoController!.pause();
 
@@ -191,6 +213,8 @@ class _HomePageState extends State<HomePage> {
       const Duration(milliseconds: 100),
     );
 
+    _confettiPlayed = false;
+
     await _videoController!.play();
 
     if (mounted) {
@@ -202,6 +226,7 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
 
     _videoController?.dispose();
+    _confettiController.dispose();
 
     super.dispose();
   }
@@ -615,6 +640,17 @@ class _HomePageState extends State<HomePage> {
             left: Directionality.of(context) == TextDirection.rtl ? 20 : null,
             right: Directionality.of(context) == TextDirection.ltr ? 20 : null,
             child: const FloatingBubbleButton(),
+          ),
+
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConfettiWidget(
+              confettiController: _confettiController,
+              blastDirectionality: BlastDirectionality.explosive,
+              shouldLoop: false,
+              numberOfParticles: 30,
+              gravity: 0.3,
+            ),
           ),
         ],
       )
