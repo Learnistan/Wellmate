@@ -210,6 +210,24 @@
   "weak": "Weak",
   "lazy": "Lazy",
   "rude": "Rude",
-  "pain": "Pain"
+  "pain": "Pain",
+
+  "apple": "Apple",
+  "mountain": "Mountain",
+  "river": "River",
+  "house": "House",
+  "flower": "Flower",
+  "bird": "Bird",
+  "moon": "Moon",
+  "tree": "Tree",
+  "book": "Book",
+  "sun": "Sun",
+
+  "visualizingGameSubTitle": "Visualize this word in your mind",
+  "visualizedBtn": "I visualized it",
+  "completed": "completed",
+  "visualizingPopUpMessage": "Amazing work! You visualized 5 words successfully.",
+  "goHome": "Go Home",
+  "gameDialogTitle": "Good job!"
 
 }

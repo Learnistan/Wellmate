@@ -210,6 +210,24 @@
   "weak": "کمزوری",
   "lazy": "لټ",
   "rude": "بې‌ادبه",
-  "pain": "درد"
+  "pain": "درد",
+
+  "apple": "مڼه",
+  "mountain": "غر",
+  "river": "سیند",
+  "house": "کور",
+  "flower": "ګل",
+  "bird": "مرغه",
+  "moon": "سپوږمۍ",
+  "tree": "ونه",
+  "book": "کتاب",
+  "sun": "لمر",
+
+  "visualizingGameSubTitle": "دا کلمه په خپل ذهن کې تصور کړئ",
+  "visualizedBtn": "تصور مې کړ",
+  "completed": "بشپړ شو",
+  "visualizingPopUpMessage": "ډېر ښه کار! تاسو ۵ کلمې په بریالیتوب سره انځوریزې کړې.",
+  "goHome": "کور ته لاړ شئ",
+  "gameDialogTitle": "شاباش!"
 
 }

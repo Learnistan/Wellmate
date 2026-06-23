@@ -194,6 +194,7 @@ class _BubblesGamePageState extends State<BubblesGamePage>
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           loc.bubblesGameTitle,
           style: AppTextStyles.semiBold(

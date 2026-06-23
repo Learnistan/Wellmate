@@ -210,5 +210,23 @@
   "weak": "ضعیف",
   "lazy": "تنبل",
   "rude": "بی‌ادب",
-  "pain": "درد"
+  "pain": "درد",
+
+  "apple": "سیب",
+  "mountain": "کوه",
+  "river": "دریا",
+  "house": "خانه",
+  "flower": "گل",
+  "bird": "پرنده",
+  "moon": "ماه",
+  "tree": "درخت",
+  "book": "کتاب",
+  "sun": "خورشید",
+
+  "visualizingGameSubTitle": "این کلمه را در ذهن خود تصور کنید",
+  "visualizedBtn": "تصورش کردم",
+  "completed": "تکمیل شد",
+  "visualizingPopUpMessage": "عالی کار کردی! شما ۵ کلمه را موفقانه تصویرسازی کردید.",
+  "goHome": "رفتن به خانه",
+  "gameDialogTitle": "آفرین!"
 }
