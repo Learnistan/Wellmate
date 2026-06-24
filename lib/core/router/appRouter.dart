@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:path/path.dart';
 import 'package:wellmate/features/auth/presentation/pages/registerPage.dart';
 import 'package:wellmate/features/auth/presentation/provider/authProvider.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/bodyScanActivityPage.dart';
@@ -10,6 +9,9 @@ import 'package:wellmate/features/dailyActivities/presentation/pages/moodCalibra
 import 'package:wellmate/features/dailyActivities/presentation/pages/hydrationActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/movementActivityPage.dart';
 import 'package:wellmate/features/language/presentation/languagePage.dart';
+import 'package:wellmate/features/mindfulGames/presentation/pages/BubblesGamePage.dart';
+import 'package:wellmate/features/mindfulGames/presentation/pages/emotionsGamePage.dart';
+import 'package:wellmate/features/mindfulGames/presentation/pages/visualizingGamePage.dart';
 import 'package:wellmate/features/onboarding/presentation/pages/multipleChoiceQuestionsPage.dart';
 import 'package:wellmate/features/onboarding/presentation/pages/selectJourneyPage.dart';
 import 'package:wellmate/features/shell/presentation/mainShell.dart';
@@ -68,7 +70,11 @@ class AppRouter {
             '/movement',
             '/hydration',
             '/body-scan',
-            '/mood-calibration'
+            '/mood-calibration',
+            '/visualizing',
+            '/bubbles',
+            '/emotions'
+
           ];
 
           if (allowedRoutes.contains(location)) {
@@ -142,6 +148,18 @@ class AppRouter {
       GoRoute(
         path: '/mood-calibration',
         builder: (context, state) => MoodCalibration(),
+      ),
+      GoRoute(
+        path: '/visualizing',
+        builder: (context, state) => VisualizingGamePage(),
+      ),
+      GoRoute(
+        path: '/bubbles',
+        builder: (context, state) => BubblesGamePage(),
+      ),
+      GoRoute(
+        path: '/emotions',
+        builder: (context, state) => EmotionsGamePage(),
       ),
     ],
   );
