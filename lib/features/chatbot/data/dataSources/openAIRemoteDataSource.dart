@@ -1,30 +1,29 @@
 import 'dart:convert';
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class OpenAIRemoteDataSource {
-  final http.Client client;
+  final FirebaseFunctions functions;
 
-  OpenAIRemoteDataSource(this.client);
+  OpenAIRemoteDataSource(this.functions);
 
   Future<String> sendMessage(String message) async {
-    final response = await client.post(
-      Uri.parse('https://api.openai.com/v1/responses'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer YOUR_API_KEY',
-      },
-      body: jsonEncode({
-        'model': 'gpt-4.1-mini',
-        'input': message,
-      }),
-    );
+    final user = FirebaseAuth.instance.currentUser;
 
-    if (response.statusCode != 200) {
-      throw Exception('OpenAI error: ${response.body}');
+    if (user == null) {
+      throw Exception('Please login first.');
     }
 
-    final data = jsonDecode(response.body);
+    final callable = FirebaseFunctions
+        .instanceFor(region: 'us-central1')
+        .httpsCallable('chatWithOpenAI');
 
-    return data['output_text'] ?? 'No response';
+    final result = await callable.call({
+      'message': message,
+    });
+
+    return result.data['reply'] as String;
   }
 }

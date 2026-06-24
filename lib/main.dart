@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -133,7 +134,7 @@ class _MyAppState extends State<MyApp> {
           create: (_) => ChatProvider(
               SendMessage(
                 ChatRepositoryImpl(
-                  OpenAIRemoteDataSource(widget.client)
+                  OpenAIRemoteDataSource(FirebaseFunctions.instance)
                 )
               )
           ),

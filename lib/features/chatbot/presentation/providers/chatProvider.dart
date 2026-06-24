@@ -22,8 +22,10 @@ class ChatProvider extends ChangeNotifier {
       final botMessage = await sendMessageUseCase(text);
       messages.add(botMessage);
     } catch (e) {
+      debugPrint('CHAT ERROR: $e');
+
       messages.add(ChatMessage(
-        text: 'Something went wrong. Please try again.',
+        text: 'Error: $e',
         isUser: false,
       ));
     }

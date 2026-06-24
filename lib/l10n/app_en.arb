@@ -240,6 +240,9 @@
   "completed": "completed",
   "visualizingPopUpMessage": "Amazing work! You visualized 5 words successfully.",
   "goHome": "Go Home",
-  "gameDialogTitle": "Good job!"
+  "gameDialogTitle": "Good job!",
+
+  "chatBotTitle": "AI Assistant",
+  "chatBotHint": "Ask me anything..."
 
 }

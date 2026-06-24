@@ -72,7 +72,7 @@ class AppRouter {
             '/hydration',
             '/body-scan',
             '/mood-calibration',
-            '/chat'
+            '/chat',
             '/visualizing',
             '/bubbles',
             '/emotions'
