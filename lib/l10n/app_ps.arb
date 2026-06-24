@@ -240,6 +240,9 @@
   "completed": "بشپړ شو",
   "visualizingPopUpMessage": "ډېر ښه کار! تاسو ۵ کلمې په بریالیتوب سره انځوریزې کړې.",
   "goHome": "کور ته لاړ شئ",
-  "gameDialogTitle": "شاباش!"
+  "gameDialogTitle": "شاباش!",
+
+  "chatBotTitle": "د مصنوعي ځیرکتیا مرستیال",
+  "chatBotHint": "...هر څه چې غواړئ له ما وپوښتئ"
 
 }

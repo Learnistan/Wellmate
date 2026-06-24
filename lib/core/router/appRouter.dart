@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellmate/features/auth/presentation/pages/registerPage.dart';
 import 'package:wellmate/features/auth/presentation/provider/authProvider.dart';
+import 'package:wellmate/features/chatbot/presentation/pages/chatPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/bodyScanActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/breathingActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/moodCalibration.dart';
@@ -71,10 +72,10 @@ class AppRouter {
             '/hydration',
             '/body-scan',
             '/mood-calibration',
+            '/chat',
             '/visualizing',
             '/bubbles',
             '/emotions'
-
           ];
 
           if (allowedRoutes.contains(location)) {
@@ -148,6 +149,10 @@ class AppRouter {
       GoRoute(
         path: '/mood-calibration',
         builder: (context, state) => MoodCalibration(),
+      ),
+      GoRoute(
+        path: '/chat',
+        builder: (context, state) => ChatPage(),
       ),
       GoRoute(
         path: '/visualizing',
