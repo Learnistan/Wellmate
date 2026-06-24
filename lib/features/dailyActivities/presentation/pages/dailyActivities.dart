@@ -106,8 +106,6 @@ class _DailyActivitiesPageState
 
           children: [
 
-            const SizedBox(height: 30),
-
             Text(
 
               loc.daily_activity_title,
@@ -126,7 +124,7 @@ class _DailyActivitiesPageState
               loc.daily_activity_subtitle,
 
               style:
-              AppTextStyles.semiBold(locale),
+              AppTextStyles.semiBold(locale).copyWith(color: AppColors.darkerGray),
             ),
 
             const SizedBox(height: 20),

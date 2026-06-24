@@ -12,6 +12,12 @@ IconData getIcon(String key) {
       return Icons.check_box_outlined;
     case 'body':
       return Icons.man;
+    case 'psychology':
+      return Icons.psychology_alt_outlined;
+    case 'bubbles':
+      return Icons.bubble_chart_outlined;
+    case 'mood':
+      return Icons.mood;
     default:
       return Icons.circle;
   }
