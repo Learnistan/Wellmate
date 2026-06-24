@@ -125,6 +125,18 @@
   "minaretsJourneyCity": "هرات",
   "minaretsJourneyDescription": "بازسازی و استحکام",
 
+  "womenDressName": "لباس زنانهٔ افغانی",
+  "womenDressCity": "کابل",
+  "womenDressDescription": "بیان و هویت",
+
+  "gharaName": "غارهٔ قندهاری",
+  "gharaDressCity": "قندهار",
+  "gharaDescription": "هویت و افتخار",
+
+  "pomegranateName": "درخت انار",
+  "pomegranateCity": "قندهار",
+  "pomegranateDescription": "رشد و شکیبایی",
+
   "days": "روز",
 
   "moodCalibrationTense": "متشنج",

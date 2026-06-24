@@ -125,6 +125,18 @@
   "minaretsJourneyCity": "HERAT",
   "minaretsJourneyDescription": "Rebuilding & Strength",
 
+  "womenDressName": "Afghan Women's Dress",
+  "womenDressCity": "KABUL",
+  "womenDressDescription": "Expression & Identity",
+
+  "gharaName": "Kandahari Ghara",
+  "gharaDressCity": "KANDAHAR",
+  "gharaDescription": "Identity & Pride",
+
+  "pomegranateName": "Pomegranate Tree",
+  "pomegranateCity": "KANDAHAR",
+  "pomegranateDescription": "Growth & Patience",
+
   "days": "days",
 
   "moodCalibrationTense": "Tense",

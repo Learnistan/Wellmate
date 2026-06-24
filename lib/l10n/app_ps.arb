@@ -125,6 +125,18 @@
   "minaretsJourneyCity": "هرات",
   "minaretsJourneyDescription": "بیا رغونه او پیاوړتیا",
 
+  "womenDressName": "د افغان ښځو دودیزه جامه",
+  "womenDressCity": "کابل",
+  "womenDressDescription": "څرګندونه او هویت",
+
+  "gharaName": "کندهاری غاړه",
+  "gharaDressCity": "کندهار",
+  "gharaDescription": "هویت او ویاړ",
+
+  "pomegranateName": "د انار ونه",
+  "pomegranateCity": "کندهار",
+  "pomegranateDescription": "وده او زغم",
+
   "days": "ورځې",
 
   "moodCalibrationTense": "کړکیچن",
