@@ -164,6 +164,18 @@
   "minaretsJourneyCity": "هرات",
   "minaretsJourneyDescription": "بیا رغونه او پیاوړتیا",
 
+  "womenDressName": "د افغان ښځو دودیزه جامه",
+  "womenDressCity": "کابل",
+  "womenDressDescription": "څرګندونه او هویت",
+
+  "gharaName": "کندهاری غاړه",
+  "gharaDressCity": "کندهار",
+  "gharaDescription": "هویت او ویاړ",
+
+  "pomegranateName": "د انار ونه",
+  "pomegranateCity": "کندهار",
+  "pomegranateDescription": "وده او زغم",
+
   "days": "ورځې",
 
   "moodCalibrationTense": "کړکیچن",
@@ -210,6 +222,66 @@
   "walkingChooseDurationLbl": "موده وټاکئ",
   "walkingDurationLbl": "موده:",
   "walkingAveragePace": "منځنۍ چټکتیا",
-  "walkingCalories": "کالوري"
+  "walkingCalories": "کالوري",
+
+  "gamesTabTitle": "ذهني لوبې",
+  "gamesTabSubTitle": "هره ورځ خپل ذهن پیاوړی کړئ",
+  "gamesTabGuid": "لنډ ذهني تمرینونه چې تمرکز، احساسات او د فکر کولو طریقه ښه کوي.",
+  "visualizingGameTitle": "ذهني انځور جوړونه",
+  "bubblesGameTitle": "مثبت بلبلې",
+  "emotionsGameTitle": "د احساساتو ډلبندي",
+  "visualizingGameBenefit": "تخیل او تمرکز",
+  "bubblesGameBenefit": "مثبت فکر کول",
+  "emotionsGameBenefit": "د احساساتو پوهاوی",
+  "visualizingGameDesc": "یوه کلمه ولولئ او په ذهن کې یې روښانه انځور جوړ کړئ. دا تمرین تخیل، تمرکز او د ذهني انځور جوړولو وړتیا پیاوړې کوي.",
+  "bubblesGameDesc": "له خوځنده بلبلو څخه مثبتې کلمې وټاکئ. خپل ذهن وروزئ چې مثبت فکرونو ته پام وکړي او خوشبینانه لید رامنځته کړي.",
+  "emotionsGameDesc": "احساسات د هغوی د مانا له مخې په مناسبو ډلو کې تنظیم کړئ. د احساساتو او مزاجونو پېژندنه، پوهاوی او درک مو پیاوړی کړئ.",
+
+  "bubblesGameSubTitle": "په مثبتو ټکو ټک وکړئ او نمرې ترلاسه کړئ",
+  "time": "وخت",
+  "score": "نمرې",
+  "endGameMessage": "وخت پای ته ورسېد!",
+  "yourScore": "ستاسې نمرې",
+  "playAgain": "بیا لوبه وکړه",
+
+  "kind": "مهربان",
+  "brave": "زړور",
+  "peace": "سوله",
+  "love": "مینه",
+  "hope": "هیله",
+  "smart": "هوښیار",
+  "strong": "قوي",
+  "smile": "موسکا",
+
+  "bad": "بد",
+  "angry": "غوسه",
+  "fear": "وېره",
+  "hate": "کرکه",
+  "cry": "ژړا",
+  "weak": "کمزوری",
+  "lazy": "لټ",
+  "rude": "بې‌ادبه",
+  "pain": "درد",
+
+  "apple": "مڼه",
+  "mountain": "غر",
+  "river": "سیند",
+  "house": "کور",
+  "flower": "ګل",
+  "bird": "مرغه",
+  "moon": "سپوږمۍ",
+  "tree": "ونه",
+  "book": "کتاب",
+  "sun": "لمر",
+
+  "visualizingGameSubTitle": "دا کلمه په خپل ذهن کې تصور کړئ",
+  "visualizedBtn": "تصور مې کړ",
+  "completed": "بشپړ شو",
+  "visualizingPopUpMessage": "ډېر ښه کار! تاسو ۵ کلمې په بریالیتوب سره انځوریزې کړې.",
+  "goHome": "کور ته لاړ شئ",
+  "gameDialogTitle": "شاباش!",
+
+  "chatBotTitle": "د مصنوعي ځیرکتیا مرستیال",
+  "chatBotHint": "...هر څه چې غواړئ له ما وپوښتئ"
 
 }

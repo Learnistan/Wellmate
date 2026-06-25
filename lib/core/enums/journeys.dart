@@ -1,4 +1,7 @@
 enum Journeys {
   carpet,
-  minarets
+  minarets,
+  womenDress,
+  menDress,
+  pomegranateTree
 }

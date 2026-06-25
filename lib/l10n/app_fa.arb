@@ -10,7 +10,7 @@
   "introTitle3": "سفر تو از همینجا آغاز میشود",
   "introDesc3": "قدم به قدم رشد میکنی، به خودت فکر میکنی و مسیر شخصی ات را به سوی یک زندگی متعادل تر ادامه میدهی.",
 
-  "start": "آغاز",
+  "start": "شروع کن",
   "next": "بعدی",
   "continueText": "ادامه",
   "changeLater": "شما میتوانید آنرا بعداً در تنظیمات تغییر دهید",
@@ -164,6 +164,18 @@
   "minaretsJourneyCity": "هرات",
   "minaretsJourneyDescription": "بازسازی و استحکام",
 
+  "womenDressName": "لباس زنانهٔ افغانی",
+  "womenDressCity": "کابل",
+  "womenDressDescription": "بیان و هویت",
+
+  "gharaName": "غارهٔ قندهاری",
+  "gharaDressCity": "قندهار",
+  "gharaDescription": "هویت و افتخار",
+
+  "pomegranateName": "درخت انار",
+  "pomegranateCity": "قندهار",
+  "pomegranateDescription": "رشد و شکیبایی",
+
   "days": "روز",
 
   "moodCalibrationTense": "متشنج",
@@ -210,6 +222,65 @@
   "walkingChooseDurationLbl": "انتخاب مدت زمان",
   "walkingDurationLbl": "مدت زمان:",
   "walkingAveragePace": "سرعت میانگین",
-  "walkingCalories": "کالری"
+  "walkingCalories": "کالری",
 
+  "gamesTabTitle": "بازی‌های ذهنی",
+  "gamesTabSubTitle": "هر روز ذهن خود را تقویت کنید",
+  "gamesTabGuid": "تمرین‌های کوتاه ذهنی برای بهبود تمرکز، احساسات و شیوهٔ فکر کردن.",
+  "visualizingGameTitle": "تصویرسازی ذهنی",
+  "bubblesGameTitle": "حباب‌های مثبت",
+  "emotionsGameTitle": "دسته‌بندی احساسات",
+  "visualizingGameBenefit": "تخیل و تمرکز",
+  "bubblesGameBenefit": "تفکر مثبت",
+  "emotionsGameBenefit": "آگاهی از احساسات",
+  "visualizingGameDesc": "یک واژه را بخوانید و تصویر روشنی از آن در ذهن خود بسازید. این تمرین به تقویت تخیل، تمرکز و توانایی تصویرسازی کمک می‌کند.",
+  "bubblesGameDesc": "واژه‌های مثبت را از میان حباب‌های متحرک انتخاب کنید. ذهن خود را برای توجه به افکار امیدوارکننده و نگاه مثبت‌تر تمرین دهید.",
+  "emotionsGameDesc": "احساسات را بر اساس معنا در دسته‌های مناسب قرار دهید. آگاهی، تشخیص و درک بهتر احساسات و حالت‌های روحی خود را تقویت کنید.",
+
+  "bubblesGameSubTitle": "روی واژه‌های مثبت بزن و امتیاز بگیر",
+  "time": "زمان",
+  "score": "امتیاز",
+  "endGameMessage": "زمان تمام شد!",
+  "yourScore": "امتیاز شما",
+  "playAgain": "دوباره بازی کن",
+
+  "kind": "مهربان",
+  "brave": "شجاعت",
+  "peace": "صلح",
+  "love": "محبت",
+  "hope": "امید",
+  "smart": "باهوش",
+  "strong": "قوی",
+  "smile": "لبخند",
+
+  "bad": "بد",
+  "angry": "خشمگین",
+  "fear": "ترس",
+  "hate": "نفرت",
+  "cry": "گریه",
+  "weak": "ضعیف",
+  "lazy": "تنبل",
+  "rude": "بی‌ادب",
+  "pain": "درد",
+
+  "apple": "سیب",
+  "mountain": "کوه",
+  "river": "دریا",
+  "house": "خانه",
+  "flower": "گل",
+  "bird": "پرنده",
+  "moon": "ماه",
+  "tree": "درخت",
+  "book": "کتاب",
+  "sun": "خورشید",
+
+  "visualizingGameSubTitle": "این کلمه را در ذهن خود تصور کنید",
+  "visualizedBtn": "تصورش کردم",
+  "completed": "تکمیل شد",
+  "visualizingPopUpMessage": "عالی کار کردی! شما ۵ کلمه را موفقانه تصویرسازی کردید.",
+  "goHome": "رفتن به خانه",
+  "gameDialogTitle": "آفرین!",
+
+  "chatBotTitle": "دستیار هوش مصنوعی",
+  "chatBotHint": "...هر چیزی می‌خواهید از من بپرسید"
 }
