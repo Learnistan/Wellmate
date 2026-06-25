@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
 import 'package:wellmate/core/widgets/ButtonCom.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../providers/activityProvider.dart';
 
 class BodyScanActivityPage extends StatefulWidget {
   const BodyScanActivityPage({super.key});
@@ -34,6 +36,8 @@ class _BodyScanActivityPageState extends State<BodyScanActivityPage>
   static const double _assetWidth = 516;
   static const double _assetHeight = 1589;
   static const double _assetAspect = _assetWidth / _assetHeight;
+
+  var firstPerformDone = false;
 
   _BodyPartId? _selectedId;
   bool _showAction = false;
@@ -148,6 +152,15 @@ class _BodyScanActivityPageState extends State<BodyScanActivityPage>
       _selectedId = null;
       _showAction = false;
     });
+
+    if(!firstPerformDone) {
+      context.read<ActivityProvider>().saveActivityLog(
+        activityId: 5,
+        value: '',
+      );
+
+      firstPerformDone = true;
+    }
   }
 
   @override
@@ -169,7 +182,9 @@ class _BodyScanActivityPageState extends State<BodyScanActivityPage>
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black87),
-          onPressed: () => context.pop(),
+          onPressed: () {
+            firstPerformDone ? context.pop("activity completed") : context.pop("");
+          },
         ),
         title: Text(
           loc.bodyScanActivity,
