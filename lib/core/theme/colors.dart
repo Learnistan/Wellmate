@@ -11,4 +11,5 @@ class AppColors {
   static const lightCard = Color(0xFFE7EAE5);
   static const selectedCard = Color(0xFFB9C7B1);
   static const darkLabel = Color(0xFF303030);
+  static const darkerGray = Color(0xFF616161);
 }

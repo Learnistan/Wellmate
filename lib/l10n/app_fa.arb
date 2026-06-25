@@ -10,7 +10,7 @@
   "introTitle3": "سفر تو از همینجا آغاز میشود",
   "introDesc3": "قدم به قدم رشد میکنی، به خودت فکر میکنی و مسیر شخصی ات را به سوی یک زندگی متعادل تر ادامه میدهی.",
 
-  "start": "آغاز",
+  "start": "شروع کن",
   "next": "بعدی",
   "continueText": "ادامه",
   "changeLater": "شما میتوانید آنرا بعداً در تنظیمات تغییر دهید",
@@ -102,6 +102,45 @@
   "letsBegin": "بیایید شروع کنیم",
   "breathingDialogMessage": "هدف روزانه تنفس خود را تکمیل کردید.\nآفرین!",
 
+  "bodyScanActivity": "اسکن بدن",
+  "bodyScanInstruction": "جایی از بدن را لمس کن که امروز در آن احساس تنش یا فشار میکنی",
+  "doThis": "انجام بده",
+  "gotIt": "متوجه شدم",
+
+  "bodyPartHead": "سر",
+  "bodyPartNeck": "گردن",
+  "bodyPartShoulders": "شانه‌ها",
+  "bodyPartChest": "سینه",
+  "bodyPartArms": "بازوها / دست‌ها",
+  "bodyPartAbdomen": "شکم",
+  "bodyPartHips": "کمر",
+  "bodyPartLegs": "پاها",
+  "bodyPartFeet": "کف پا",
+
+  "bodyScanHeadFeedback": "ذهن تو امروز ممکن است پُر احساس شود. کمی مکث کن و بگذار افکارت آرام شوند.",
+  "bodyScanHeadAction": "چشمانت را ببند، پیشانی‌ات را آرام کن، و ۵ نفس عمیق و آرام بکش.",
+
+  "bodyScanNeckFeedback": "گردن تو شاید به مراقبت آرام نیاز داشته باشد. بگذار بدنت احساس حمایت کند.",
+  "bodyScanNeckAction": "به آرامی سرت را به چپ و راست حرکت بده. به آرامی نفس بکش.",
+
+  "bodyScanShouldersFeedback": "شانه‌های تو شاید بار استرس امروز را حمل میکنند. میتوانی کمی از آن را رها کنی.",
+  "bodyScanShouldersAction": "شانه‌هایت را بالا ببر، سپس به آرامی پایین بیانداز. این کار را ۵ بار تکرار کن.",
+
+  "bodyScanChestFeedback": "وقتی استرس زیاد است، سینه‌ات ممکن است احساس فشردگی کند. به خودت فضا بده تا نفس بکشی.",
+  "bodyScanChestAction": "یک دست را روی سینه‌ات بگذار و نفس‌های آرام و نرم بکش.",
+
+  "bodyScanAbdomenFeedback": "استرس میتواند در شکم جا بگیرد. با بدن خود مهربان باش.",
+  "bodyScanAbdomenAction": "دستت را روی شکمت بگذار و به آرامی به داخل آن نفس بکش.",
+
+  "bodyScanBackFeedback": "کمر تو شاید به استراحت نیاز دارد. بگذار خودت را نرم کنی.",
+  "bodyScanBackAction": "به راحتی بنشین، کمرت را آرام کن، و به آرامی نفس بیرون بده.",
+
+  "bodyScanArmsFeedback": "دست‌های تو شاید تنش را نگه داشته‌اند. تو در امان هستی که آن را رها کنی.",
+  "bodyScanArmsAction": "دست‌هایت را به آرامی ۵ بار باز و بسته کن.",
+
+  "bodyScanLegsFeedback": "پاهای تو شاید سنگین یا کشیده احساس شوند. بگذار آنها استوار احساس کنند.",
+  "bodyScanLegsAction": "هر دو پایت را روی زمین بگذار و زمین زیر پایت را احساس کن.",
+
   "drinkWaterMessage1": "آب بنوش! آب برای بدنت مفید است",
   "drinkWaterMessage2": "آفرین! به آب نوشیدن ادامه بده",
   "drinkWaterMessage3": "عالیه! بدنت ازت ممنونه",
@@ -124,6 +163,18 @@
   "minaretsJourneyName": "مناره‌های هرات",
   "minaretsJourneyCity": "هرات",
   "minaretsJourneyDescription": "بازسازی و استحکام",
+
+  "womenDressName": "لباس زنانهٔ افغانی",
+  "womenDressCity": "کابل",
+  "womenDressDescription": "بیان و هویت",
+
+  "gharaName": "غارهٔ قندهاری",
+  "gharaDressCity": "قندهار",
+  "gharaDescription": "هویت و افتخار",
+
+  "pomegranateName": "درخت انار",
+  "pomegranateCity": "قندهار",
+  "pomegranateDescription": "رشد و شکیبایی",
 
   "days": "روز",
 
@@ -178,7 +229,65 @@
   "notificationMessage3": "کمی وقت گذشته، برگرد و ببین امروز حالت چطور است",
   "notificationMessage4": "یک لحظه آرام می تواند روزت را بهتر کند همین حالا کمی وقت برای خودت  بگذار",
   "notificationMessage5": "لازم نیست کار زیادی بکنی، فقط اپلیکیشن را باز کن و یک نفس آرام بگیر",
+  "notificationTitle": "ما منتظر تو هستیم",
 
-  "notificationTitle": "ما منتظر تو هستیم"
+  "gamesTabTitle": "بازی‌های ذهنی",
+  "gamesTabSubTitle": "هر روز ذهن خود را تقویت کنید",
+  "gamesTabGuid": "تمرین‌های کوتاه ذهنی برای بهبود تمرکز، احساسات و شیوهٔ فکر کردن.",
+  "visualizingGameTitle": "تصویرسازی ذهنی",
+  "bubblesGameTitle": "حباب‌های مثبت",
+  "emotionsGameTitle": "دسته‌بندی احساسات",
+  "visualizingGameBenefit": "تخیل و تمرکز",
+  "bubblesGameBenefit": "تفکر مثبت",
+  "emotionsGameBenefit": "آگاهی از احساسات",
+  "visualizingGameDesc": "یک واژه را بخوانید و تصویر روشنی از آن در ذهن خود بسازید. این تمرین به تقویت تخیل، تمرکز و توانایی تصویرسازی کمک می‌کند.",
+  "bubblesGameDesc": "واژه‌های مثبت را از میان حباب‌های متحرک انتخاب کنید. ذهن خود را برای توجه به افکار امیدوارکننده و نگاه مثبت‌تر تمرین دهید.",
+  "emotionsGameDesc": "احساسات را بر اساس معنا در دسته‌های مناسب قرار دهید. آگاهی، تشخیص و درک بهتر احساسات و حالت‌های روحی خود را تقویت کنید.",
 
+  "bubblesGameSubTitle": "روی واژه‌های مثبت بزن و امتیاز بگیر",
+  "time": "زمان",
+  "score": "امتیاز",
+  "endGameMessage": "زمان تمام شد!",
+  "yourScore": "امتیاز شما",
+  "playAgain": "دوباره بازی کن",
+
+  "kind": "مهربان",
+  "brave": "شجاعت",
+  "peace": "صلح",
+  "love": "محبت",
+  "hope": "امید",
+  "smart": "باهوش",
+  "strong": "قوی",
+  "smile": "لبخند",
+
+  "bad": "بد",
+  "angry": "خشمگین",
+  "fear": "ترس",
+  "hate": "نفرت",
+  "cry": "گریه",
+  "weak": "ضعیف",
+  "lazy": "تنبل",
+  "rude": "بی‌ادب",
+  "pain": "درد",
+
+  "apple": "سیب",
+  "mountain": "کوه",
+  "river": "دریا",
+  "house": "خانه",
+  "flower": "گل",
+  "bird": "پرنده",
+  "moon": "ماه",
+  "tree": "درخت",
+  "book": "کتاب",
+  "sun": "خورشید",
+
+  "visualizingGameSubTitle": "این کلمه را در ذهن خود تصور کنید",
+  "visualizedBtn": "تصورش کردم",
+  "completed": "تکمیل شد",
+  "visualizingPopUpMessage": "عالی کار کردی! شما ۵ کلمه را موفقانه تصویرسازی کردید.",
+  "goHome": "رفتن به خانه",
+  "gameDialogTitle": "آفرین!",
+
+  "chatBotTitle": "دستیار هوش مصنوعی",
+  "chatBotHint": "...هر چیزی می‌خواهید از من بپرسید"
 }

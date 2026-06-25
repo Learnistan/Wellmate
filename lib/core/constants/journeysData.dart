@@ -51,4 +51,78 @@ const Map<Journeys, JourneyModel> journeysData = {
       32
     ]
   ),
+    Journeys.womenDress: JourneyModel(
+        name: 'Afghan Women Dress',
+        thumbnailImage: 'assets/icons/ic_dress.webp',
+        animationPath: 'assets/videos/dress.mp4',
+        city:'KABUL',
+        description: 'Rebuilding & Strength',
+        pauseSeconds: [
+            0,
+            5,
+            10,
+            16,
+            21,
+            28,
+            35,
+            49,
+            56,
+            62,
+            68,
+            74,
+            81,
+            85,
+            88
+        ]
+    ),
+
+  Journeys.menDress: JourneyModel(
+      name: 'Kandahari Ghara',
+      thumbnailImage: 'assets/icons/ic_gare.webp',
+      animationPath: 'assets/videos/gare.mp4',
+      city:'KANDAHAR',
+      description: 'Identity & Pride',
+      pauseSeconds: [
+        0,
+        3,
+        8,
+        13,
+        19,
+        24,
+        28,
+        33,
+        38,
+        43,
+        50,
+        54,
+        61,
+        65,
+        72
+      ]
+  ),
+
+  Journeys.pomegranateTree: JourneyModel(
+      name: 'Pomegranate Tree',
+      thumbnailImage: 'assets/icons/ic_pomegranate.webp',
+      animationPath: 'assets/videos/pomegranate.mp4',
+      city:'KANDAHAR',
+      description: 'Growth & Patience',
+      pauseSeconds: [
+        0,
+        5,
+        8,
+        11,
+        15,
+        17,
+        22,
+        25,
+        28,
+        30,
+        33,
+        35,
+        38,
+        40,
+        47
+      ]
+  ),
 };
