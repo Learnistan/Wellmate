@@ -82,11 +82,12 @@ class _SelectJourneyPage extends State<SelectJourneyPage> {
                       child: Row(
                         children: [
                           ClipRRect(
-                            borderRadius: const BorderRadius.all(Radius.circular(16)),
+                            borderRadius:
+                            const BorderRadius.all(Radius.circular(16)),
                             child: Image.asset(
                               journey.thumbnailImage,
-                              width: 90,
-                              height: 90,
+                              width: 80,
+                              height: 80,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -95,47 +96,53 @@ class _SelectJourneyPage extends State<SelectJourneyPage> {
 
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              padding:
+                              const EdgeInsets.symmetric(vertical: 8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
                                     getJourneyCity(journeyKey, loc),
-                                    style: AppTextStyles.introDesc(locale).copyWith(
-                                      fontSize: 12
-                                    )
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextStyles.introDesc(locale)
+                                        .copyWith(fontSize: 12),
                                   ),
 
                                   const SizedBox(height: 4),
 
                                   Text(
                                     getJourneyName(journeyKey, loc),
-                                    style: AppTextStyles.semiBold(locale).copyWith(
-                                      fontSize: 16
-                                    )
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextStyles.semiBold(locale)
+                                        .copyWith(fontSize: 16),
                                   ),
 
                                   const SizedBox(height: 2),
 
                                   Text(
                                     getJourneyDescription(journeyKey, loc),
-                                    style: AppTextStyles.introDesc(locale).copyWith(
-                                      fontSize: 10
-                                    )
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextStyles.introDesc(locale)
+                                        .copyWith(fontSize: 10),
                                   ),
 
-                                  SizedBox(height: 7,),
+                                  const SizedBox(height: 7),
 
                                   Text(
-                                      '14 ${loc.days}',
-                                      style: AppTextStyles.introDesc(locale).copyWith(
-                                          fontSize: 9
-                                      )
+                                    '14 ${loc.days}',
+                                    style: AppTextStyles.introDesc(locale)
+                                        .copyWith(fontSize: 9),
                                   ),
                                 ],
                               ),
                             ),
                           ),
+
+                          const SizedBox(width: 8),
 
                           Container(
                             padding: const EdgeInsets.all(8),
@@ -149,8 +156,6 @@ class _SelectJourneyPage extends State<SelectJourneyPage> {
                               color: AppColors.primary,
                             ),
                           ),
-
-                          const SizedBox(width: 10),
                         ],
                       ),
                     ),
