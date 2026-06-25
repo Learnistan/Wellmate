@@ -105,11 +105,6 @@ class HomeProvider extends ChangeNotifier {
 
       await activateAllActivitiesUseCase();
 
-      await notificationService.showInstantNotification(
-        title: "Activity Reminder",
-        body: "You missed your daily activity. Please complete it today.",
-      );
-
       notifyListeners();
 
       return true;
@@ -128,10 +123,8 @@ class HomeProvider extends ChangeNotifier {
     return false;
   }
 
-  Future<void> refreshInactivityReminder() async {
-    print("MOOONISH");
-    // await notificationService.cancelInactivityReminder();
-    // await notificationService.scheduleInactivityReminder();
-    await notificationService.showInstantNotification(title: "We missed you!", body: "It's a long time that you have not used the app.");
+  Future<void> refreshInactivityReminder({required String body, required String title}) async {
+    await notificationService.scheduleOneDayNotification(message: body, title: title);
+    print("Notification scheduled after 24 hours");
   }
 }

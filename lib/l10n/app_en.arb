@@ -171,6 +171,13 @@
   "walkingChooseDurationLbl": "Choose duration",
   "walkingDurationLbl": "Duration:",
   "walkingAveragePace": "Avg pace",
-  "walkingCalories": "Calories"
+  "walkingCalories": "Calories",
+
+  "notificationMessage1": "Take a little time for yourself today. Your peace matters.",
+  "notificationMessage2": "We are here for you. Open the app when you feel ready.",
+  "notificationMessage3": "It’s been a while. Come back and check how you feel today.",
+  "notificationMessage4": "A calm moment can make your day better. Take one now.",
+  "notificationMessage5": "You don’t need to do much. Just open the app and take a breath.",
+  "notificationTitle": "We are waiting for you"
 
 }

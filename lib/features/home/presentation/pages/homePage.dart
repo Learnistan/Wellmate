@@ -8,9 +8,9 @@ import 'package:video_player/video_player.dart';
 import '../../../../core/constants/journeysData.dart';
 import '../../../../core/enums/journeys.dart';
 import '../../../../core/providers/journeyProvider.dart';
-import '../../../../core/services/notificationService.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/textStyles.dart';
+import '../../../../core/utils/notificationMessages.dart';
 import '../../../../core/utils/timeUtils.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../dailyActivities/presentation/providers/activityProvider.dart';
@@ -24,6 +24,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  bool _initialized = false;
 
   int selectedIndex = -1;
 
@@ -45,10 +47,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     Future.microtask(() async {
-
-      await context
-          .read<HomeProvider>()
-          .refreshInactivityReminder();
 
       final homeProvider =
       context.read<HomeProvider>();
@@ -210,13 +208,31 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_initialized) return;
+    _initialized = true;
+
+    final loc = AppLocalizations.of(context)!;
+    final message = NotificationMessages.random(loc);
+
+    context.read<HomeProvider>().refreshInactivityReminder(
+      title: loc.notificationTitle,
+      body: message.body,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     final locale =
     Localizations.localeOf(context);
 
-    final loc =
+    late final loc =
     AppLocalizations.of(context)!;
+
+    late final notifMessage = NotificationMessages.random(loc);
 
     final currentLevel =
         context.watch<HomeProvider>().level;
@@ -385,15 +401,6 @@ class _HomePageState extends State<HomePage> {
                 ).copyWith(
                   fontSize: 20,
                 ),
-              ),
-
-              const SizedBox(height: 15),
-
-              ElevatedButton(
-                  onPressed: () {
-                    context.read<HomeProvider>().refreshInactivityReminder();
-                  },
-                  child: Text("HIHIHI")
               ),
 
               const SizedBox(height: 15),

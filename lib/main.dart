@@ -43,7 +43,7 @@ void main() async {
   await Firebase.initializeApp();
 
   final notificationService = NotificationService();
-  await notificationService.init();
+  await notificationService.initNotification();
 
   final prefs = await SharedPreferences.getInstance();
   final savedLanguage = prefs.getString('language_code') ?? 'en';
