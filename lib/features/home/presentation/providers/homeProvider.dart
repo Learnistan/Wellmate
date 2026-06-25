@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/activateAllActivitiesUseCase.dart';
 import 'package:wellmate/features/home/domain/useCases/getLastCompletedDifferenceUseCase.dart';
 
+import '../../../../core/services/notificationService.dart';
 import '../../domain/useCases/getProgressUseCase.dart';
 import '../../domain/useCases/initProgressUseCase.dart';
 import '../../domain/useCases/updateProgressUseCase.dart';
@@ -20,12 +21,15 @@ class HomeProvider extends ChangeNotifier {
   final UpdateProgressUseCase updateProgressUseCase;
   final GetProgressUseCase getProgressUseCase;
 
+  final NotificationService notificationService;
+
   HomeProvider(
       this.initProgressUseCase,
       this.updateProgressUseCase,
       this.getProgressUseCase,
       this.getLastCompletedDifferenceUseCase,
       this.activateAllActivitiesUseCase,
+      this.notificationService
       );
 
   bool _initialized = false;
@@ -117,5 +121,10 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
 
     return false;
+  }
+
+  Future<void> refreshInactivityReminder({required String body, required String title}) async {
+    await notificationService.scheduleOneDayNotification(message: body, title: title);
+    print("Notification scheduled after 24 hours");
   }
 }

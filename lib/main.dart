@@ -28,6 +28,7 @@ import 'core/appController.dart';
 import 'core/database/databaseHelper.dart';
 import 'core/localization/localeProvider.dart';
 import 'core/router/appRouter.dart';
+import 'core/services/notificationService.dart';
 import 'core/storage/data/dataSources/local_storage_dataSource.dart';
 import 'core/storage/data/repository/appStorageRepositoryImpl.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -46,6 +47,9 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  final notificationService = NotificationService();
+  await notificationService.initNotification();
 
   final prefs = await SharedPreferences.getInstance();
   final savedLanguage = prefs.getString('language_code') ?? 'en';
@@ -70,7 +74,9 @@ void main() async {
     ProviderScope(
       child: ChangeNotifierProvider(
         create: (_) => LocaleProvider(Locale(savedLanguage)),
-        child: MyApp(appController, authRepository, repository2, repository3, client),
+
+        child: MyApp(appController, authRepository, repository2, repository3, client, notificationService),
+
       )
     ),
   );
@@ -81,9 +87,10 @@ class MyApp extends StatefulWidget {
   final AuthRepositoryImpl repository;
   final ActivityRepositoryImpl repository2;
   final HomeRepositoryImpl repository3;
+  final NotificationService notificationService;
   final http.Client client;
 
-  const MyApp(this.appController, this.repository, this.repository2, this.repository3, this.client, {super.key});
+  const MyApp(this.appController, this.repository, this.repository2, this.repository3, this.client, this.notificationService, {super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -108,7 +115,8 @@ class _MyAppState extends State<MyApp> {
             UpdateProgressUseCase(widget.repository3),
             GetProgressUseCase(widget.repository3),
             GetLastCompletedDifferenceUseCase(widget.repository3),
-            ActivateAllActivitiesUseCase(widget.repository2)
+            ActivateAllActivitiesUseCase(widget.repository2),
+            widget.notificationService
           ),
         ),
         ChangeNotifierProvider(

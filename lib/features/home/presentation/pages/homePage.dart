@@ -11,6 +11,7 @@ import '../../../../core/enums/journeys.dart';
 import '../../../../core/providers/journeyProvider.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/textStyles.dart';
+import '../../../../core/utils/notificationMessages.dart';
 import '../../../../core/utils/timeUtils.dart';
 import '../../../../core/widgets/floatingBubbleButton.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -25,6 +26,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  bool _initialized = false;
 
   int selectedIndex = -1;
 
@@ -232,13 +235,31 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_initialized) return;
+    _initialized = true;
+
+    final loc = AppLocalizations.of(context)!;
+    final message = NotificationMessages.random(loc);
+
+    context.read<HomeProvider>().refreshInactivityReminder(
+      title: loc.notificationTitle,
+      body: message.body,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     final locale =
     Localizations.localeOf(context);
 
-    final loc =
+    late final loc =
     AppLocalizations.of(context)!;
+
+    late final notifMessage = NotificationMessages.random(loc);
 
     final currentLevel =
         context.watch<HomeProvider>().level;
