@@ -41,4 +41,9 @@ class HomeRepositoryImpl implements HomeRepository {
 
     return difference;
   }
+
+  @override
+  Future<void> resetProgress() {
+    return local.resetProgress();
+  }
 }

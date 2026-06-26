@@ -292,6 +292,8 @@
   "chatBotHint": "Ask me anything...",
 
   "oneDayMissedDialogTitle": "You missed a day",
-  "oneDayMissedDialogMessage": "That's okay—everyone slips sometimes. Just a reminder: if you miss one more day, your current journey progress will be lost. Keep going—you've got this!"
+  "oneDayMissedDialogMessage": "That's okay—everyone slips sometimes. Just a reminder: if you miss one more day, your current journey progress will be lost. Keep going—you've got this!",
+  "journeyResetDialogTitle": "Your journey has been reset",
+  "journeyResetDialogMessage": "You missed a few days, so your journey has been reset. Don't worry—progress isn't about being perfect. Begin again today and keep moving forward."
 
 }

@@ -23,6 +23,7 @@ import 'package:wellmate/features/home/data/repositories/homeRepositoryImpl.dart
 import 'package:wellmate/features/home/domain/useCases/getLastCompletedDifferenceUseCase.dart';
 import 'package:wellmate/features/home/domain/useCases/getProgressUseCase.dart';
 import 'package:wellmate/features/home/domain/useCases/initProgressUseCase.dart';
+import 'package:wellmate/features/home/domain/useCases/resetJourney.dart';
 import 'package:wellmate/features/home/domain/useCases/updateProgressUseCase.dart';
 import 'core/appController.dart';
 import 'core/database/databaseHelper.dart';
@@ -116,7 +117,8 @@ class _MyAppState extends State<MyApp> {
             GetProgressUseCase(widget.repository3),
             GetLastCompletedDifferenceUseCase(widget.repository3),
             ActivateAllActivitiesUseCase(widget.repository2),
-            widget.notificationService
+            widget.notificationService,
+            ResetJourneyUseCase(widget.repository3)
           ),
         ),
         ChangeNotifierProvider(

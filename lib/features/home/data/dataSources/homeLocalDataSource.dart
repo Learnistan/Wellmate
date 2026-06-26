@@ -40,4 +40,16 @@ class HomeLocalDataSource {
       },
     );
   }
+
+  Future<void> resetProgress() async {
+    final db = await dbHelper.database;
+
+    await db.update(
+      'progress',
+      {
+        'current_level': 0,
+        'last_completed_date': DateTime.now().toIso8601String().split('T').first,
+      },
+    );
+  }
 }

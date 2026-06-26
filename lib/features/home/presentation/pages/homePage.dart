@@ -74,9 +74,9 @@ class _HomePageState extends State<HomePage> {
         await activityProvider.loadActivities();
       }
 
-      if (homeProvider.dayDifference == 2 && mounted) {
+      if ((homeProvider.dayDifference ?? 0) >= 2 && mounted) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _showOneDayMissedDialog();
+          _showOneDayMissedDialog(homeProvider.dayDifference ?? 0);
         });
       }
     });
@@ -698,14 +698,14 @@ class _HomePageState extends State<HomePage> {
         ?.pauseSeconds ?? [];
   }
 
-  void _showOneDayMissedDialog() {
+  void _showOneDayMissedDialog(int dayDifference) {
     final loc = AppLocalizations.of(context)!;
 
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text(loc.oneDayMissedDialogTitle),
-        content: Text(loc.oneDayMissedDialogMessage),
+        title: dayDifference == 2 ? Text(loc.oneDayMissedDialogTitle) : Text(loc.journeyResetDialogTitle),
+        content: dayDifference == 2 ? Text(loc.oneDayMissedDialogMessage) : Text(loc.journeyResetDialogMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
