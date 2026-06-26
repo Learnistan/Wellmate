@@ -73,6 +73,12 @@ class _HomePageState extends State<HomePage> {
       if (shouldReload) {
         await activityProvider.loadActivities();
       }
+
+      if (homeProvider.dayDifference == 2 && mounted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _showOneDayMissedDialog();
+        });
+      }
     });
   }
 
@@ -690,5 +696,23 @@ class _HomePageState extends State<HomePage> {
 
     return journeysData[selectedJourney]
         ?.pauseSeconds ?? [];
+  }
+
+  void _showOneDayMissedDialog() {
+    final loc = AppLocalizations.of(context)!;
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(loc.oneDayMissedDialogTitle),
+        content: Text(loc.oneDayMissedDialogMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(loc.moodCalibrationOkay),
+          ),
+        ],
+      ),
+    );
   }
 }

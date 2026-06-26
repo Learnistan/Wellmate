@@ -101,17 +101,11 @@ class HomeProvider extends ChangeNotifier {
 
       return false;
 
-    } else if (dayDifference == 1) {
+    } else if (dayDifference == 1 || dayDifference == 2) {
 
       await activateAllActivitiesUseCase();
-
       notifyListeners();
-
       return true;
-
-    } else if (dayDifference == 2) {
-
-      print("*****second action");
 
     } else if (dayDifference == 3) {
 
