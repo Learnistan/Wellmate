@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
             videoValue.position >= videoValue.duration &&
             videoValue.duration != Duration.zero) {
           _confettiPlayed = true;
-          print("HIHIHI");
+
           _confettiController.play();
         }
 
