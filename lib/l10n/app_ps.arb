@@ -258,6 +258,20 @@
   "morningIntentionsCareHint": "آرام، حرکت، تغذیه، اړیکه؟",
   "morningIntentionsCareInputHint": "ولیکئ چې له ځان نه به څنګه پاملرنه کوئ...",
   "submit": "ولېږئ",
-
-  "eveningCloseActivity": "د ماښام د کار پای"
+  "eveningCloseActivity": "د ماښام پای",
+  "eveningCloseStep1Title": "نن ورځ درې بریالیتوبونه",
+  "eveningCloseStep1Subtitle": "هر اندازه مهمه ده — یوه مهربانه خبره، یوه سرته رسیدلې دنده، په سختو شیبو کې حاضرتیا.",
+  "eveningCloseWin1Hint": "خپل لومړی بریالیتوب ولیکئ...",
+  "eveningCloseWin2Hint": "خپل دویم بریالیتوب ولیکئ...",
+  "eveningCloseWin3Hint": "خپل دریم بریالیتوب ولیکئ...",
+  "eveningCloseStep2Title": "یوه ننګونه، یو زده کړه",
+  "eveningCloseStep2Subtitle": "سختي یو ډول معلومات دي. هغې تاسو ته څه درس درکړ؟",
+  "eveningCloseChallengeHint": "هغه څه چې نن ورځ سخت و...",
+  "eveningCloseLessonHint": "ما څه زده کړل یا څنګه وغوښتم...",
+  "eveningCloseStep3Title": "نن ورځ ستاسو ټوله روغتیا",
+  "eveningCloseCompassionTitle": "د ځان سره مهربانۍ پای",
+  "eveningCloseCompassionMessage": "ما نن ورځ د هغه څه سره چې درلودم خپله ډیره هڅه وکړه. زه لکه څنګه چې یم بسنه کوم. سبا به بیا پیل کوم.",
+  "eveningCloseReceiveBtn": "زه دا منم",
+  "eveningCloseReceivedBtn": "ومنل شو",
+  "closeDay": "ورځ پای ته ورسوئ"
 }

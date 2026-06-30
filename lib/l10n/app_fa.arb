@@ -258,6 +258,20 @@
   "morningIntentionsCareHint": "استراحت، حرکت، تغذیه، ارتباط؟",
   "morningIntentionsCareInputHint": "بنویسید چگونه از خودتان مراقبت می‌کنید...",
   "submit": "ارسال",
-
-  "eveningCloseActivity": "پایان شیفت عصر"
+  "eveningCloseActivity": "بستن شب",
+  "eveningCloseStep1Title": "سه موفقیت امروز",
+  "eveningCloseStep1Subtitle": "هر اندازه‌ای مهم است — یک حرف مهربانانه، یک کار انجام‌شده، حاضر بودن در لحظات سخت.",
+  "eveningCloseWin1Hint": "اولین موفقیت خود را بنویسید...",
+  "eveningCloseWin2Hint": "دومین موفقیت خود را بنویسید...",
+  "eveningCloseWin3Hint": "سومین موفقیت خود را بنویسید...",
+  "eveningCloseStep2Title": "یک چالش، یک درس",
+  "eveningCloseStep2Subtitle": "سختی، خودش نوعی داده است. چه چیزی به شما آموخت؟",
+  "eveningCloseChallengeHint": "چیزی که امروز سخت بود...",
+  "eveningCloseLessonHint": "چه چیزی یاد گرفتم یا چگونه رشد کردم...",
+  "eveningCloseStep3Title": "وضعیت کلی امروز شما",
+  "eveningCloseCompassionTitle": "پایان همدلانه با خود",
+  "eveningCloseCompassionMessage": "من امروز با آنچه داشتم بهترین تلاشم را کردم. همین‌گونه که هستم کافی‌ام. فردا دوباره آغاز می‌کنم.",
+  "eveningCloseReceiveBtn": "این را می‌پذیرم",
+  "eveningCloseReceivedBtn": "پذیرفته شد",
+  "closeDay": "پایان روز"
 }

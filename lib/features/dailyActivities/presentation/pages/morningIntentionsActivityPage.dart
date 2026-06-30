@@ -225,23 +225,12 @@ class MorningIntentionsActivityPageState extends State<MorningIntentionsActivity
               ),
             ),
 
-            Container(
-              width: double.infinity,
+            Padding(
               padding: EdgeInsets.fromLTRB(
                 horizontalPadding,
                 12,
                 horizontalPadding,
                 12,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
-                    blurRadius: 8,
-                    offset: const Offset(0, -2),
-                  ),
-                ],
               ),
               child: SizedBox(
                 width: double.infinity,

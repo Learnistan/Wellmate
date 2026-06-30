@@ -258,6 +258,20 @@
   "morningIntentionsCareHint": "Rest, movement, nourishment, connection?",
   "morningIntentionsCareInputHint": "Write how you'll care for yourself...",
   "submit": "Submit",
-
-  "eveningCloseActivity": "Evening Close"
+  "eveningCloseActivity": "Evening Close",
+  "eveningCloseStep1Title": "Three Wins Today",
+  "eveningCloseStep1Subtitle": "Any size counts — a kind word, a task done, showing up when it was hard.",
+  "eveningCloseWin1Hint": "Write your first win...",
+  "eveningCloseWin2Hint": "Write your second win...",
+  "eveningCloseWin3Hint": "Write your third win...",
+  "eveningCloseStep2Title": "One Challenge, One Lesson",
+  "eveningCloseStep2Subtitle": "Difficulty is data. What did it teach you?",
+  "eveningCloseChallengeHint": "Something that was hard today...",
+  "eveningCloseLessonHint": "What I learned or how I grew from it...",
+  "eveningCloseStep3Title": "Overall Wellbeing Today",
+  "eveningCloseCompassionTitle": "Self-Compassion Close",
+  "eveningCloseCompassionMessage": "I did my best today with what I had. I am enough as I am. Tomorrow I begin again.",
+  "eveningCloseReceiveBtn": "I receive this",
+  "eveningCloseReceivedBtn": "Received",
+  "closeDay": "Close Day"
 }
