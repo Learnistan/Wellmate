@@ -1,7 +1,6 @@
 {
   "welcome": "Welcome",
   "login": "Login",
-
   "skip": "Skip",
   "introTitle1": "Welcome to wellmate",
   "introDesc1": "Your small daily companion for a calmer mind and a better mood.",
@@ -9,50 +8,41 @@
   "introDesc2": "WellMate helps you slow down, clear your mind, and gently build small habits that bring you back to balance.",
   "introTitle3": "Your journey begins here",
   "introDesc3": "Step by step, you’ll grow, reflect, and complete your personal journey toward a better balance in life.",
-
   "start": "Start",
   "next": "Next",
   "continueText": "Continue",
   "changeLater": "You can change it later in settings",
   "chooseLanguage": "Choose your Language",
-
   "q1": "Salaam. Checking in with your inner self today—How is your heart feeling right now?",
   "q1_a1": "Calm and at peace",
   "q1_a2": "A little heavy",
   "q1_a3": "Restless",
-
   "q2": "Our bodies often carry the weight of our daily worries. How is your body feeling today?",
   "q2_a1": "Relaxed and light",
   "q2_a2": "Tightness in my chest or shoulders",
   "q2_a3": "Very tired and heavy",
-
   "q3": "Are your thoughts resting quietly today, or Are you feeling pulled away by difficult memories or worries?",
   "q3_a1": "My mind is clear",
   "q3_a2": "Pulled by a few worries",
   "q3_a3": "Caught in an emotional storm",
-
   "q4": "Thinking about the day ahead, how much energy do you feel you have today?",
   "q4_a1": "I have energy for the day",
   "q4_a2": "Just enough for the basics",
   "q4_a3": "I need quiet rest today",
-
   "q5": "We draw strength from our loved ones. How connected are you feeling to your family or friends today?",
   "q5_a1": "Strongly connected",
   "q5_a2": "A bit lonely today",
   "q5_a3": "I prefer to be alone right now",
-
   "q6": "If you face a difficult moment today, what feels like the best way to find comfort right now?",
   "q6_a1": "Prayer or quiet reflection",
   "q6_a2": "Talking with someone I trust",
   "q6_a3": "A calming distraction",
-
   "morning_message": "Good Morning",
   "noon_message": "Good Noon",
   "afternoon_message": "Good Afternoon",
   "evening_message": "Good Evening",
   "night_message": "Good Night",
   "midnight_message": "Good Midnight",
-
   "home_ask_feeling": "How are you feeling today?",
   "feeling_calm": "Calm",
   "feeling_good": "Good",
@@ -61,7 +51,6 @@
   "feeling_sad": "Sad",
   "carpet_title": "Herat Carpet Weaving",
   "read_about": "Read about Herat's carpet",
-
   "createAccount": "Create Account",
   "createAccountSubtitle": "Start your journey to a calmer mind",
   "email": "Email",
@@ -70,18 +59,15 @@
   "signUp": "Sign Up",
   "alreadyHaveAccountQuestion": "Already have an account?",
   "alreadyHaveAccount": "Log in",
-
   "emailRequired": "Email is required",
   "invalidEmail": "Enter a valid email",
   "passwordRequired": "Password is required",
   "passwordTooShort": "Password must be at least 6 characters",
   "passwordMismatch": "Passwords do not match",
-
   "welcomeBack": "Welcome back",
   "loginSubtitle": "Log in to continue your journey",
   "forgotPassword": "Forgot password?",
   "dontHaveAccount": "Don’t have an account?",
-
   "daily_activity_title": "Daily Check-in",
   "daily_activity_subtitle": "Take a moment to check in with your body and mind.",
   "add_activity_title": "   Add more activities",
@@ -93,7 +79,6 @@
   "activity_mood_calibration": "Mood Calibration",
   "minute": "min",
   "setLbl": "Set",
-
   "breathingActivity": "Breathing Activity",
   "breatheIn": "Breathe In",
   "hold": "Hold",
@@ -101,12 +86,10 @@
   "wellDone": "Well Done",
   "letsBegin": "Lets Begin",
   "breathingDialogMessage": "You completed your daily breathing goal.\nGreat job!",
-
   "bodyScanActivity": "Body Scan",
   "bodyScanInstruction": "Tap the area where you feel tension or stress today",
   "doThis": "Do this",
   "gotIt": "Got it",
-
   "bodyPartHead": "Head",
   "bodyPartNeck": "Neck",
   "bodyPartShoulders": "Shoulders",
@@ -116,31 +99,22 @@
   "bodyPartHips": "Hips",
   "bodyPartLegs": "Legs",
   "bodyPartFeet": "Feet",
-
   "bodyScanHeadFeedback": "Your mind may feel full today. Take a small pause and let your thoughts slow down.",
   "bodyScanHeadAction": "Close your eyes, relax your forehead, and take 5 slow breaths.",
-
   "bodyScanNeckFeedback": "Your neck may need gentle care. Let your body feel supported.",
   "bodyScanNeckAction": "Slowly move your head left and right. Keep breathing gently.",
-
   "bodyScanShouldersFeedback": "Your shoulders may be carrying today's stress. You can let some of it go.",
   "bodyScanShouldersAction": "Lift your shoulders up, then slowly drop them down. Repeat 5 times.",
-
   "bodyScanChestFeedback": "Your chest may feel tight when stress is high. Give yourself space to breathe.",
   "bodyScanChestAction": "Put one hand on your chest and take slow, soft breaths.",
-
   "bodyScanAbdomenFeedback": "Stress can sit in the stomach. Be kind to your body.",
   "bodyScanAbdomenAction": "Place your hand on your belly and breathe slowly into it.",
-
   "bodyScanBackFeedback": "Your Hips may be asking for rest. Let yourself soften.",
   "bodyScanBackAction": "Sit comfortably, relax your back, and breathe out slowly.",
-
   "bodyScanArmsFeedback": "Your hands may be holding tension. You are safe to release it.",
   "bodyScanArmsAction": "Open and close your hands slowly 5 times.",
-
   "bodyScanLegsFeedback": "Your legs may feel heavy or tense. Let them feel steady.",
   "bodyScanLegsAction": "Place both feet on the floor and notice the ground under you.",
-
   "drinkWaterMessage1": "Drink water! Water is good for your body",
   "drinkWaterMessage2": "Good job! Keep hydrating",
   "drinkWaterMessage3": "Awesome! Your body thanks you",
@@ -152,32 +126,24 @@
   "hydrationPopupTitle": "Congratulations!",
   "hydrationPopupMessage": "You completed your daily water goal. Great job!",
   "hydrationPopupBtn": "Awesome",
-
   "selectJourneyPageTitle": "Your Journey Awaits",
   "selectJourneyPageSubTitle": "Choose a cultural journey that will grow over 14 days",
-
   "carpetJourneyName": "Mazar Carpet",
   "carpetJourneyCity": "MAZAR",
   "carpetJourneyDescription": "Care & Rebuilding",
-
   "minaretsJourneyName": "Minarets of Herat",
   "minaretsJourneyCity": "HERAT",
   "minaretsJourneyDescription": "Rebuilding & Strength",
-
   "womenDressName": "Afghan Women's Dress",
   "womenDressCity": "KABUL",
   "womenDressDescription": "Expression & Identity",
-
   "gharaName": "Kandahari Ghara",
   "gharaDressCity": "KANDAHAR",
   "gharaDescription": "Identity & Pride",
-
   "pomegranateName": "Pomegranate Tree",
   "pomegranateCity": "KANDAHAR",
   "pomegranateDescription": "Growth & Patience",
-
   "days": "days",
-
   "moodCalibrationTense": "Tense",
   "moodCalibrationTenseRelated": "Also: Stressed, Nervous, Angry",
   "moodCalibrationSad": "Sad",
@@ -213,9 +179,7 @@
   "moodCalibrationPickMoodLbl": "Pick a mood and energy level above.",
   "moodCalibrationDialogMessage": "Your mood is logged successfully.",
   "moodCalibrationDialogTitle": "Success!",
-
   "dialogActionButtonTitle": "Awesome",
-
   "walkingAskPermissionMessage": "Motion permission is required",
   "walkingPedometerError": "Pedometer error",
   "walkingDialogMessage": "You completed your daily walking goal. \nGreat job!",
@@ -223,14 +187,12 @@
   "walkingDurationLbl": "Duration:",
   "walkingAveragePace": "Avg pace",
   "walkingCalories": "Calories",
-
   "notificationMessage1": "Take a little time for yourself today. Your peace matters.",
   "notificationMessage2": "We are here for you. Open the app when you feel ready.",
   "notificationMessage3": "It’s been a while. Come back and check how you feel today.",
   "notificationMessage4": "A calm moment can make your day better. Take one now.",
   "notificationMessage5": "You don’t need to do much. Just open the app and take a breath.",
   "notificationTitle": "We are waiting for you",
-
   "gamesTabTitle": "Mindful Games",
   "gamesTabSubTitle": "Train your mind daily",
   "gamesTabGuid": "Small mindful exercises to improve focus, emotions, and thinking patterns.",
@@ -243,14 +205,12 @@
   "visualizingGameDesc": "Read a word and create a clear mental picture of it. Strengthen imagination, concentration, and the ability to visualize ideas.",
   "bubblesGameDesc": "Select positive words from moving bubbles. Train your mind to notice uplifting thoughts and develop a more optimistic outlook.",
   "emotionsGameDesc": "Organize emotions into categories by their meaning. Improve emotional awareness, recognition, and understanding of different feelings and moods.",
-
   "bubblesGameSubTitle": "Tap positive words and collect points",
   "time": "Time",
   "score": "Score",
   "endGameMessage": "Time Finished!",
   "yourScore": "Your score",
   "playAgain": "Play Again",
-
   "kind": "Kind",
   "brave": "Brave",
   "peace": "peace",
@@ -259,7 +219,6 @@
   "smart": "Smart",
   "strong": "Strong",
   "smile": "Smile",
-
   "bad": "Bad",
   "angry": "Angry",
   "fear": "Fear",
@@ -269,7 +228,6 @@
   "lazy": "Lazy",
   "rude": "Rude",
   "pain": "Pain",
-
   "apple": "Apple",
   "mountain": "Mountain",
   "river": "River",
@@ -280,15 +238,24 @@
   "tree": "Tree",
   "book": "Book",
   "sun": "Sun",
-
   "visualizingGameSubTitle": "Visualize this word in your mind",
   "visualizedBtn": "I visualized it",
   "completed": "completed",
   "visualizingPopUpMessage": "Amazing work! You visualized 5 words successfully.",
   "goHome": "Go Home",
   "gameDialogTitle": "Good job!",
-
   "chatBotTitle": "AI Assistant",
-  "chatBotHint": "Ask me anything..."
-
+  "chatBotHint": "Ask me anything...",
+  "morningIntentionsActivity": "Morning Intentions",
+  "morningIntentionsInstruction": "Take a quiet moment to set your intentions for the day.",
+  "morningIntentionsFocusTitle": "Today I will focus on",
+  "morningIntentionsFocusHint": "What matters most today?",
+  "morningIntentionsFocusInputHint": "Write your focus here...",
+  "morningIntentionsMindfulTitle": "I will be mindful of",
+  "morningIntentionsMindfulHint": "Reactivity? Distraction? Comparison?",
+  "morningIntentionsMindfulInputHint": "Write what you'll watch for...",
+  "morningIntentionsCareTitle": "I will care for myself by",
+  "morningIntentionsCareHint": "Rest, movement, nourishment, connection?",
+  "morningIntentionsCareInputHint": "Write how you'll care for yourself...",
+  "submit": "Submit"
 }
