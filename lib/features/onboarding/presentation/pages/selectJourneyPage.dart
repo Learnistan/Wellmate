@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wellmate/core/theme/textStyles.dart';
-import 'package:wellmate/core/utils/getProperText.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../core/appController.dart';
 import '../../../../core/constants/journeysData.dart';
 import '../../../../core/enums/journeys.dart';
+import '../../../../core/providers/journeyProvider.dart';
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/textStyles.dart';
+import '../../../../core/utils/getProperText.dart';
 import '../../../../l10n/app_localizations.dart';
 
 class SelectJourneyPage extends StatefulWidget {
-  final AppController appController;
-
-  const SelectJourneyPage({super.key, required this.appController});
+  const SelectJourneyPage({super.key});
 
   @override
-  State<SelectJourneyPage> createState() => _SelectJourneyPage();
+  State<SelectJourneyPage> createState() => _SelectJourneyPageState();
 }
 
-class _SelectJourneyPage extends State<SelectJourneyPage> {
+class _SelectJourneyPageState extends State<SelectJourneyPage> {
+  bool _isSaving = false;
+
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context);
@@ -28,153 +28,167 @@ class _SelectJourneyPage extends State<SelectJourneyPage> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 25),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 25),
 
-            Text(
-              loc.selectJourneyPageTitle,
-              textAlign: TextAlign.center,
-              style: AppTextStyles.introTitle(locale),
-            ),
+                Text(
+                  loc.selectJourneyPageTitle,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.introTitle(locale),
+                ),
 
-            const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-            Text(
-              loc.selectJourneyPageSubTitle,
-              textAlign: TextAlign.center,
-              style: AppTextStyles.introDesc(locale).copyWith(fontSize: 14),
-            ),
+                Text(
+                  loc.selectJourneyPageSubTitle,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.introDesc(locale).copyWith(
+                    fontSize: 14,
+                  ),
+                ),
 
-            const SizedBox(height: 30),
+                const SizedBox(height: 30),
 
-            Expanded(
-              child: ListView.builder(
-                itemCount: journeys.length,
-                itemBuilder: (context, index) {
-                  final journeyKey = journeys[index];
-                  final journey = journeysData[journeyKey]!;
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: journeys.length,
+                    itemBuilder: (context, index) {
+                      final journeyKey = journeys[index];
+                      final journey = journeysData[journeyKey]!;
 
-                  return GestureDetector(
-                    onTap: () async {
-                      await saveSelectedJourney(journeyKey);
+                      return GestureDetector(
+                        onTap: _isSaving
+                            ? null
+                            : () async {
+                          setState(() {
+                            _isSaving = true;
+                          });
 
-                      widget.appController.completeOnboarding();
-                      context.go('/home');
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 14),
-                      padding: const EdgeInsets.all(13),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.08),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius:
-                            const BorderRadius.all(Radius.circular(16)),
-                            child: Image.asset(
-                              journey.thumbnailImage,
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                          await context
+                              .read<JourneyProvider>()
+                              .saveSelectedJourney(journeyKey);
 
-                          const SizedBox(width: 12),
+                          if (!context.mounted) return;
 
-                          Expanded(
-                            child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(vertical: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    getJourneyCity(journeyKey, loc),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: AppTextStyles.introDesc(locale)
-                                        .copyWith(fontSize: 12),
-                                  ),
-
-                                  const SizedBox(height: 4),
-
-                                  Text(
-                                    getJourneyName(journeyKey, loc),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: AppTextStyles.semiBold(locale)
-                                        .copyWith(fontSize: 16),
-                                  ),
-
-                                  const SizedBox(height: 2),
-
-                                  Text(
-                                    getJourneyDescription(journeyKey, loc),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: AppTextStyles.introDesc(locale)
-                                        .copyWith(fontSize: 10),
-                                  ),
-
-                                  const SizedBox(height: 7),
-
-                                  Text(
-                                    '14 ${loc.days}',
-                                    style: AppTextStyles.introDesc(locale)
-                                        .copyWith(fontSize: 9),
-                                  ),
-                                ],
+                          context.go('/shell');
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 14),
+                          padding: const EdgeInsets.all(13),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.08),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
                               ),
-                            ),
+                            ],
                           ),
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(16),
+                                ),
+                                child: Image.asset(
+                                  journey.thumbnailImage,
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
 
-                          const SizedBox(width: 8),
+                              const SizedBox(width: 12),
 
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: AppColors.primary.withOpacity(0.1),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              size: 14,
-                              color: AppColors.primary,
-                            ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 8,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        getJourneyCity(journeyKey, loc),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: AppTextStyles.introDesc(locale)
+                                            .copyWith(fontSize: 12),
+                                      ),
+
+                                      const SizedBox(height: 4),
+
+                                      Text(
+                                        getJourneyName(journeyKey, loc),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: AppTextStyles.semiBold(locale)
+                                            .copyWith(fontSize: 16),
+                                      ),
+
+                                      const SizedBox(height: 2),
+
+                                      Text(
+                                        getJourneyDescription(journeyKey, loc),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: AppTextStyles.introDesc(locale)
+                                            .copyWith(fontSize: 10),
+                                      ),
+
+                                      const SizedBox(height: 7),
+
+                                      Text(
+                                        '14 ${loc.days}',
+                                        style: AppTextStyles.introDesc(locale)
+                                            .copyWith(fontSize: 9),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                              const SizedBox(width: 8),
+
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary.withOpacity(0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 14,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+
+          if (_isSaving)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
+        ],
       ),
-    );
-  }
-
-  Future<void> saveSelectedJourney(Journeys journey) async {
-    final prefs = await SharedPreferences.getInstance();
-
-    await prefs.setString(
-      'selected_journey',
-      journey.name,
     );
   }
 }

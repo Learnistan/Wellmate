@@ -155,8 +155,10 @@ class _MyAppState extends State<MyApp> {
           // ✅ SAFE: provider exists here
           final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
+          final journeyProvider = Provider.of<JourneyProvider>(context, listen: false);
+
           // ✅ initialize ONLY ONCE
-          appRouter ??= AppRouter(widget.appController, authProvider);
+          appRouter ??= AppRouter(widget.appController, authProvider, journeyProvider);
 
           final localeProvider = context.watch<LocaleProvider>();
 
