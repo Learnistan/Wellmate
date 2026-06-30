@@ -257,5 +257,7 @@
   "morningIntentionsCareTitle": "زه به له ځان نه دا ډول پاملرنه وکړم",
   "morningIntentionsCareHint": "آرام، حرکت، تغذیه، اړیکه؟",
   "morningIntentionsCareInputHint": "ولیکئ چې له ځان نه به څنګه پاملرنه کوئ...",
-  "submit": "ولېږئ"
+  "submit": "ولېږئ",
+
+  "eveningCloseActivity": "د ماښام د کار پای"
 }

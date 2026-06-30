@@ -6,14 +6,14 @@ import 'package:wellmate/core/theme/textStyles.dart';
 import 'package:wellmate/core/widgets/ButtonCom.dart';
 import '../../../../l10n/app_localizations.dart';
 
-class JournalPage extends StatefulWidget {
-  const JournalPage({super.key});
+class EveningCloseActivityPage extends StatefulWidget {
+  const EveningCloseActivityPage({super.key});
 
   @override
-  State<JournalPage> createState() => _JournalPageState();
+  State<EveningCloseActivityPage> createState() => _EveningCloseActivityPageState();
 }
 
-class _JournalPageState extends State<JournalPage> {
+class _EveningCloseActivityPageState extends State<EveningCloseActivityPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,9 @@ class _JournalPageState extends State<JournalPage> {
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("hi")
+            Text("evening close activity")
           ],
         ),
       ),

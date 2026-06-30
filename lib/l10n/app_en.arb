@@ -257,5 +257,7 @@
   "morningIntentionsCareTitle": "I will care for myself by",
   "morningIntentionsCareHint": "Rest, movement, nourishment, connection?",
   "morningIntentionsCareInputHint": "Write how you'll care for yourself...",
-  "submit": "Submit"
+  "submit": "Submit",
+
+  "eveningCloseActivity": "Evening Close"
 }

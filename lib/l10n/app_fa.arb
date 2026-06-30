@@ -257,5 +257,7 @@
   "morningIntentionsCareTitle": "این‌گونه از خودم مراقبت می‌کنم",
   "morningIntentionsCareHint": "استراحت، حرکت، تغذیه، ارتباط؟",
   "morningIntentionsCareInputHint": "بنویسید چگونه از خودتان مراقبت می‌کنید...",
-  "submit": "ارسال"
+  "submit": "ارسال",
+
+  "eveningCloseActivity": "پایان شیفت عصر"
 }
