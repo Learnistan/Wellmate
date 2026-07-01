@@ -2,9 +2,11 @@
 
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:wellmate/core/utils/getProperText.dart';
 
 import '../../../../core/constants/journeysData.dart';
 import '../../../../core/enums/journeys.dart';
@@ -16,16 +18,17 @@ import '../../../../core/utils/timeUtils.dart';
 import '../../../../core/widgets/floatingBubbleButton.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../dailyActivities/presentation/providers/activityProvider.dart';
+import '../../../shell/presentation/navigationProvider.dart';
 import '../providers/homeProvider.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
 
   bool _initialized = false;
 
@@ -56,6 +59,16 @@ class _HomePageState extends State<HomePage> {
       duration: const Duration(seconds: 2),
     );
 
+    ref.listenManual<int>(
+      navigationIndexProvider,
+          (previous, next) {
+        if (next == 0) {
+          _listenerAdded = false;
+          context.read<HomeProvider>().loadLevel();
+        }
+      },
+    );
+
     Future.microtask(() async {
 
       final homeProvider =
@@ -64,7 +77,7 @@ class _HomePageState extends State<HomePage> {
       final activityProvider =
       context.read<ActivityProvider>();
 
-      await homeProvider.initProgress();
+      await homeProvider.loadLevel();
 
       final shouldReload =
       await homeProvider
@@ -72,6 +85,12 @@ class _HomePageState extends State<HomePage> {
 
       if (shouldReload) {
         await activityProvider.loadActivities();
+      }
+
+      if ((homeProvider.dayDifference ?? 0) >= 2 && mounted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _showOneDayMissedDialog(homeProvider.dayDifference ?? 0);
+        });
       }
     });
   }
@@ -104,6 +123,7 @@ class _HomePageState extends State<HomePage> {
       _videoController!.addListener(() {
 
         final videoValue = _videoController!.value;
+        final loc = AppLocalizations.of(context)!;
 
         if (videoValue.isInitialized &&
             !videoValue.isPlaying &&
@@ -111,8 +131,42 @@ class _HomePageState extends State<HomePage> {
             videoValue.position >= videoValue.duration &&
             videoValue.duration != Duration.zero) {
           _confettiPlayed = true;
-          print("HIHIHI");
+
           _confettiController.play();
+
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              title: Text(loc.hydrationPopupTitle),
+              content: Text(
+                loc.journeyCompletionMessage,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(loc.journeyCompletionDialogButton2),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+
+                    ref.read(navigationIndexProvider.notifier).state = 4;
+
+                    Future.delayed(const Duration(milliseconds: 300), () {
+                      ref.read(scrollProfileToBottomProvider.notifier).state = true;
+                    });
+                  },
+                  child: Text(loc.journeyCompletionDialogButton1),
+                ),
+              ],
+            ),
+          );
+
         }
 
         final level =
@@ -583,7 +637,7 @@ class _HomePageState extends State<HomePage> {
                     CrossAxisAlignment.start,
                     children: [
                       Text(
-                        loc.carpet_title,
+                        getJourneyName(selectedJourney, loc),
                         style:
                         AppTextStyles.semiBold(
                           locale,
@@ -599,7 +653,7 @@ class _HomePageState extends State<HomePage> {
                         CrossAxisAlignment.center,
                         children: [
                           Text(
-                            loc.read_about,
+                            loc.read_about(getJourneyName(selectedJourney, loc)),
                             style:
                             AppTextStyles.grayText(
                               locale,
@@ -690,5 +744,23 @@ class _HomePageState extends State<HomePage> {
 
     return journeysData[selectedJourney]
         ?.pauseSeconds ?? [];
+  }
+
+  void _showOneDayMissedDialog(int dayDifference) {
+    final loc = AppLocalizations.of(context)!;
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: dayDifference == 2 ? Text(loc.oneDayMissedDialogTitle) : Text(loc.journeyResetDialogTitle),
+        content: dayDifference == 2 ? Text(loc.oneDayMissedDialogMessage) : Text(loc.journeyResetDialogMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(loc.moodCalibrationOkay),
+          ),
+        ],
+      ),
+    );
   }
 }

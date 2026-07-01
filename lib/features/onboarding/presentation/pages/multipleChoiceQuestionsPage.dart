@@ -7,8 +7,9 @@ import 'package:wellmate/core/widgets/ButtonCom.dart';
 import '../../../../l10n/app_localizations.dart';
 
 class MultipleChoiceQuestionsPage extends StatefulWidget {
+  final AppController appController;
 
-  const MultipleChoiceQuestionsPage({super.key});
+  const MultipleChoiceQuestionsPage({super.key, required this.appController});
 
   @override
   State<MultipleChoiceQuestionsPage> createState() =>
@@ -98,7 +99,8 @@ class _MultipleChoiceQuestionsPageState
         selectedIndex = null;
       });
     } else {
-      context.go('/journeys');
+      widget.appController.completeOnboarding();
+      context.go('/home');
     }
   }
 

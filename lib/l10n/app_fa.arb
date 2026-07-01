@@ -50,7 +50,8 @@
   "feeling_anxious": "مضطرب",
   "feeling_sad": "غمگین",
   "carpet_title": "قالی بافی هرات",
-  "read_about": "دربارهٔ قالی هرات بخوانید",
+  "read_about": "دربارهٔ {journeyName} بخوانید",
+
   "createAccount": "ایجاد حساب",
   "createAccountSubtitle": "سفر خود را به یک ذهن آرام تر آغاز کنید",
   "email": "ایمیل",
@@ -246,6 +247,25 @@
   "gameDialogTitle": "آفرین!",
   "chatBotTitle": "دستیار هوش مصنوعی",
   "chatBotHint": "...هر چیزی می‌خواهید از من بپرسید",
+
+  "oneDayMissedDialogTitle": "یک روز را از دست دادید",
+  "oneDayMissedDialogMessage": "اشکالی ندارد، گاهی برای همه پیش می‌آید. فقط یادتان باشد اگر یک روز دیگر را هم از دست بدهید، پیشرفت فعلی شما در این مسیر از بین خواهد رفت. امروز ادامه دهید؛ شما از پس آن برمی‌آیید!",
+  "journeyResetDialogTitle": "مسیر شما از نو آغاز شد",
+  "journeyResetDialogMessage": "شما چند روز را از دست داده اید، بنابراین مسیرتان از نو آغاز شد. نگران نباشید—پیشرفت به معنای کامل بودن نیست. امروز دوباره شروع کنید و به پیش رفتن ادامه دهید.",
+
+  "journeyCompletionMessage": "شما سفر خود را با موفقیت به پایان رساندید. هر زمان که آماده باشید، می توانید یک سفر جدید را آغاز کنید و به پیشرفت خود ادامه دهید.",
+  "journeyCompletionDialogButton1": "شروع سفر جدید",
+  "journeyCompletionDialogButton2": "بعداً",
+
+  "profile": "پروفایل",
+  "profileSubTitle": "زبان و سفر خود را تنظیم کنید",
+  "english": "انگلیسی",
+  "dari": "دری",
+  "pashto": "پشتو",
+  "chooseJourney": "سفر خود را انتخاب کنید",
+  "addJourney": "افزودن سفر",
+  "logout": "خروج",
+
   "morningIntentionsActivity": "نیت‌های صبحگاهی",
   "morningIntentionsInstruction": "لحظه‌ای آرام برای تعیین نیت‌های امروز خود اختصاص دهید.",
   "morningIntentionsFocusTitle": "امروز روی این تمرکز می‌کنم",
@@ -274,4 +294,5 @@
   "eveningCloseReceiveBtn": "این را می‌پذیرم",
   "eveningCloseReceivedBtn": "پذیرفته شد",
   "closeDay": "پایان روز"
+
 }

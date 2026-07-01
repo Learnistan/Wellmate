@@ -35,4 +35,43 @@ class JourneyProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> loadSelectedJourney() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final journeyName = prefs.getString('selected_journey');
+
+    if (journeyName == null) {
+      selectedJourney = null;
+    } else {
+      selectedJourney = Journeys.values.firstWhere(
+            (journey) => journey.name == journeyName,
+      );
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> saveSelectedJourney(Journeys journey) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString(
+      'selected_journey',
+      journey.name,
+    );
+
+    selectedJourney = journey;
+
+    notifyListeners();
+  }
+
+  Future<void> clearSelectedJourney() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove('selected_journey');
+
+    selectedJourney = null;
+
+    notifyListeners();
+  }
 }

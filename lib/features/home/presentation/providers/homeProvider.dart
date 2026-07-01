@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/activateAllActivitiesUseCase.dart';
 import 'package:wellmate/features/home/domain/useCases/getLastCompletedDifferenceUseCase.dart';
+import 'package:wellmate/features/home/domain/useCases/resetJourney.dart';
 
 import '../../../../core/services/notificationService.dart';
 import '../../domain/useCases/getProgressUseCase.dart';
@@ -17,6 +18,7 @@ class HomeProvider extends ChangeNotifier {
 
   final ActivateAllActivitiesUseCase
   activateAllActivitiesUseCase;
+  final ResetJourneyUseCase resetJourneyUseCase;
 
   final UpdateProgressUseCase updateProgressUseCase;
   final GetProgressUseCase getProgressUseCase;
@@ -29,7 +31,8 @@ class HomeProvider extends ChangeNotifier {
       this.getProgressUseCase,
       this.getLastCompletedDifferenceUseCase,
       this.activateAllActivitiesUseCase,
-      this.notificationService
+      this.notificationService,
+      this.resetJourneyUseCase
       );
 
   bool _initialized = false;
@@ -45,14 +48,7 @@ class HomeProvider extends ChangeNotifier {
   int get level => _level;
 
   Future<void> initProgress() async {
-
-    if (_initialized) return;
-
     await initProgressUseCase();
-
-    _initialized = true;
-
-    await loadLevel();
 
     notifyListeners();
   }
@@ -93,32 +89,29 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<bool> getLastCompletedDifference() async {
+    dayDifference = await getLastCompletedDifferenceUseCase();
 
-    dayDifference =
-    await getLastCompletedDifferenceUseCase();
-
-    if (dayDifference == 0) {
-
+    if (dayDifference == null || dayDifference == 0) {
       return false;
+    }
 
-    } else if (dayDifference == 1) {
-
+    if (dayDifference == 1 || dayDifference == 2) {
       await activateAllActivitiesUseCase();
+      notifyListeners();
+      return true;
+    }
+
+    if ((dayDifference ?? 0) >= 3) {
+      await activateAllActivitiesUseCase();
+      await resetJourneyUseCase();
+
+      _level = 0;
+      lastDate = null;
 
       notifyListeners();
 
       return true;
-
-    } else if (dayDifference == 2) {
-
-      print("*****second action");
-
-    } else if (dayDifference == 3) {
-
-      print("*****third action");
     }
-
-    notifyListeners();
 
     return false;
   }

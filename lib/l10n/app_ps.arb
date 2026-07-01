@@ -50,7 +50,8 @@
   "feeling_anxious": "اندېښمن",
   "feeling_sad": "خفه",
   "carpet_title": "د هرات غالۍ اوبدنه",
-  "read_about": "د هرات د غالیو په اړه ولولئ",
+  "read_about": "د {journeyName} په اړه ولولئ",
+
   "createAccount": "اکاونټ جوړ کړئ",
   "createAccountSubtitle": "د ارام ذهن په لور خپل سفر پیل کړئ",
   "email": "برېښنالیک",
@@ -246,6 +247,25 @@
   "gameDialogTitle": "شاباش!",
   "chatBotTitle": "د مصنوعي ځیرکتیا مرستیال",
   "chatBotHint": "...هر څه چې غواړئ له ما وپوښتئ",
+
+  "oneDayMissedDialogTitle": "تاسو یوه ورځ له لاسه ورکړه",
+  "oneDayMissedDialogMessage": "پروا نه لري، کله ناکله دا د هر چا لپاره پېښېږي. یوازې په یاد ولرئ، که یوه بله ورځ هم له لاسه ورکړئ، د دې سفر اوسنی پرمختګ به مو له منځه ولاړ شي. نن دوام ورکړئ، تاسو یې کولی شئ!",
+  "journeyResetDialogTitle": "ستاسو سفر له سره پیل شو",
+  "journeyResetDialogMessage": "تاسو څو ورځې له لاسه ورکړې دي، نو ستاسو سفر له سره پیل شو. اندېښنه مه کوئ—پرمختګ د بشپړتیا په معنا نه دی. نن بیا پیل وکړئ او مخکې ولاړ شئ.",
+
+  "journeyCompletionMessage": "تاسو خپل سفر په بریالیتوب سره بشپړ کړ. هر وخت چې چمتو یاست، کولی شئ نوی سفر پیل کړئ او خپل پرمختګ ته دوام ورکړئ.",
+  "journeyCompletionDialogButton1": "نوی سفر پیل کړئ",
+  "journeyCompletionDialogButton2": "وروسته",
+
+  "profile": "پروفایل",
+  "profileSubTitle": "خپله ژبه او سفر تنظیم کړئ",
+  "english": "انګلیسي",
+  "dari": "دري",
+  "pashto": "پښتو",
+  "chooseJourney": "خپل سفر وټاکئ",
+  "addJourney": "سفر اضافه کړئ",
+  "logout": "وتل",
+
   "morningIntentionsActivity": "د سهار نیتونه",
   "morningIntentionsInstruction": "د نن ورځې لپاره د خپلو نیتونو ټاکلو لپاره یوه آرامه شیبه ولرئ.",
   "morningIntentionsFocusTitle": "نن به زه پدې متمرکز شم",
@@ -274,4 +294,5 @@
   "eveningCloseReceiveBtn": "زه دا منم",
   "eveningCloseReceivedBtn": "ومنل شو",
   "closeDay": "ورځ پای ته ورسوئ"
+
 }

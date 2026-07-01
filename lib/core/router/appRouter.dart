@@ -22,15 +22,17 @@ import '../../features/auth/presentation/pages/loginPage.dart';
 import '../../features/home/presentation/pages/homePage.dart';
 import '../../features/onboarding/presentation/pages/introPage.dart';
 import '../appController.dart';
+import '../providers/journeyProvider.dart';
 
 class AppRouter {
   final AppController appController;
   final AuthProvider authProvider;
+  final JourneyProvider journeyProvider;
 
-  AppRouter(this.appController, this.authProvider);
+  AppRouter(this.appController, this.authProvider, this.journeyProvider);
 
   late final router = GoRouter(
-    refreshListenable: Listenable.merge([appController, authProvider]),
+    refreshListenable: Listenable.merge([appController, authProvider, journeyProvider]),
     initialLocation: '/loading',
       redirect: (context, state) {
         final location = state.uri.path;
@@ -66,9 +68,16 @@ class AppRouter {
 
         // 4. Logged in
         if (isLoggedIn) {
+          final selectedJourney = journeyProvider.selectedJourney;
+
+          if (selectedJourney == null) {
+            return isGoingToJourneys ? null : '/journeys';
+          }
+
           final allowedRoutes = [
             '/shell',
             '/home',
+            '/journeys',
             '/breathing',
             '/movement',
             '/hydration',
@@ -124,11 +133,11 @@ class AppRouter {
       ),
       GoRoute(
         path: '/questions',
-        builder: (context, state) => MultipleChoiceQuestionsPage(),
+        builder: (context, state) => MultipleChoiceQuestionsPage(appController: appController),
       ),
       GoRoute(
         path: '/journeys',
-        builder: (context, state) => SelectJourneyPage(appController: appController)
+        builder: (context, state) => SelectJourneyPage()
       ),
       GoRoute(
         path: '/breathing',
