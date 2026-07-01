@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
 import 'package:wellmate/core/widgets/ButtonCom.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../providers/activityProvider.dart';
 
 class EveningCloseActivityPage extends StatefulWidget {
   const EveningCloseActivityPage({super.key});
@@ -79,15 +81,12 @@ class _EveningCloseActivityPageState extends State<EveningCloseActivityPage> {
   void _onCloseDay() {
     HapticFeedback.lightImpact();
 
-    final value =
-        'win1: ${_win1Controller.text.trim()} | '
-        'win2: ${_win2Controller.text.trim()} | '
-        'win3: ${_win3Controller.text.trim()} | '
-        'challenge: ${_challengeController.text.trim()} | '
-        'lesson: ${_lessonController.text.trim()} | '
-        'rating: $_ratingValue | '
-        'received: $_received';
-    debugPrint(value);
+    context.read<ActivityProvider>().saveActivityLog(
+      activityId: 7,
+      value:
+      '{"win1":"${_win1Controller.text}","win2":"${_win2Controller.text}",'
+          '"win3":"${_win3Controller.text}","challenge":"${_challengeController.text}","lesson":"${_lessonController.text}","rating":"${_ratingValue}","received":"${_received}"}',
+    );
 
     context.pop("activity completed");
   }
