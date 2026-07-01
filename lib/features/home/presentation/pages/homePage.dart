@@ -122,6 +122,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       _videoController!.addListener(() {
 
         final videoValue = _videoController!.value;
+        final loc = AppLocalizations.of(context)!;
 
         if (videoValue.isInitialized &&
             !videoValue.isPlaying &&
@@ -138,17 +139,16 @@ class _HomePageState extends ConsumerState<HomePage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              title: Text("Congrats"),
+              title: Text(loc.hydrationPopupTitle),
               content: Text(
-                "You have completed this journey, you can go forward and start another journey",
+                loc.journeyCompletionMessage,
               ),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    // context.pop("activity completed");
                   },
-                  child: Text("Leave it"),
+                  child: Text(loc.journeyCompletionDialogButton2),
                 ),
                 TextButton(
                   onPressed: () {
@@ -160,7 +160,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ref.read(scrollProfileToBottomProvider.notifier).state = true;
                     });
                   },
-                  child: const Text("Sure"),
+                  child: Text(loc.journeyCompletionDialogButton1),
                 ),
               ],
             ),

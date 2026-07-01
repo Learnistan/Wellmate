@@ -25,6 +25,9 @@ import 'package:wellmate/features/home/domain/useCases/getProgressUseCase.dart';
 import 'package:wellmate/features/home/domain/useCases/initProgressUseCase.dart';
 import 'package:wellmate/features/home/domain/useCases/resetJourney.dart';
 import 'package:wellmate/features/home/domain/useCases/updateProgressUseCase.dart';
+import 'package:wellmate/features/profile/data/repositories/profileRepositoryImpl.dart';
+import 'package:wellmate/features/profile/domain/useCases/getActiveJourneysUseCase.dart';
+import 'package:wellmate/features/profile/presentation/providers/profileProvider.dart';
 import 'core/appController.dart';
 import 'core/database/databaseHelper.dart';
 import 'core/localization/localeProvider.dart';
@@ -42,6 +45,7 @@ import 'features/auth/presentation/provider/authProvider.dart';
 import 'features/dailyActivities/data/dataSources/activityLocalDataSource.dart';
 import 'features/dailyActivities/data/repositories/activityRepositoryImpl.dart';
 import 'features/home/presentation/providers/homeProvider.dart';
+import 'features/profile/data/dataSources/profileDataSource.dart';
 import 'l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -67,16 +71,18 @@ void main() async {
   final dbHelper = DatabaseHelper.instance;
   final localDataSource2 = ActivityLocalDataSource(dbHelper);
   final localDataSource3 = HomeLocalDataSource(dbHelper);
+  final localDataSource4 = ProfileDataSource(dbHelper);
 
   final repository2 = ActivityRepositoryImpl(localDataSource2);
   final repository3 = HomeRepositoryImpl(localDataSource3);
+  final repository4 = ProfileRepositoryImpl(localDataSource4);
 
   runApp(
     ProviderScope(
       child: ChangeNotifierProvider(
         create: (_) => LocaleProvider(Locale(savedLanguage)),
 
-        child: MyApp(appController, authRepository, repository2, repository3, client, notificationService),
+        child: MyApp(appController, authRepository, repository2, repository3, client, notificationService, repository4),
 
       )
     ),
@@ -90,8 +96,9 @@ class MyApp extends StatefulWidget {
   final HomeRepositoryImpl repository3;
   final NotificationService notificationService;
   final http.Client client;
+  final ProfileRepositoryImpl repository4;
 
-  const MyApp(this.appController, this.repository, this.repository2, this.repository3, this.client, this.notificationService, {super.key});
+  const MyApp(this.appController, this.repository, this.repository2, this.repository3, this.client, this.notificationService, this.repository4, {super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -148,6 +155,11 @@ class _MyAppState extends State<MyApp> {
                 )
               )
           ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProfileProvider(
+              GetActiveJourneysUseCase(widget.repository4)
+          )
         )
       ],
       child: Builder(

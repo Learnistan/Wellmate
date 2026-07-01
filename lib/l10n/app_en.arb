@@ -294,6 +294,19 @@
   "oneDayMissedDialogTitle": "You missed a day",
   "oneDayMissedDialogMessage": "That's okay—everyone slips sometimes. Just a reminder: if you miss one more day, your current journey progress will be lost. Keep going—you've got this!",
   "journeyResetDialogTitle": "Your journey has been reset",
-  "journeyResetDialogMessage": "You missed a few days, so your journey has been reset. Don't worry—progress isn't about being perfect. Begin again today and keep moving forward."
+  "journeyResetDialogMessage": "You missed a few days, so your journey has been reset. Don't worry—progress isn't about being perfect. Begin again today and keep moving forward.",
+
+  "journeyCompletionMessage": "You’ve successfully completed your journey. Whenever you're ready, you can start a new journey and continue making progress.",
+  "journeyCompletionDialogButton1": "Start New Journey",
+  "journeyCompletionDialogButton2": "Maybe Later",
+
+  "profile": "Profile",
+  "profileSubTitle": "Customize your language and journey",
+  "english": "English",
+  "dari": "Dari",
+  "pashto": "Pashto",
+  "chooseJourney": "Choose Your Journey",
+  "addJourney": "Add Journey",
+  "logout": "Logout"
 
 }

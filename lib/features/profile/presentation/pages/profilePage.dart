@@ -7,9 +7,11 @@ import 'package:wellmate/core/providers/journeyProvider.dart';
 import '../../../../core/enums/journeys.dart';
 import '../../../../core/localization/localeProvider.dart';
 import '../../../../core/theme/colors.dart';
+import '../../../../core/utils/getProperText.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/provider/authProvider.dart';
 import '../../../shell/presentation/navigationProvider.dart';
+import '../providers/profileProvider.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -42,6 +44,17 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() async {
+      final provider = context.read<ProfileProvider>();
+
+      await provider.loadJourneys();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     ref.listen<bool>(
       scrollProfileToBottomProvider,
@@ -55,6 +68,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final loc = AppLocalizations.of(context)!;
     final authProvider = Provider.of<AuthProvider>(context);
     final selectedJourney = context.watch<JourneyProvider>().selectedJourney;
+
+    final profileProvider = context.watch<ProfileProvider>();
+    final unlockedJourneys = profileProvider.unlockedJourneys;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -79,8 +95,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
               const SizedBox(height: 16),
 
-              const Text(
-                "Profile",
+              Text(
+                loc.profile,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 26,
@@ -92,7 +108,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               const SizedBox(height: 6),
 
               Text(
-                "Customize your language and journey",
+                loc.profileSubTitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
@@ -103,11 +119,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               const SizedBox(height: 30),
 
               _SectionCard(
-                title: "Language",
-                icon: Icons.language_rounded,
+                title: loc.chooseLanguage,
+                icon: Icons.language,
                 children: [
                   _OptionTile(
-                    title: "English",
+                    title: loc.english,
                     subtitle: "Use the app in English",
                     icon: Icons.translate_rounded,
                     onTap: () {
@@ -115,7 +131,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     },
                   ),
                   _OptionTile(
-                    title: "Dari",
+                    title: loc.dari,
                     subtitle: "استفاده از برنامه به زبان دری",
                     icon: Icons.translate_rounded,
                     onTap: () {
@@ -123,7 +139,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     },
                   ),
                   _OptionTile(
-                    title: "Pashto",
+                    title: loc.pashto,
                     subtitle: "اپلیکیشن په پښتو ژبه وکاروئ",
                     icon: Icons.translate_rounded,
                     onTap: () {
@@ -133,42 +149,25 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 ],
               ),
 
-              const SizedBox(height: 20),
+              SizedBox(
+                height: 30,
+              ),
 
               _SectionCard(
-                title: "Choose Journey",
+                title: loc.chooseJourney,
                 icon: Icons.route_rounded,
                 children: [
-                  _JourneyTile(
-                    title: "Carpet Journey",
-                    emoji: "🧵",
-                    isSelected: selectedJourney == Journeys.carpet,
-                    onTap: () => _changeJourney(Journeys.carpet),
-                  ),
-                  _JourneyTile(
-                    title: "Minarets Journey",
-                    emoji: "🕌",
-                    isSelected: selectedJourney == Journeys.minarets,
-                    onTap: () => _changeJourney(Journeys.minarets),
-                  ),
-                  // _JourneyTile(
-                  //   title: "Women Dress",
-                  //   emoji: "👗",
-                  //   isSelected: selectedJourney == Journeys.womenDress,
-                  //   onTap: () => _changeJourney(Journeys.womenDress),
-                  // ),
-                  // _JourneyTile(
-                  //   title: "Ghara",
-                  //   emoji: "🥻",
-                  //   isSelected: selectedJourney == Journeys.menDress,
-                  //   onTap: () => _changeJourney(Journeys.menDress),
-                  // ),
-                  // _JourneyTile(
-                  //   title: "Pomegranate",
-                  //   emoji: "🌳",
-                  //   isSelected: selectedJourney == Journeys.pomegranateTree,
-                  //   onTap: () => _changeJourney(Journeys.pomegranateTree),
-                  // ),
+                  ...unlockedJourneys.map((entry) {
+                    final journeyEnum = entry.key;
+                    final journey = entry.value;
+
+                    return _JourneyTile(
+                      title: getJourneyName(entry.key, loc),
+                      imagePath: journey.thumbnailImage,
+                      isSelected: selectedJourney == journeyEnum,
+                      onTap: () => _changeJourney(journeyEnum), emoji: '',
+                    );
+                  }),
 
                   const SizedBox(height: 10),
 
@@ -179,7 +178,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         context.push('/journeys');
                       },
                       icon: const Icon(Icons.add),
-                      label: const Text("Add Journey"),
+                      label: Text(loc.chooseJourney),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.selectedCard,
                         foregroundColor: AppColors.textPrimary,
@@ -204,7 +203,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     authProvider.logout();
                   },
                   icon: const Icon(Icons.logout_rounded),
-                  label: const Text("Logout"),
+                  label: Text(loc.logout),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red.shade50,
                     foregroundColor: Colors.red.shade700,
@@ -361,15 +360,16 @@ class _OptionTile extends StatelessWidget {
 
 class _JourneyTile extends StatelessWidget {
   final String title;
-  final String emoji;
+  final String imagePath;
   final bool isSelected;
   final VoidCallback onTap;
 
   const _JourneyTile({
     required this.title,
-    required this.emoji,
+    required this.imagePath,
     required this.isSelected,
     required this.onTap,
+    required String emoji,
   });
 
   @override
@@ -379,9 +379,7 @@ class _JourneyTile extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.selectedCard
-              : AppColors.background,
+          color: isSelected ? AppColors.selectedCard : AppColors.background,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
             color: isSelected
@@ -396,9 +394,10 @@ class _JourneyTile extends StatelessWidget {
             padding: const EdgeInsets.all(14),
             child: Row(
               children: [
-                Text(
-                  emoji,
-                  style: const TextStyle(fontSize: 28),
+                Image.asset(
+                  imagePath,
+                  width: 32,
+                  height: 32,
                 ),
                 const SizedBox(width: 14),
                 Expanded(
@@ -410,16 +409,14 @@ class _JourneyTile extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (isSelected)
-                  const Icon(
-                    Icons.check_circle_rounded,
-                    color: AppColors.textPrimary,
-                  )
-                else
-                  const Icon(
-                    Icons.circle_outlined,
-                    color: AppColors.appGray,
-                  ),
+                Icon(
+                  isSelected
+                      ? Icons.check_circle_rounded
+                      : Icons.circle_outlined,
+                  color: isSelected
+                      ? AppColors.textPrimary
+                      : AppColors.appGray,
+                ),
               ],
             ),
           ),

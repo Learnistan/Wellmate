@@ -57,7 +57,7 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         current_level INTEGER NOT NULL DEFAULT 0,
         last_completed_date TEXT,
-        journey TEXT NUT NULL
+        journey TEXT NOT NULL
       )
     ''');
 
