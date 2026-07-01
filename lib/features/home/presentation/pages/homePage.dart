@@ -2,6 +2,7 @@
 
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
@@ -16,16 +17,17 @@ import '../../../../core/utils/timeUtils.dart';
 import '../../../../core/widgets/floatingBubbleButton.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../dailyActivities/presentation/providers/activityProvider.dart';
+import '../../../shell/presentation/navigationProvider.dart';
 import '../providers/homeProvider.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
 
   bool _initialized = false;
 
@@ -119,6 +121,41 @@ class _HomePageState extends State<HomePage> {
           _confettiPlayed = true;
 
           _confettiController.play();
+
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              title: Text("Congrats"),
+              content: Text(
+                "You have completed this journey, you can go forward and start another journey",
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    // context.pop("activity completed");
+                  },
+                  child: Text("Leave it"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+
+                    ref.read(navigationIndexProvider.notifier).state = 4;
+
+                    Future.delayed(const Duration(milliseconds: 300), () {
+                      ref.read(scrollProfileToBottomProvider.notifier).state = true;
+                    });
+                  },
+                  child: const Text("Sure"),
+                ),
+              ],
+            ),
+          );
+
         }
 
         final level =

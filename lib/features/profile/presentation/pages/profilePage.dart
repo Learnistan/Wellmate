@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Provider;
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:wellmate/core/providers/journeyProvider.dart';
 
@@ -18,8 +19,39 @@ class ProfilePage extends ConsumerStatefulWidget {
 }
 
 class _ProfilePageState extends ConsumerState<ProfilePage> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.easeOut,
+        );
+      }
+
+      ref.read(scrollProfileToBottomProvider.notifier).state = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    ref.listen<bool>(
+      scrollProfileToBottomProvider,
+          (previous, next) {
+        if (next == true) {
+          _scrollToBottom();
+        }
+      },
+    );
+
     final loc = AppLocalizations.of(context)!;
     final authProvider = Provider.of<AuthProvider>(context);
     final selectedJourney = context.watch<JourneyProvider>().selectedJourney;
@@ -28,6 +60,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
+          controller: _scrollController,
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -118,23 +151,45 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     isSelected: selectedJourney == Journeys.minarets,
                     onTap: () => _changeJourney(Journeys.minarets),
                   ),
-                  _JourneyTile(
-                    title: "Women Dress",
-                    emoji: "👗",
-                    isSelected: selectedJourney == Journeys.womenDress,
-                    onTap: () => _changeJourney(Journeys.womenDress),
-                  ),
-                  _JourneyTile(
-                    title: "Ghara",
-                    emoji: "🥻",
-                    isSelected: selectedJourney == Journeys.menDress,
-                    onTap: () => _changeJourney(Journeys.menDress),
-                  ),
-                  _JourneyTile(
-                    title: "Pomegranate",
-                    emoji: "🌳",
-                    isSelected: selectedJourney == Journeys.pomegranateTree,
-                    onTap: () => _changeJourney(Journeys.pomegranateTree),
+                  // _JourneyTile(
+                  //   title: "Women Dress",
+                  //   emoji: "👗",
+                  //   isSelected: selectedJourney == Journeys.womenDress,
+                  //   onTap: () => _changeJourney(Journeys.womenDress),
+                  // ),
+                  // _JourneyTile(
+                  //   title: "Ghara",
+                  //   emoji: "🥻",
+                  //   isSelected: selectedJourney == Journeys.menDress,
+                  //   onTap: () => _changeJourney(Journeys.menDress),
+                  // ),
+                  // _JourneyTile(
+                  //   title: "Pomegranate",
+                  //   emoji: "🌳",
+                  //   isSelected: selectedJourney == Journeys.pomegranateTree,
+                  //   onTap: () => _changeJourney(Journeys.pomegranateTree),
+                  // ),
+
+                  const SizedBox(height: 10),
+
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        context.push('/journeys');
+                      },
+                      icon: const Icon(Icons.add),
+                      label: const Text("Add Journey"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.selectedCard,
+                        foregroundColor: AppColors.textPrimary,
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

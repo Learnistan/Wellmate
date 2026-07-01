@@ -68,19 +68,14 @@ class AppRouter {
         if (isLoggedIn) {
           final selectedJourney = journeyProvider.selectedJourney;
 
-          final isGoingToJourneys = location == '/journeys';
-
           if (selectedJourney == null) {
             return isGoingToJourneys ? null : '/journeys';
-          }
-
-          if (isGoingToJourneys) {
-            return '/shell';
           }
 
           final allowedRoutes = [
             '/shell',
             '/home',
+            '/journeys',
             '/breathing',
             '/movement',
             '/hydration',
