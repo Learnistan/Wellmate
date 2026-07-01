@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:wellmate/core/utils/getProperText.dart';
 
 import '../../../../core/constants/journeysData.dart';
 import '../../../../core/enums/journeys.dart';
@@ -636,7 +637,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     CrossAxisAlignment.start,
                     children: [
                       Text(
-                        loc.carpet_title,
+                        getJourneyName(selectedJourney, loc),
                         style:
                         AppTextStyles.semiBold(
                           locale,
@@ -652,7 +653,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         CrossAxisAlignment.center,
                         children: [
                           Text(
-                            loc.read_about,
+                            loc.read_about(getJourneyName(selectedJourney, loc)),
                             style:
                             AppTextStyles.grayText(
                               locale,

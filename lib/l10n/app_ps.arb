@@ -60,7 +60,7 @@
   "feeling_anxious": "اندېښمن",
   "feeling_sad": "خفه",
   "carpet_title": "د هرات غالۍ اوبدنه",
-  "read_about": "د هرات د غالیو په اړه ولولئ",
+  "read_about": "د {journeyName} په اړه ولولئ",
 
   "createAccount": "اکاونټ جوړ کړئ",
   "createAccountSubtitle": "د ارام ذهن په لور خپل سفر پیل کړئ",

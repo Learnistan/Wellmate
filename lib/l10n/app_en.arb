@@ -60,7 +60,7 @@
   "feeling_anxious": "Anxious",
   "feeling_sad": "Sad",
   "carpet_title": "Herat Carpet Weaving",
-  "read_about": "Read about Herat's carpet",
+  "read_about": "Read about {journeyName}",
 
   "createAccount": "Create Account",
   "createAccountSubtitle": "Start your journey to a calmer mind",

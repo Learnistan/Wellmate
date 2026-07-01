@@ -60,7 +60,7 @@
   "feeling_anxious": "مضطرب",
   "feeling_sad": "غمگین",
   "carpet_title": "قالی بافی هرات",
-  "read_about": "دربارهٔ قالی هرات بخوانید",
+  "read_about": "دربارهٔ {journeyName} بخوانید",
 
   "createAccount": "ایجاد حساب",
   "createAccountSubtitle": "سفر خود را به یک ذهن آرام تر آغاز کنید",
