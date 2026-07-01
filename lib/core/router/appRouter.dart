@@ -6,8 +6,10 @@ import 'package:wellmate/features/auth/presentation/provider/authProvider.dart';
 import 'package:wellmate/features/chatbot/presentation/pages/chatPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/bodyScanActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/breathingActivityPage.dart';
+import 'package:wellmate/features/dailyActivities/presentation/pages/eveningCloseActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/moodCalibration.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/hydrationActivityPage.dart';
+import 'package:wellmate/features/dailyActivities/presentation/pages/morningIntentionsActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/movementActivityPage.dart';
 import 'package:wellmate/features/language/presentation/languagePage.dart';
 import 'package:wellmate/features/mindfulGames/presentation/pages/BubblesGamePage.dart';
@@ -75,7 +77,9 @@ class AppRouter {
             '/chat',
             '/visualizing',
             '/bubbles',
-            '/emotions'
+            '/emotions',
+            '/morning-intentions',
+            '/evening-close'
           ];
 
           if (allowedRoutes.contains(location)) {
@@ -165,6 +169,14 @@ class AppRouter {
       GoRoute(
         path: '/emotions',
         builder: (context, state) => EmotionsGamePage(),
+      ),
+      GoRoute(
+        path: '/morning-intentions',
+        builder: (context, state) => MorningIntentionsActivityPage(),
+      ),
+      GoRoute(
+        path: '/evening-close',
+        builder: (context, state) => EveningCloseActivityPage(),
       ),
     ],
   );

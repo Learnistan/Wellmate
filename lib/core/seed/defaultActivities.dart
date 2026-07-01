@@ -41,5 +41,21 @@ final List<Activity> defaultActivities = [
     route: '/mood-calibration',
     isActive: true
   ),
+  Activity(
+      id: 6,
+      title: "morning_intentions",
+      duration: "3",
+      iconPath: "sun",
+      route: '/morning-intentions',
+      isActive: true
+  ),
+  Activity(
+      id: 6,
+      title: "evening_close",
+      duration: "3",
+      iconPath: "moon",
+      route: '/evening-close',
+      isActive: true
+  ),
 
 ];
