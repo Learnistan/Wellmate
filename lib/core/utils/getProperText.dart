@@ -14,6 +14,10 @@ String getActivityTitle(String key, AppLocalizations loc) {
       return loc.activity_body_scan;
     case "activity_mood_calibration":
       return loc.activity_mood_calibration;
+    case "morning_intentions":
+      return loc.morningIntentionsActivity;
+    case "evening_close":
+      return loc.eveningCloseActivity;
     default:
       return key;
   }

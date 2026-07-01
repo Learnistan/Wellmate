@@ -1,7 +1,6 @@
 {
   "welcome": "خوش آمدید",
   "login": "ورود",
-
   "skip": "رد کردن",
   "introTitle1": "به Wellmate خوش آمدید",
   "introDesc1": "همراه کوچک روزانه ات برای ذهن آرام تر و حالت بهتر",
@@ -9,50 +8,41 @@
   "introDesc2": "WellMate به تو کمک میکند کمی آرامتر شوی، ذهنت را صاف کنی و به آرامی عادت های کوچکی بسازی که دوباره تعادل را به زندگی ات برمیگرداند.",
   "introTitle3": "سفر تو از همینجا آغاز میشود",
   "introDesc3": "قدم به قدم رشد میکنی، به خودت فکر میکنی و مسیر شخصی ات را به سوی یک زندگی متعادل تر ادامه میدهی.",
-
   "start": "شروع کن",
   "next": "بعدی",
   "continueText": "ادامه",
   "changeLater": "شما میتوانید آنرا بعداً در تنظیمات تغییر دهید",
   "chooseLanguage": "زبان را انتخاب کنید",
-
   "q1": "سلام. امروز یک لحظه به حالت درونیت توجه کن—قلبت الان چه حالی دارد؟",
   "q1_a1": "آرام و در صلح",
   "q1_a2": "کمی سنگینی احساس میکنم",
   "q1_a3": "بی قرار هستم",
-
   "q2": "بدن ما اغلب تحت تأثیر نگرانی های روزمره قرار میگیرد. امروز بدنت چه حسی دارد؟",
   "q2_a1": "آرام و سبک",
   "q2_a2": "کمی فشار در سینه یا شانه ها دارم",
   "q2_a3": "خیلی خسته و سنگین هستم",
-
   "q3": "آیا افکارت امروز آرام و ساکت هستند، یا احساس میکنی خاطرات یا نگرانی های سخت تو را درگیر کرده اند؟",
   "q3_a1": "ذهنم آرام و روشن است",
   "q3_a2": "کمی درگیر نگرانی ها هستم",
   "q3_a3": "در یک طوفان احساسی قرار دارم",
-
   "q4": "با فکر کردن به روز پیش رو، چقدر احساس میکنی انرژی برای انجام کارها داری؟",
   "q4_a1": "برای امروز انرژی دارم",
   "q4_a2": "فقط برای کارهای ضروری کافی است",
   "q4_a3": "امروز به استراحت و آرامش نیاز دارم",
-
   "q5": "ما از عزیزانمان نیرو میگیریم. امروز چقدر با خانواده یا دوستانت احساس نزدیکی و ارتباط داری؟",
   "q5_a1": "خیلی احساس نزدیکی میکنم",
   "q5_a2": "امروز کمی احساس تنهایی دارم",
   "q5_a3": "فعلا ترجیح می‌دهم تنها باشم",
-
   "q6": "اگر امروز با یک لحظه سخت رو به رو شوی، چه چیزی میتواند بهترین راه آرامش و تسلی برایت باشد؟",
   "q6_a1": "دعا یا سکوت",
   "q6_a2": "صحبت با کسی که به او اعتماد دارم",
   "q6_a3": "یک سرگرمی آرام بخش",
-
   "morning_message": "صبح بخیر",
   "noon_message": "ظهر بخیر",
   "afternoon_message": "بعد از ظهر بخیر",
   "evening_message": "عصر بخیر",
   "night_message": "شام بخیر",
   "midnight_message": "نیمه شب بخیر",
-
   "home_ask_feeling": "امروز چه حسی داری؟",
   "feeling_calm": "آرام",
   "feeling_good": "خوب",
@@ -70,18 +60,15 @@
   "signUp": "ثبت‌نام",
   "alreadyHaveAccountQuestion": "حساب کاربری دارید؟",
   "alreadyHaveAccount": "وارد شوید",
-
   "emailRequired": "ایمیل ضروری است",
   "invalidEmail": "یک ایمیل معتبر وارد کنید",
   "passwordRequired": "رمز عبور ضروری است",
   "passwordTooShort": "رمز عبور باید حداقل ۶ کاراکتر باشد",
   "passwordMismatch": "رمزهای عبور مطابقت ندارند",
-
   "welcomeBack": "خوش آمدید",
   "loginSubtitle": "وارد شوید تا به مسیر خود ادامه دهید",
   "forgotPassword": "رمز عبور را فراموش کرده‌اید؟",
   "dontHaveAccount": "حساب ندارید؟",
-
   "daily_activity_title": "بررسی روزانه",
   "daily_activity_subtitle": "چند لحظه وقت بگذار و حال جسم و ذهنت را بررسی کن.",
   "add_activity_title": "   فعالیت‌های بیشتری اضافه کنید",
@@ -93,7 +80,6 @@
   "activity_mood_calibration": "ارزیابی حالت روحی",
   "minute": "دقیقه",
   "setLbl": "تنظیم کردن",
-
   "breathingActivity": "تمرین تنفس",
   "breatheIn": "نفس بکشید",
   "hold": "نگه دارید",
@@ -101,12 +87,10 @@
   "wellDone": "آفرین",
   "letsBegin": "بیایید شروع کنیم",
   "breathingDialogMessage": "هدف روزانه تنفس خود را تکمیل کردید.\nآفرین!",
-
   "bodyScanActivity": "اسکن بدن",
   "bodyScanInstruction": "جایی از بدن را لمس کن که امروز در آن احساس تنش یا فشار میکنی",
   "doThis": "انجام بده",
   "gotIt": "متوجه شدم",
-
   "bodyPartHead": "سر",
   "bodyPartNeck": "گردن",
   "bodyPartShoulders": "شانه‌ها",
@@ -116,31 +100,22 @@
   "bodyPartHips": "کمر",
   "bodyPartLegs": "پاها",
   "bodyPartFeet": "کف پا",
-
   "bodyScanHeadFeedback": "ذهن تو امروز ممکن است پُر احساس شود. کمی مکث کن و بگذار افکارت آرام شوند.",
   "bodyScanHeadAction": "چشمانت را ببند، پیشانی‌ات را آرام کن، و ۵ نفس عمیق و آرام بکش.",
-
   "bodyScanNeckFeedback": "گردن تو شاید به مراقبت آرام نیاز داشته باشد. بگذار بدنت احساس حمایت کند.",
   "bodyScanNeckAction": "به آرامی سرت را به چپ و راست حرکت بده. به آرامی نفس بکش.",
-
   "bodyScanShouldersFeedback": "شانه‌های تو شاید بار استرس امروز را حمل میکنند. میتوانی کمی از آن را رها کنی.",
   "bodyScanShouldersAction": "شانه‌هایت را بالا ببر، سپس به آرامی پایین بیانداز. این کار را ۵ بار تکرار کن.",
-
   "bodyScanChestFeedback": "وقتی استرس زیاد است، سینه‌ات ممکن است احساس فشردگی کند. به خودت فضا بده تا نفس بکشی.",
   "bodyScanChestAction": "یک دست را روی سینه‌ات بگذار و نفس‌های آرام و نرم بکش.",
-
   "bodyScanAbdomenFeedback": "استرس میتواند در شکم جا بگیرد. با بدن خود مهربان باش.",
   "bodyScanAbdomenAction": "دستت را روی شکمت بگذار و به آرامی به داخل آن نفس بکش.",
-
   "bodyScanBackFeedback": "کمر تو شاید به استراحت نیاز دارد. بگذار خودت را نرم کنی.",
   "bodyScanBackAction": "به راحتی بنشین، کمرت را آرام کن، و به آرامی نفس بیرون بده.",
-
   "bodyScanArmsFeedback": "دست‌های تو شاید تنش را نگه داشته‌اند. تو در امان هستی که آن را رها کنی.",
   "bodyScanArmsAction": "دست‌هایت را به آرامی ۵ بار باز و بسته کن.",
-
   "bodyScanLegsFeedback": "پاهای تو شاید سنگین یا کشیده احساس شوند. بگذار آنها استوار احساس کنند.",
   "bodyScanLegsAction": "هر دو پایت را روی زمین بگذار و زمین زیر پایت را احساس کن.",
-
   "drinkWaterMessage1": "آب بنوش! آب برای بدنت مفید است",
   "drinkWaterMessage2": "آفرین! به آب نوشیدن ادامه بده",
   "drinkWaterMessage3": "عالیه! بدنت ازت ممنونه",
@@ -152,32 +127,24 @@
   "hydrationPopupTitle": "تبریک!",
   "hydrationPopupMessage": "هدف روزانه نوشیدن آب را تکمیل کردی. آفرین!",
   "hydrationPopupBtn": "عالیه",
-
   "selectJourneyPageTitle": "سفر شما در انتظار است",
   "selectJourneyPageSubTitle": "یک سفر فرهنگی را انتخاب کنید که در ۱۴ روز رشد خواهد کرد",
-
   "carpetJourneyName": "قالین مزار",
   "carpetJourneyCity": "مزار",
   "carpetJourneyDescription": "مراقبت و بازسازی",
-
   "minaretsJourneyName": "مناره‌های هرات",
   "minaretsJourneyCity": "هرات",
   "minaretsJourneyDescription": "بازسازی و استحکام",
-
   "womenDressName": "لباس زنانهٔ افغانی",
   "womenDressCity": "کابل",
   "womenDressDescription": "بیان و هویت",
-
   "gharaName": "غارهٔ قندهاری",
   "gharaDressCity": "قندهار",
   "gharaDescription": "هویت و افتخار",
-
   "pomegranateName": "درخت انار",
   "pomegranateCity": "قندهار",
   "pomegranateDescription": "رشد و شکیبایی",
-
   "days": "روز",
-
   "moodCalibrationTense": "متشنج",
   "moodCalibrationTenseRelated": "همچنان: مضطرب، عصبی، خشمگین",
   "moodCalibrationSad": "غمگین",
@@ -213,9 +180,7 @@
   "moodCalibrationPickMoodLbl": "از بالا یک حالت روحی و سطح انرژی انتخاب کنید.",
   "moodCalibrationDialogMessage": "حالت روحی شما با موفقیت ثبت شد.",
   "moodCalibrationDialogTitle": "انجام شد!",
-
   "dialogActionButtonTitle": "عالی",
-
   "walkingAskPermissionMessage": "اجازه دسترسی به حرکت لازم است",
   "walkingPedometerError": "خطای قدم‌شمار",
   "walkingDialogMessage": "هدف روزانه قدم زدن خود را تکمیل کردید. \nآفرین!",
@@ -223,14 +188,12 @@
   "walkingDurationLbl": "مدت زمان:",
   "walkingAveragePace": "سرعت میانگین",
   "walkingCalories": "کالری",
-
   "notificationMessage1": "امروز کمی وقت برای خودت بگذار، آرامش تو از هر چیزی  مهم تر است",
   "notificationMessage2": "ما در کنار تو هستیم، هر وقت آماده بودی اپلیکیشن را باز کن",
   "notificationMessage3": "کمی وقت گذشته، برگرد و ببین امروز حالت چطور است",
   "notificationMessage4": "یک لحظه آرام می تواند روزت را بهتر کند همین حالا کمی وقت برای خودت  بگذار",
   "notificationMessage5": "لازم نیست کار زیادی بکنی، فقط اپلیکیشن را باز کن و یک نفس آرام بگیر",
   "notificationTitle": "ما منتظر تو هستیم",
-
   "gamesTabTitle": "بازی‌های ذهنی",
   "gamesTabSubTitle": "هر روز ذهن خود را تقویت کنید",
   "gamesTabGuid": "تمرین‌های کوتاه ذهنی برای بهبود تمرکز، احساسات و شیوهٔ فکر کردن.",
@@ -243,14 +206,12 @@
   "visualizingGameDesc": "یک واژه را بخوانید و تصویر روشنی از آن در ذهن خود بسازید. این تمرین به تقویت تخیل، تمرکز و توانایی تصویرسازی کمک می‌کند.",
   "bubblesGameDesc": "واژه‌های مثبت را از میان حباب‌های متحرک انتخاب کنید. ذهن خود را برای توجه به افکار امیدوارکننده و نگاه مثبت‌تر تمرین دهید.",
   "emotionsGameDesc": "احساسات را بر اساس معنا در دسته‌های مناسب قرار دهید. آگاهی، تشخیص و درک بهتر احساسات و حالت‌های روحی خود را تقویت کنید.",
-
   "bubblesGameSubTitle": "روی واژه‌های مثبت بزن و امتیاز بگیر",
   "time": "زمان",
   "score": "امتیاز",
   "endGameMessage": "زمان تمام شد!",
   "yourScore": "امتیاز شما",
   "playAgain": "دوباره بازی کن",
-
   "kind": "مهربان",
   "brave": "شجاعت",
   "peace": "صلح",
@@ -259,7 +220,6 @@
   "smart": "باهوش",
   "strong": "قوی",
   "smile": "لبخند",
-
   "bad": "بد",
   "angry": "خشمگین",
   "fear": "ترس",
@@ -269,7 +229,6 @@
   "lazy": "تنبل",
   "rude": "بی‌ادب",
   "pain": "درد",
-
   "apple": "سیب",
   "mountain": "کوه",
   "river": "دریا",
@@ -280,14 +239,12 @@
   "tree": "درخت",
   "book": "کتاب",
   "sun": "خورشید",
-
   "visualizingGameSubTitle": "این کلمه را در ذهن خود تصور کنید",
   "visualizedBtn": "تصورش کردم",
   "completed": "تکمیل شد",
   "visualizingPopUpMessage": "عالی کار کردی! شما ۵ کلمه را موفقانه تصویرسازی کردید.",
   "goHome": "رفتن به خانه",
   "gameDialogTitle": "آفرین!",
-
   "chatBotTitle": "دستیار هوش مصنوعی",
   "chatBotHint": "...هر چیزی می‌خواهید از من بپرسید",
 
@@ -307,5 +264,35 @@
   "pashto": "پشتو",
   "chooseJourney": "سفر خود را انتخاب کنید",
   "addJourney": "افزودن سفر",
-  "logout": "خروج"
+  "logout": "خروج",
+
+  "morningIntentionsActivity": "نیت‌های صبحگاهی",
+  "morningIntentionsInstruction": "لحظه‌ای آرام برای تعیین نیت‌های امروز خود اختصاص دهید.",
+  "morningIntentionsFocusTitle": "امروز روی این تمرکز می‌کنم",
+  "morningIntentionsFocusHint": "امروز چه چیزی بیشترین اهمیت را دارد؟",
+  "morningIntentionsFocusInputHint": "تمرکز خود را اینجا بنویسید...",
+  "morningIntentionsMindfulTitle": "نسبت به این موارد هوشیار خواهم بود",
+  "morningIntentionsMindfulHint": "واکنش‌پذیری؟ حواس‌پرتی؟ مقایسه؟",
+  "morningIntentionsMindfulInputHint": "بنویسید مراقب چه چیزی خواهید بود...",
+  "morningIntentionsCareTitle": "این‌گونه از خودم مراقبت می‌کنم",
+  "morningIntentionsCareHint": "استراحت، حرکت، تغذیه، ارتباط؟",
+  "morningIntentionsCareInputHint": "بنویسید چگونه از خودتان مراقبت می‌کنید...",
+  "submit": "ارسال",
+  "eveningCloseActivity": "بستن شب",
+  "eveningCloseStep1Title": "سه موفقیت امروز",
+  "eveningCloseStep1Subtitle": "هر اندازه‌ای مهم است — یک حرف مهربانانه، یک کار انجام‌شده، حاضر بودن در لحظات سخت.",
+  "eveningCloseWin1Hint": "اولین موفقیت خود را بنویسید...",
+  "eveningCloseWin2Hint": "دومین موفقیت خود را بنویسید...",
+  "eveningCloseWin3Hint": "سومین موفقیت خود را بنویسید...",
+  "eveningCloseStep2Title": "یک چالش، یک درس",
+  "eveningCloseStep2Subtitle": "سختی، خودش نوعی داده است. چه چیزی به شما آموخت؟",
+  "eveningCloseChallengeHint": "چیزی که امروز سخت بود...",
+  "eveningCloseLessonHint": "چه چیزی یاد گرفتم یا چگونه رشد کردم...",
+  "eveningCloseStep3Title": "وضعیت کلی امروز شما",
+  "eveningCloseCompassionTitle": "پایان همدلانه با خود",
+  "eveningCloseCompassionMessage": "من امروز با آنچه داشتم بهترین تلاشم را کردم. همین‌گونه که هستم کافی‌ام. فردا دوباره آغاز می‌کنم.",
+  "eveningCloseReceiveBtn": "این را می‌پذیرم",
+  "eveningCloseReceivedBtn": "پذیرفته شد",
+  "closeDay": "پایان روز"
+
 }

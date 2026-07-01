@@ -18,6 +18,10 @@ IconData getIcon(String key) {
       return Icons.bubble_chart_outlined;
     case 'mood':
       return Icons.mood;
+    case 'sun':
+      return Icons.sunny;
+    case 'moon':
+      return Icons.nightlight;
     default:
       return Icons.circle;
   }
