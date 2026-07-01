@@ -11,14 +11,19 @@ class HomeLocalDataSource {
   Future<Map<String, dynamic>?> getProgress() async {
     final db = await dbHelper.database;
 
+    final prefs = await SharedPreferences.getInstance();
+    final selectedJourney = prefs.getString('selected_journey');
+
     final result = await db.query(
       'progress',
-      limit: 1,
+      where: 'journey = ?',
+      whereArgs: [selectedJourney]
     );
 
     if (result.isNotEmpty) {
       return result.first;
     }
+
     return null;
   }
 

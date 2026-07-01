@@ -48,14 +48,7 @@ class HomeProvider extends ChangeNotifier {
   int get level => _level;
 
   Future<void> initProgress() async {
-
-    if (_initialized) return;
-
     await initProgressUseCase();
-
-    _initialized = true;
-
-    await loadLevel();
 
     notifyListeners();
   }

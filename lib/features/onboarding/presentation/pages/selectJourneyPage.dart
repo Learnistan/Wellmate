@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -9,15 +10,17 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/textStyles.dart';
 import '../../../../core/utils/getProperText.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../home/presentation/providers/homeProvider.dart';
+import '../../../shell/presentation/navigationProvider.dart';
 
-class SelectJourneyPage extends StatefulWidget {
+class SelectJourneyPage extends ConsumerStatefulWidget {
   const SelectJourneyPage({super.key});
 
   @override
-  State<SelectJourneyPage> createState() => _SelectJourneyPageState();
+  ConsumerState<SelectJourneyPage> createState() => _SelectJourneyPageState();
 }
 
-class _SelectJourneyPageState extends State<SelectJourneyPage> {
+class _SelectJourneyPageState extends ConsumerState<SelectJourneyPage> {
   bool _isSaving = false;
 
   @override
@@ -74,8 +77,13 @@ class _SelectJourneyPageState extends State<SelectJourneyPage> {
                               .read<JourneyProvider>()
                               .saveSelectedJourney(journeyKey);
 
+                          final homeProvider = context.read<HomeProvider>();
+
+                          await homeProvider.initProgress();
+
                           if (!context.mounted) return;
 
+                          ref.read(navigationIndexProvider.notifier).state = 0;
                           context.go('/shell');
                         },
                         child: Container(

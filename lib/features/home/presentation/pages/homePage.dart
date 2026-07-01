@@ -58,6 +58,16 @@ class _HomePageState extends ConsumerState<HomePage> {
       duration: const Duration(seconds: 2),
     );
 
+    ref.listenManual<int>(
+      navigationIndexProvider,
+          (previous, next) {
+        if (next == 0) {
+          _listenerAdded = false;
+          context.read<HomeProvider>().loadLevel();
+        }
+      },
+    );
+
     Future.microtask(() async {
 
       final homeProvider =
@@ -66,7 +76,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       final activityProvider =
       context.read<ActivityProvider>();
 
-      await homeProvider.initProgress();
+      await homeProvider.loadLevel();
 
       final shouldReload =
       await homeProvider
