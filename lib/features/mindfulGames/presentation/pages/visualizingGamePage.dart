@@ -167,6 +167,7 @@ class _VisualizingGamePageState extends State<VisualizingGamePage>
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
+        backgroundColor: AppColors.background,  // ← fixed: was missing, defaulted to white
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black87),
           onPressed: () => context.pop(),
@@ -206,9 +207,9 @@ class _VisualizingGamePageState extends State<VisualizingGamePage>
                 child: Column(
                   children: [
                     Text(
-                      loc.visualizingGameSubTitle,
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.grayText(locale).copyWith(color: AppColors.darkerGray, fontSize: 16)
+                        loc.visualizingGameSubTitle,
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.grayText(locale).copyWith(color: AppColors.darkerGray, fontSize: 16)
                     ),
 
                     const SizedBox(height: 16),
@@ -225,10 +226,10 @@ class _VisualizingGamePageState extends State<VisualizingGamePage>
                         );
                       },
                       child: Text(
-                        currentWord,
-                        key: ValueKey(currentWord),
-                        textAlign: TextAlign.center,
-                        style: AppTextStyles.semiBold(locale).copyWith(fontSize: 42, color: Colors.black)
+                          currentWord,
+                          key: ValueKey(currentWord),
+                          textAlign: TextAlign.center,
+                          style: AppTextStyles.semiBold(locale).copyWith(fontSize: 42, color: Colors.black)
                       ),
                     ),
 
@@ -273,8 +274,8 @@ class _VisualizingGamePageState extends State<VisualizingGamePage>
                                 ),
                                 child: Center(
                                   child: Text(
-                                    "$secondsLeft",
-                                    style: AppTextStyles.semiBold(locale).copyWith(fontSize: 48, color: Colors.black)
+                                      "$secondsLeft",
+                                      style: AppTextStyles.semiBold(locale).copyWith(fontSize: 48, color: Colors.black)
                                   ),
                                 ),
                               ),
@@ -295,14 +296,14 @@ class _VisualizingGamePageState extends State<VisualizingGamePage>
                           backgroundColor: AppColors.primary,
                           foregroundColor: Colors.white,
                           elevation: 8,
-                          shadowColor: Colors.green.withOpacity(0.35),
+                          shadowColor: AppColors.primary.withOpacity(0.35),  // ← fixed: was Colors.green
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18),
                           ),
                         ),
                         child: Text(
-                          loc.visualizedBtn,
-                          style: AppTextStyles.introDesc(locale).copyWith(color: Colors.white, fontSize: 18)
+                            loc.visualizedBtn,
+                            style: AppTextStyles.introDesc(locale).copyWith(color: Colors.white, fontSize: 18)
                         ),
                       ),
                     ),
@@ -327,7 +328,7 @@ class _VisualizingGamePageState extends State<VisualizingGamePage>
                             boxShadow: isOn
                                 ? [
                               BoxShadow(
-                                color: Colors.green.withOpacity(0.4),
+                                color: AppColors.primary.withOpacity(0.4),  // ← fixed: was Colors.green
                                 blurRadius: 10,
                                 spreadRadius: 1,
                               ),

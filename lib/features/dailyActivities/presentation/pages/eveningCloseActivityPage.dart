@@ -449,11 +449,11 @@ class _EveningCloseActivityPageState extends State<EveningCloseActivityPage> {
     final bool isLastStep = _currentStep == _stepCount - 1;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black87),

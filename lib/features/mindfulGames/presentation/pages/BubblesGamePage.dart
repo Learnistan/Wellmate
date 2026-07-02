@@ -18,8 +18,7 @@ class BubblesGamePage extends StatefulWidget {
 class _BubblesGamePageState extends State<BubblesGamePage>
     with TickerProviderStateMixin {
   final Random _random = Random();
-  late final locale =
-  Localizations.localeOf(context);
+  late final locale = Localizations.localeOf(context);
   late final loc = AppLocalizations.of(context)!;
 
   late final List<String> _positiveWords = [
@@ -197,14 +196,10 @@ class _BubblesGamePageState extends State<BubblesGamePage>
         centerTitle: true,
         title: Text(
           loc.bubblesGameTitle,
-          style: AppTextStyles.semiBold(
-            locale,
-          ).copyWith(
-            fontSize: 24,
-          ),
+          style: AppTextStyles.semiBold(locale).copyWith(fontSize: 24),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColors.primary),
+          icon: const Icon(Icons.arrow_back, color: Colors.black87), // ← fixed: removed AppColors.primary
           onPressed: () => context.pop(),
         ),
         backgroundColor: Colors.transparent,
@@ -245,7 +240,10 @@ class _BubblesGamePageState extends State<BubblesGamePage>
           const SizedBox(height: 6),
           Text(
             loc.bubblesGameSubTitle,
-            style: AppTextStyles.grayText(locale).copyWith(color: AppColors.darkerGray, fontSize: 16)
+            style: AppTextStyles.grayText(locale).copyWith(
+              color: AppColors.darkerGray,
+              fontSize: 16,
+            ),
           ),
           const SizedBox(height: 16),
           Row(
@@ -299,7 +297,7 @@ class _BubblesGamePageState extends State<BubblesGamePage>
           Container(
             padding: const EdgeInsets.all(9),
             decoration: BoxDecoration(
-              color: const Color(0xFFEAFFEF),
+              color: AppColors.secondary, // ← fixed: was Color(0xFFEAFFEF) (greenish)
               borderRadius: BorderRadius.circular(14),
             ),
             child: Icon(
@@ -314,11 +312,17 @@ class _BubblesGamePageState extends State<BubblesGamePage>
             children: [
               Text(
                 title,
-                style: AppTextStyles.introDesc(locale).copyWith(color: AppColors.appGreen, fontSize: 13)
+                style: AppTextStyles.introDesc(locale).copyWith(
+                  color: AppColors.appGreen,
+                  fontSize: 13,
+                ),
               ),
               Text(
                 value,
-                style: AppTextStyles.semiBold(locale).copyWith(color: AppColors.darkLabel, fontSize: 22)
+                style: AppTextStyles.semiBold(locale).copyWith(
+                  color: AppColors.darkLabel,
+                  fontSize: 22,
+                ),
               ),
             ],
           ),
@@ -331,26 +335,10 @@ class _BubblesGamePageState extends State<BubblesGamePage>
     return IgnorePointer(
       child: Stack(
         children: [
-          Positioned(
-            top: 40,
-            left: 24,
-            child: _smallGlowCircle(42),
-          ),
-          Positioned(
-            top: 120,
-            right: 30,
-            child: _smallGlowCircle(58),
-          ),
-          Positioned(
-            bottom: 80,
-            left: 38,
-            child: _smallGlowCircle(70),
-          ),
-          Positioned(
-            bottom: 170,
-            right: 46,
-            child: _smallGlowCircle(44),
-          ),
+          Positioned(top: 40, left: 24, child: _smallGlowCircle(42)),
+          Positioned(top: 120, right: 30, child: _smallGlowCircle(58)),
+          Positioned(bottom: 80, left: 38, child: _smallGlowCircle(70)),
+          Positioned(bottom: 170, right: 46, child: _smallGlowCircle(44)),
         ],
       ),
     );
@@ -363,9 +351,7 @@ class _BubblesGamePageState extends State<BubblesGamePage>
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: Colors.white.withOpacity(0.25),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.5),
-        ),
+        border: Border.all(color: Colors.white.withOpacity(0.5)),
       ),
     );
   }
@@ -453,7 +439,10 @@ class _BubblesGamePageState extends State<BubblesGamePage>
                       child: Text(
                         bubble.word,
                         textAlign: TextAlign.center,
-                        style: AppTextStyles.semiBold(locale).copyWith(fontSize: 15, color: Colors.black)
+                        style: AppTextStyles.semiBold(locale).copyWith(
+                          fontSize: 15,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
@@ -498,17 +487,26 @@ class _BubblesGamePageState extends State<BubblesGamePage>
             const SizedBox(height: 12),
             Text(
               loc.endGameMessage,
-              style: AppTextStyles.semiBold(locale).copyWith(color: Color(0xFF16425B), fontSize: 28)
+              style: AppTextStyles.semiBold(locale).copyWith(
+                color: Color(0xFF16425B),
+                fontSize: 28,
+              ),
             ),
             const SizedBox(height: 10),
             Text(
               loc.yourScore,
-              style: AppTextStyles.grayText(locale).copyWith(fontSize: 16, color: AppColors.appGreen)
+              style: AppTextStyles.grayText(locale).copyWith(
+                fontSize: 16,
+                color: AppColors.appGreen,
+              ),
             ),
             const SizedBox(height: 6),
             Text(
               "$_score",
-              style: AppTextStyles.semiBold(locale).copyWith(fontSize: 52, color: AppColors.primary)
+              style: AppTextStyles.semiBold(locale).copyWith(
+                fontSize: 52,
+                color: AppColors.primary,
+              ),
             ),
             const SizedBox(height: 22),
             SizedBox(
@@ -526,7 +524,10 @@ class _BubblesGamePageState extends State<BubblesGamePage>
                 ),
                 child: Text(
                   loc.playAgain,
-                  style: AppTextStyles.semiBold(locale).copyWith(fontSize: 17, color: Colors.white)
+                  style: AppTextStyles.semiBold(locale).copyWith(
+                    fontSize: 17,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
