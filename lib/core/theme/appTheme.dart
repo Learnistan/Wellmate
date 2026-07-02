@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wellmate/core/theme/colors.dart';
 
 class AppTheme {
   static ThemeData buildTheme(Locale locale) {
@@ -15,15 +16,16 @@ class AppTheme {
     }
 
     return ThemeData(
+      fontFamily: fontFamily,
+      textTheme: ThemeData.light().textTheme.apply(
         fontFamily: fontFamily,
-        textTheme: ThemeData
-            .light()
-            .textTheme
-            .apply(
-            fontFamily: fontFamily
-        ),
-        primarySwatch: Colors.blue,
-        useMaterial3: true
+      ),
+      primarySwatch: Colors.blue,
+      useMaterial3: true,
+
+      scaffoldBackgroundColor: AppColors.background,
+
+      canvasColor: AppColors.background,
     );
   }
 }
