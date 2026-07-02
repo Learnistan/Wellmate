@@ -1,7 +1,10 @@
+// profile_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Provider;
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellmate/core/providers/journeyProvider.dart';
 
 import '../../../../core/enums/journeys.dart';
@@ -13,6 +16,9 @@ import '../../../auth/presentation/provider/authProvider.dart';
 import '../../../shell/presentation/navigationProvider.dart';
 import '../providers/profileProvider.dart';
 
+// Change this import path to your actual NotificationService location.
+import '../../../../core/services/notificationService.dart';
+
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
 
@@ -22,11 +28,41 @@ class ProfilePage extends ConsumerStatefulWidget {
 
 class _ProfilePageState extends ConsumerState<ProfilePage> {
   final ScrollController _scrollController = ScrollController();
+  final NotificationService _notificationService = NotificationService();
+
+  bool _sleepReminder = false;
+  bool _foodReminder = false;
+  bool _postureReminder = false;
+
+  static const int _sleepId = 201;
+  static const int _foodId = 202;
+  static const int _postureId = 203;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() async {
+      final provider = context.read<ProfileProvider>();
+      await provider.loadJourneys();
+      await _loadReminderStates();
+    });
+  }
 
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadReminderStates() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      _sleepReminder = prefs.getBool('sleepReminder') ?? false;
+      _foodReminder = prefs.getBool('foodReminder') ?? false;
+      _postureReminder = prefs.getBool('postureReminder') ?? false;
+    });
   }
 
   void _scrollToBottom() {
@@ -40,17 +76,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       }
 
       ref.read(scrollProfileToBottomProvider.notifier).state = false;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    Future.microtask(() async {
-      final provider = context.read<ProfileProvider>();
-
-      await provider.loadJourneys();
     });
   }
 
@@ -98,7 +123,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               Text(
                 loc.profile,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textPrimary,
@@ -149,9 +174,88 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 ],
               ),
 
-              SizedBox(
-                height: 30,
+              const SizedBox(height: 30),
+
+              _SectionCard(
+                title: loc.remindersTitle,
+                icon: Icons.notifications_active_rounded,
+                children: [
+                  _ReminderTile(
+                    title: loc.sleepReminderTitle,
+                    subtitle: loc.sleepReminderSubtitle,
+                    icon: Icons.bedtime_rounded,
+                    value: _sleepReminder,
+                    onChanged: (value) => _handleReminderToggle(
+                      key: 'sleepReminder',
+                      popupKey: 'sleepReminderPopupShown',
+                      value: value,
+                      notificationId: _sleepId,
+                      title: loc.sleepReminderDialogTitle,
+                      message:
+                      loc.sleepReminderMessage,
+                      hour: 22,
+                      minute: 0,
+                      popupTitle: loc.sleepReminderTitle,
+                      popupMessage:
+                      loc.sleepReminderPopUpMessage,
+                      loc: loc,
+                      updateState: (newValue) {
+                        setState(() => _sleepReminder = newValue);
+                      },
+                    ),
+                  ),
+                  _ReminderTile(
+                    title: loc.foodReminderTitle,
+                    subtitle: loc.foodReminderSubtitle,
+                    icon: Icons.restaurant_rounded,
+                    value: _foodReminder,
+                    onChanged: (value) => _handleReminderToggle(
+                      key: 'foodReminder',
+                      popupKey: 'foodReminderPopupShown',
+                      value: value,
+                      notificationId: _foodId,
+                      title: loc.foodReminderDialogTitle,
+                      message:
+                      loc.foodReminderMessage,
+                      hour: 13,
+                      minute: 0,
+                      popupTitle: loc.foodReminderTitle,
+                      popupMessage:
+                      loc.foodReminderPopUpMessage,
+                      loc: loc,
+                      updateState: (newValue) {
+                        setState(() => _foodReminder = newValue);
+                      },
+                    ),
+                  ),
+                  _ReminderTile(
+                    title: loc.postureReminderTitle,
+                    subtitle: loc.postureReminderSubtitle,
+                    icon: Icons.accessibility_new_rounded,
+                    value: _postureReminder,
+                    onChanged: (value) => _handleReminderToggle(
+                      key: 'postureReminder',
+                      popupKey: 'postureReminderPopupShown',
+                      value: value,
+                      notificationId: _postureId,
+                      title: loc.postureReminderDialogTitle,
+                      message:
+                      loc.postureReminderMessage,
+                      hour: 9,
+                      minute: 0,
+                      popupTitle: loc.postureReminderTitle,
+                      popupMessage:
+                      loc.postureReminderPopUpMessage,
+                      loc: loc,
+                      updateState: (newValue) {
+                        setState(() => _postureReminder = newValue);
+                      },
+                    ),
+                  ),
+                ],
               ),
+
+              const SizedBox(height: 30),
 
               _SectionCard(
                 title: loc.chooseJourney,
@@ -165,7 +269,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       title: getJourneyName(entry.key, loc),
                       imagePath: journey.thumbnailImage,
                       isSelected: selectedJourney == journeyEnum,
-                      onTap: () => _changeJourney(journeyEnum), emoji: '',
+                      onTap: () => _changeJourney(journeyEnum),
+                      emoji: '',
                     );
                   }),
 
@@ -218,6 +323,132 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _handleReminderToggle({
+    required String key,
+    required String popupKey,
+    required bool value,
+    required int notificationId,
+    required String title,
+    required String message,
+    required int hour,
+    required int minute,
+    required String popupTitle,
+    required String popupMessage,
+    required ValueChanged<bool> updateState,
+    required AppLocalizations loc
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    if (!value) {
+      updateState(false);
+      await prefs.setBool(key, false);
+      await _notificationService.cancelReminder(notificationId);
+      return;
+    }
+
+    final popupShown = prefs.getBool(popupKey) ?? false;
+
+    if (!popupShown) {
+      final shouldActivate = await _showReminderPopup(
+        title: popupTitle,
+        message: popupMessage,
+        loc: loc
+      );
+
+      await prefs.setBool(popupKey, true);
+
+      if (shouldActivate != true) {
+        updateState(false);
+        await prefs.setBool(key, false);
+        return;
+      }
+    }
+
+    updateState(true);
+    await prefs.setBool(key, true);
+
+    await _notificationService.scheduleDailyReminder(
+      id: notificationId,
+      title: title,
+      message: message,
+      hour: hour,
+      minute: minute,
+    );
+  }
+
+  Future<bool?> _showReminderPopup({
+    required String title,
+    required String message,
+    required AppLocalizations loc
+  }) {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: AppColors.lightCard,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppColors.selectedCard,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Icon(
+                  Icons.notifications_active_rounded,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            message,
+            style: TextStyle(
+              color: AppColors.appGray,
+              height: 1.5,
+            ),
+          ),
+          actionsPadding: const EdgeInsets.fromLTRB(20, 0, 20, 18),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(
+                loc.journeyCompletionDialogButton2,
+                style: TextStyle(color: AppColors.appGray),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.selectedCard,
+                foregroundColor: AppColors.textPrimary,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+              child: Text(loc.activate),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -285,6 +516,83 @@ class _SectionCard extends StatelessWidget {
           const SizedBox(height: 14),
           ...children,
         ],
+      ),
+    );
+  }
+}
+
+class _ReminderTile extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  const _ReminderTile({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: AppColors.background,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: AppColors.appGray.withOpacity(0.12),
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(9),
+              decoration: BoxDecoration(
+                color: AppColors.lightCard.withOpacity(0.85),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Icon(
+                icon,
+                color: AppColors.textPrimary,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.appGray,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Switch(
+              value: value,
+              activeColor: AppColors.textPrimary,
+              onChanged: onChanged,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -413,9 +721,7 @@ class _JourneyTile extends StatelessWidget {
                   isSelected
                       ? Icons.check_circle_rounded
                       : Icons.circle_outlined,
-                  color: isSelected
-                      ? AppColors.textPrimary
-                      : AppColors.appGray,
+                  color: isSelected ? AppColors.textPrimary : AppColors.appGray,
                 ),
               ],
             ),

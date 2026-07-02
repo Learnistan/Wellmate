@@ -293,6 +293,27 @@
   "eveningCloseCompassionMessage": "I did my best today with what I had. I am enough as I am. Tomorrow I begin again.",
   "eveningCloseReceiveBtn": "I receive this",
   "eveningCloseReceivedBtn": "Received",
-  "closeDay": "Close Day"
+  "closeDay": "Close Day",
+
+  "remindersTitle": "Reminders",
+
+  "sleepReminderTitle": "Sleep Reminder",
+  "sleepReminderSubtitle": "Daily reminder at 10:00 PM",
+  "sleepReminderDialogTitle": "Time to sleep",
+  "sleepReminderMessage": "Your body needs rest. Try to sleep on time and recharge for tomorrow.",
+  "sleepReminderPopUpMessage": "This reminder helps you build a better sleeping habit. It will remind you every night at 10:00 PM to sleep on time and take care of your health.",
+
+  "foodReminderTitle": "Healthy Food Reminder",
+  "foodReminderSubtitle": "Daily reminder at 1:00 PM",
+  "foodReminderDialogTitle": "Eat healthy food",
+  "foodReminderMessage": "Choose something healthy today. Your body will thank you.",
+  "foodReminderPopUpMessage": "This reminder helps you remember to eat healthy food. It will remind you every day at 1:00 PM to choose better meals and take care of your body.",
+
+  "postureReminderTitle": "Posture Reminder",
+  "postureReminderSubtitle": "Daily reminder at 9:00 AM",
+  "postureReminderDialogTitle": "Fix your posture",
+  "postureReminderMessage": "Sit straight, relax your shoulders, and avoid bending your back.",
+  "postureReminderPopUpMessage": "This reminder helps you protect your back and posture. It will remind you every day at 9:00 AM to sit properly, keep your back straight, relax your shoulders, and avoid bending.",
+  "activate": "Activate"
 
 }

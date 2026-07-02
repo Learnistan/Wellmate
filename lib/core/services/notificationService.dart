@@ -38,24 +38,24 @@ class NotificationService {
     _isInitialized = true;
   }
 
+  NotificationDetails get _details => const NotificationDetails(
+    android: AndroidNotificationDetails(
+      'wellmate_channel',
+      'Wellmate Notifications',
+      channelDescription: 'Wellmate reminder notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+    ),
+  );
+
   Future<void> showInstantNotification() async {
     await initNotification();
-
-    const details = NotificationDetails(
-      android: AndroidNotificationDetails(
-        'wellmate_channel',
-        'Wellmate Notifications',
-        channelDescription: 'Wellmate reminder notifications',
-        importance: Importance.max,
-        priority: Priority.high,
-      ),
-    );
 
     await _plugin.show(
       id: 1,
       title: 'Instant notification',
       body: 'Instant notification works',
-      notificationDetails: details,
+      notificationDetails: _details,
     );
   }
 
@@ -92,8 +92,54 @@ class NotificationService {
     print('Scheduled for: $scheduledDate');
   }
 
+  Future<void> scheduleDailyReminder({
+    required int id,
+    required String title,
+    required String message,
+    required int hour,
+    required int minute,
+  }) async {
+    await initNotification();
+
+    await _plugin.cancel(id: id);
+
+    await _plugin.zonedSchedule(
+      id: id,
+      title: title,
+      body: message,
+      scheduledDate: _nextInstanceOfTime(hour, minute),
+      notificationDetails: _details,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      matchDateTimeComponents: DateTimeComponents.time,
+    );
+  }
+
+  Future<void> cancelReminder(int id) async {
+    await initNotification();
+    await _plugin.cancel(id: id);
+  }
+
   Future<void> cancelAllNotifications() async {
     await initNotification();
     await _plugin.cancelAll();
+  }
+
+  tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
+    final now = tz.TZDateTime.now(tz.local);
+
+    var scheduled = tz.TZDateTime(
+      tz.local,
+      now.year,
+      now.month,
+      now.day,
+      hour,
+      minute,
+    );
+
+    if (scheduled.isBefore(now)) {
+      scheduled = scheduled.add(const Duration(days: 1));
+    }
+
+    return scheduled;
   }
 }
