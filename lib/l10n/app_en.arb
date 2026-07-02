@@ -50,7 +50,8 @@
   "feeling_anxious": "Anxious",
   "feeling_sad": "Sad",
   "carpet_title": "Herat Carpet Weaving",
-  "read_about": "Read about Herat's carpet",
+  "read_about": "Read about {journeyName}",
+
   "createAccount": "Create Account",
   "createAccountSubtitle": "Start your journey to a calmer mind",
   "email": "Email",
@@ -246,6 +247,25 @@
   "gameDialogTitle": "Good job!",
   "chatBotTitle": "AI Assistant",
   "chatBotHint": "Ask me anything...",
+
+  "oneDayMissedDialogTitle": "You missed a day",
+  "oneDayMissedDialogMessage": "That's okay—everyone slips sometimes. Just a reminder: if you miss one more day, your current journey progress will be lost. Keep going—you've got this!",
+  "journeyResetDialogTitle": "Your journey has been reset",
+  "journeyResetDialogMessage": "You missed a few days, so your journey has been reset. Don't worry—progress isn't about being perfect. Begin again today and keep moving forward.",
+
+  "journeyCompletionMessage": "You’ve successfully completed your journey. Whenever you're ready, you can start a new journey and continue making progress.",
+  "journeyCompletionDialogButton1": "Start New Journey",
+  "journeyCompletionDialogButton2": "Maybe Later",
+
+  "profile": "Profile",
+  "profileSubTitle": "Customize your language and journey",
+  "english": "English",
+  "dari": "Dari",
+  "pashto": "Pashto",
+  "chooseJourney": "Choose Your Journey",
+  "addJourney": "Add Journey",
+  "logout": "Logout",
+
   "morningIntentionsActivity": "Morning Intentions",
   "morningIntentionsInstruction": "Take a quiet moment to set your intentions for the day.",
   "morningIntentionsFocusTitle": "Today I will focus on",
@@ -258,6 +278,42 @@
   "morningIntentionsCareHint": "Rest, movement, nourishment, connection?",
   "morningIntentionsCareInputHint": "Write how you'll care for yourself...",
   "submit": "Submit",
+  "eveningCloseActivity": "Evening Close",
+  "eveningCloseStep1Title": "Three Wins Today",
+  "eveningCloseStep1Subtitle": "Any size counts — a kind word, a task done, showing up when it was hard.",
+  "eveningCloseWin1Hint": "Write your first win...",
+  "eveningCloseWin2Hint": "Write your second win...",
+  "eveningCloseWin3Hint": "Write your third win...",
+  "eveningCloseStep2Title": "One Challenge, One Lesson",
+  "eveningCloseStep2Subtitle": "Difficulty is data. What did it teach you?",
+  "eveningCloseChallengeHint": "Something that was hard today...",
+  "eveningCloseLessonHint": "What I learned or how I grew from it...",
+  "eveningCloseStep3Title": "Overall Wellbeing Today",
+  "eveningCloseCompassionTitle": "Self-Compassion Close",
+  "eveningCloseCompassionMessage": "I did my best today with what I had. I am enough as I am. Tomorrow I begin again.",
+  "eveningCloseReceiveBtn": "I receive this",
+  "eveningCloseReceivedBtn": "Received",
+  "closeDay": "Close Day",
 
-  "eveningCloseActivity": "Evening Close"
+  "remindersTitle": "Reminders",
+
+  "sleepReminderTitle": "Sleep Reminder",
+  "sleepReminderSubtitle": "Daily reminder at 10:00 PM",
+  "sleepReminderDialogTitle": "Time to sleep",
+  "sleepReminderMessage": "Your body needs rest. Try to sleep on time and recharge for tomorrow.",
+  "sleepReminderPopUpMessage": "This reminder helps you build a better sleeping habit. It will remind you every night at 10:00 PM to sleep on time and take care of your health.",
+
+  "foodReminderTitle": "Healthy Food Reminder",
+  "foodReminderSubtitle": "Daily reminder at 1:00 PM",
+  "foodReminderDialogTitle": "Eat healthy food",
+  "foodReminderMessage": "Choose something healthy today. Your body will thank you.",
+  "foodReminderPopUpMessage": "This reminder helps you remember to eat healthy food. It will remind you every day at 1:00 PM to choose better meals and take care of your body.",
+
+  "postureReminderTitle": "Posture Reminder",
+  "postureReminderSubtitle": "Daily reminder at 9:00 AM",
+  "postureReminderDialogTitle": "Fix your posture",
+  "postureReminderMessage": "Sit straight, relax your shoulders, and avoid bending your back.",
+  "postureReminderPopUpMessage": "This reminder helps you protect your back and posture. It will remind you every day at 9:00 AM to sit properly, keep your back straight, relax your shoulders, and avoid bending.",
+  "activate": "Activate"
+
 }

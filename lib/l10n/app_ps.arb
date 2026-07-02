@@ -50,7 +50,8 @@
   "feeling_anxious": "اندېښمن",
   "feeling_sad": "خفه",
   "carpet_title": "د هرات غالۍ اوبدنه",
-  "read_about": "د هرات د غالیو په اړه ولولئ",
+  "read_about": "د {journeyName} په اړه ولولئ",
+
   "createAccount": "اکاونټ جوړ کړئ",
   "createAccountSubtitle": "د ارام ذهن په لور خپل سفر پیل کړئ",
   "email": "برېښنالیک",
@@ -246,6 +247,25 @@
   "gameDialogTitle": "شاباش!",
   "chatBotTitle": "د مصنوعي ځیرکتیا مرستیال",
   "chatBotHint": "...هر څه چې غواړئ له ما وپوښتئ",
+
+  "oneDayMissedDialogTitle": "تاسو یوه ورځ له لاسه ورکړه",
+  "oneDayMissedDialogMessage": "پروا نه لري، کله ناکله دا د هر چا لپاره پېښېږي. یوازې په یاد ولرئ، که یوه بله ورځ هم له لاسه ورکړئ، د دې سفر اوسنی پرمختګ به مو له منځه ولاړ شي. نن دوام ورکړئ، تاسو یې کولی شئ!",
+  "journeyResetDialogTitle": "ستاسو سفر له سره پیل شو",
+  "journeyResetDialogMessage": "تاسو څو ورځې له لاسه ورکړې دي، نو ستاسو سفر له سره پیل شو. اندېښنه مه کوئ—پرمختګ د بشپړتیا په معنا نه دی. نن بیا پیل وکړئ او مخکې ولاړ شئ.",
+
+  "journeyCompletionMessage": "تاسو خپل سفر په بریالیتوب سره بشپړ کړ. هر وخت چې چمتو یاست، کولی شئ نوی سفر پیل کړئ او خپل پرمختګ ته دوام ورکړئ.",
+  "journeyCompletionDialogButton1": "نوی سفر پیل کړئ",
+  "journeyCompletionDialogButton2": "وروسته",
+
+  "profile": "پروفایل",
+  "profileSubTitle": "خپله ژبه او سفر تنظیم کړئ",
+  "english": "انګلیسي",
+  "dari": "دري",
+  "pashto": "پښتو",
+  "chooseJourney": "خپل سفر وټاکئ",
+  "addJourney": "سفر اضافه کړئ",
+  "logout": "وتل",
+
   "morningIntentionsActivity": "د سهار نیتونه",
   "morningIntentionsInstruction": "د نن ورځې لپاره د خپلو نیتونو ټاکلو لپاره یوه آرامه شیبه ولرئ.",
   "morningIntentionsFocusTitle": "نن به زه پدې متمرکز شم",
@@ -258,6 +278,42 @@
   "morningIntentionsCareHint": "آرام، حرکت، تغذیه، اړیکه؟",
   "morningIntentionsCareInputHint": "ولیکئ چې له ځان نه به څنګه پاملرنه کوئ...",
   "submit": "ولېږئ",
+  "eveningCloseActivity": "د ماښام پای",
+  "eveningCloseStep1Title": "نن ورځ درې بریالیتوبونه",
+  "eveningCloseStep1Subtitle": "هر اندازه مهمه ده — یوه مهربانه خبره، یوه سرته رسیدلې دنده، په سختو شیبو کې حاضرتیا.",
+  "eveningCloseWin1Hint": "خپل لومړی بریالیتوب ولیکئ...",
+  "eveningCloseWin2Hint": "خپل دویم بریالیتوب ولیکئ...",
+  "eveningCloseWin3Hint": "خپل دریم بریالیتوب ولیکئ...",
+  "eveningCloseStep2Title": "یوه ننګونه، یو زده کړه",
+  "eveningCloseStep2Subtitle": "سختي یو ډول معلومات دي. هغې تاسو ته څه درس درکړ؟",
+  "eveningCloseChallengeHint": "هغه څه چې نن ورځ سخت و...",
+  "eveningCloseLessonHint": "ما څه زده کړل یا څنګه وغوښتم...",
+  "eveningCloseStep3Title": "نن ورځ ستاسو ټوله روغتیا",
+  "eveningCloseCompassionTitle": "د ځان سره مهربانۍ پای",
+  "eveningCloseCompassionMessage": "ما نن ورځ د هغه څه سره چې درلودم خپله ډیره هڅه وکړه. زه لکه څنګه چې یم بسنه کوم. سبا به بیا پیل کوم.",
+  "eveningCloseReceiveBtn": "زه دا منم",
+  "eveningCloseReceivedBtn": "ومنل شو",
+  "closeDay": "ورځ پای ته ورسوئ",
 
-  "eveningCloseActivity": "د ماښام د کار پای"
+  "remindersTitle": "یادونې",
+
+  "sleepReminderTitle": "د خوب یادونه",
+  "sleepReminderSubtitle": "هره ورځ د شپې په ۱۰:۰۰ بجو",
+  "sleepReminderDialogTitle": "د خوب وخت دی",
+  "sleepReminderMessage": "ستاسو بدن استراحت ته اړتیا لري. پر خپل وخت ویده شئ ترڅو سبا له انرژۍ ډک اوسئ.",
+  "sleepReminderPopUpMessage": "دا یادونه له تاسو سره مرسته کوي چې د خوب ښه عادت جوړ کړئ. هره شپه د ۱۰:۰۰ بجو پر مهال به تاسو ته پر خپل وخت د ویده کېدو او د خپلې روغتیا د ساتنې یادونه وکړي.",
+
+  "foodReminderTitle": "د سالمې خوړو یادونه",
+  "foodReminderSubtitle": "هره ورځ د ماسپښین په ۱:۰۰ بجه",
+  "foodReminderDialogTitle": "سالم خواړه وخورئ",
+  "foodReminderMessage": "نن یو سالم خواړه وټاکئ؛ ستاسو بدن به ترې منندوی وي.",
+  "foodReminderPopUpMessage": "دا یادونه له تاسو سره مرسته کوي چې سالم خواړه هېر نه کړئ. هره ورځ د ماسپښین په ۱:۰۰ بجه به تاسو ته د غوره خوړو د انتخاب او د خپل بدن د پاملرنې یادونه وکړي.",
+
+  "postureReminderTitle": "د بدن د سم حالت یادونه",
+  "postureReminderSubtitle": "هره ورځ د سهار په ۹:۰۰ بجو",
+  "postureReminderDialogTitle": "د بدن حالت سم کړئ",
+  "postureReminderMessage": "سم او نېغ کېنئ، اوږې مو ارامې وساتئ او د ملا له کوږولو ډډه وکړئ.",
+  "postureReminderPopUpMessage": "دا یادونه ستاسو د ملا او د بدن د سم حالت په ساتنه کې مرسته کوي. هره ورځ د سهار په ۹:۰۰ بجو به تاسو ته د سم کېناستو، د ملا د نېغ ساتلو، د اوږو د ارام ساتلو او د ملا له کوږولو څخه د ډډې کولو یادونه وکړي.",
+  "activate": "فعالول"
+
 }

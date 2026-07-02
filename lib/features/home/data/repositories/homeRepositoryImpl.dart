@@ -1,3 +1,4 @@
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellmate/core/utils/timeUtils.dart';
 
 import '../../domain/repositories/homeRepository.dart';
@@ -40,5 +41,10 @@ class HomeRepositoryImpl implements HomeRepository {
     final difference = TimeUtils().calculateDayDifference(lastDate);
 
     return difference;
+  }
+
+  @override
+  Future<void> resetProgress() {
+    return local.resetProgress();
   }
 }

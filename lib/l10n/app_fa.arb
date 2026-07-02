@@ -50,7 +50,8 @@
   "feeling_anxious": "مضطرب",
   "feeling_sad": "غمگین",
   "carpet_title": "قالی بافی هرات",
-  "read_about": "دربارهٔ قالی هرات بخوانید",
+  "read_about": "دربارهٔ {journeyName} بخوانید",
+
   "createAccount": "ایجاد حساب",
   "createAccountSubtitle": "سفر خود را به یک ذهن آرام تر آغاز کنید",
   "email": "ایمیل",
@@ -246,6 +247,25 @@
   "gameDialogTitle": "آفرین!",
   "chatBotTitle": "دستیار هوش مصنوعی",
   "chatBotHint": "...هر چیزی می‌خواهید از من بپرسید",
+
+  "oneDayMissedDialogTitle": "یک روز را از دست دادید",
+  "oneDayMissedDialogMessage": "اشکالی ندارد، گاهی برای همه پیش می‌آید. فقط یادتان باشد اگر یک روز دیگر را هم از دست بدهید، پیشرفت فعلی شما در این مسیر از بین خواهد رفت. امروز ادامه دهید؛ شما از پس آن برمی‌آیید!",
+  "journeyResetDialogTitle": "مسیر شما از نو آغاز شد",
+  "journeyResetDialogMessage": "شما چند روز را از دست داده اید، بنابراین مسیرتان از نو آغاز شد. نگران نباشید—پیشرفت به معنای کامل بودن نیست. امروز دوباره شروع کنید و به پیش رفتن ادامه دهید.",
+
+  "journeyCompletionMessage": "شما سفر خود را با موفقیت به پایان رساندید. هر زمان که آماده باشید، می توانید یک سفر جدید را آغاز کنید و به پیشرفت خود ادامه دهید.",
+  "journeyCompletionDialogButton1": "شروع سفر جدید",
+  "journeyCompletionDialogButton2": "بعداً",
+
+  "profile": "پروفایل",
+  "profileSubTitle": "زبان و سفر خود را تنظیم کنید",
+  "english": "انگلیسی",
+  "dari": "دری",
+  "pashto": "پشتو",
+  "chooseJourney": "سفر خود را انتخاب کنید",
+  "addJourney": "افزودن سفر",
+  "logout": "خروج",
+
   "morningIntentionsActivity": "نیت‌های صبحگاهی",
   "morningIntentionsInstruction": "لحظه‌ای آرام برای تعیین نیت‌های امروز خود اختصاص دهید.",
   "morningIntentionsFocusTitle": "امروز روی این تمرکز می‌کنم",
@@ -258,6 +278,42 @@
   "morningIntentionsCareHint": "استراحت، حرکت، تغذیه، ارتباط؟",
   "morningIntentionsCareInputHint": "بنویسید چگونه از خودتان مراقبت می‌کنید...",
   "submit": "ارسال",
+  "eveningCloseActivity": "بستن شب",
+  "eveningCloseStep1Title": "سه موفقیت امروز",
+  "eveningCloseStep1Subtitle": "هر اندازه‌ای مهم است — یک حرف مهربانانه، یک کار انجام‌شده، حاضر بودن در لحظات سخت.",
+  "eveningCloseWin1Hint": "اولین موفقیت خود را بنویسید...",
+  "eveningCloseWin2Hint": "دومین موفقیت خود را بنویسید...",
+  "eveningCloseWin3Hint": "سومین موفقیت خود را بنویسید...",
+  "eveningCloseStep2Title": "یک چالش، یک درس",
+  "eveningCloseStep2Subtitle": "سختی، خودش نوعی داده است. چه چیزی به شما آموخت؟",
+  "eveningCloseChallengeHint": "چیزی که امروز سخت بود...",
+  "eveningCloseLessonHint": "چه چیزی یاد گرفتم یا چگونه رشد کردم...",
+  "eveningCloseStep3Title": "وضعیت کلی امروز شما",
+  "eveningCloseCompassionTitle": "پایان همدلانه با خود",
+  "eveningCloseCompassionMessage": "من امروز با آنچه داشتم بهترین تلاشم را کردم. همین‌گونه که هستم کافی‌ام. فردا دوباره آغاز می‌کنم.",
+  "eveningCloseReceiveBtn": "این را می‌پذیرم",
+  "eveningCloseReceivedBtn": "پذیرفته شد",
+  "closeDay": "پایان روز",
 
-  "eveningCloseActivity": "پایان شیفت عصر"
+  "remindersTitle": "یادآوری‌ها",
+
+  "sleepReminderTitle": "یادآوری خواب",
+  "sleepReminderSubtitle": "هر روز ساعت ۱۰:۰۰ شب",
+  "sleepReminderDialogTitle": "وقت خواب است",
+  "sleepReminderMessage": "بدنت به استراحت نیاز دارد. به‌موقع بخواب تا برای فردا انرژی داشته باشی.",
+  "sleepReminderPopUpMessage": "این یادآوری به شما کمک می‌کند عادت خواب بهتری داشته باشید. هر شب ساعت ۱۰:۰۰ شما را برای خواب به‌موقع و مراقبت از سلامتی‌تان یادآوری می‌کند.",
+
+  "foodReminderTitle": "یادآوری غذای سالم",
+  "foodReminderSubtitle": "هر روز ساعت ۱:۰۰ بعد از ظهر",
+  "foodReminderDialogTitle": "غذای سالم بخورید",
+  "foodReminderMessage": "امروز یک غذای سالم انتخاب کنید؛ بدنتان از شما سپاسگزار خواهد بود.",
+  "foodReminderPopUpMessage": "این یادآوری به شما کمک می‌کند خوردن غذای سالم را فراموش نکنید. هر روز ساعت ۱:۰۰ بعد از ظهر شما را برای انتخاب غذای سالم‌تر و مراقبت از بدنتان یادآوری می‌کند.",
+
+  "postureReminderTitle": "یادآوری وضعیت بدن",
+  "postureReminderSubtitle": "هر روز ساعت ۹:۰۰ صبح",
+  "postureReminderDialogTitle": "وضعیت نشستن خود را اصلاح کنید",
+  "postureReminderMessage": "صاف بنشینید، شانه‌ها را رها کنید و از خم کردن کمر خودداری کنید.",
+  "postureReminderPopUpMessage": "این یادآوری به حفظ سلامت کمر و وضعیت بدن شما کمک می‌کند. هر روز ساعت ۹:۰۰ صبح شما را برای درست نشستن، صاف نگه‌داشتن کمر، شل کردن شانه‌ها و جلوگیری از خم شدن یادآوری می‌کند.",
+  "activate": "فعال کردن"
+
 }

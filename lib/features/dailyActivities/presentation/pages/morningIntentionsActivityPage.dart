@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
 import 'package:wellmate/core/widgets/ButtonCom.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../providers/activityProvider.dart';
 
 class MorningIntentionsActivityPage extends StatefulWidget {
   const MorningIntentionsActivityPage({super.key});
@@ -45,12 +47,12 @@ class MorningIntentionsActivityPageState extends State<MorningIntentionsActivity
 
     HapticFeedback.lightImpact();
 
-    final value =
-        'focus: ${_focusController.text.trim()} | '
-        'mindful: ${_mindfulController.text.trim()} | '
-        'care: ${_careController.text.trim()}';
-
-    debugPrint(value);
+    context.read<ActivityProvider>().saveActivityLog(
+      activityId: 6,
+      value:
+      '{"focus":"${_focusController.text}","mindful":"${_mindfulController.text}",'
+          '"care":"${_careController.text}"}',
+    );
 
     context.pop("activity completed");
   }
@@ -225,8 +227,7 @@ class MorningIntentionsActivityPageState extends State<MorningIntentionsActivity
               ),
             ),
 
-            Container(
-              width: double.infinity,
+            Padding(
               padding: EdgeInsets.fromLTRB(
                 horizontalPadding,
                 12,
