@@ -293,6 +293,27 @@
   "eveningCloseCompassionMessage": "من امروز با آنچه داشتم بهترین تلاشم را کردم. همین‌گونه که هستم کافی‌ام. فردا دوباره آغاز می‌کنم.",
   "eveningCloseReceiveBtn": "این را می‌پذیرم",
   "eveningCloseReceivedBtn": "پذیرفته شد",
-  "closeDay": "پایان روز"
+  "closeDay": "پایان روز",
+
+  "remindersTitle": "یادآوری‌ها",
+
+  "sleepReminderTitle": "یادآوری خواب",
+  "sleepReminderSubtitle": "هر روز ساعت ۱۰:۰۰ شب",
+  "sleepReminderDialogTitle": "وقت خواب است",
+  "sleepReminderMessage": "بدنت به استراحت نیاز دارد. به‌موقع بخواب تا برای فردا انرژی داشته باشی.",
+  "sleepReminderPopUpMessage": "این یادآوری به شما کمک می‌کند عادت خواب بهتری داشته باشید. هر شب ساعت ۱۰:۰۰ شما را برای خواب به‌موقع و مراقبت از سلامتی‌تان یادآوری می‌کند.",
+
+  "foodReminderTitle": "یادآوری غذای سالم",
+  "foodReminderSubtitle": "هر روز ساعت ۱:۰۰ بعد از ظهر",
+  "foodReminderDialogTitle": "غذای سالم بخورید",
+  "foodReminderMessage": "امروز یک غذای سالم انتخاب کنید؛ بدنتان از شما سپاسگزار خواهد بود.",
+  "foodReminderPopUpMessage": "این یادآوری به شما کمک می‌کند خوردن غذای سالم را فراموش نکنید. هر روز ساعت ۱:۰۰ بعد از ظهر شما را برای انتخاب غذای سالم‌تر و مراقبت از بدنتان یادآوری می‌کند.",
+
+  "postureReminderTitle": "یادآوری وضعیت بدن",
+  "postureReminderSubtitle": "هر روز ساعت ۹:۰۰ صبح",
+  "postureReminderDialogTitle": "وضعیت نشستن خود را اصلاح کنید",
+  "postureReminderMessage": "صاف بنشینید، شانه‌ها را رها کنید و از خم کردن کمر خودداری کنید.",
+  "postureReminderPopUpMessage": "این یادآوری به حفظ سلامت کمر و وضعیت بدن شما کمک می‌کند. هر روز ساعت ۹:۰۰ صبح شما را برای درست نشستن، صاف نگه‌داشتن کمر، شل کردن شانه‌ها و جلوگیری از خم شدن یادآوری می‌کند.",
+  "activate": "فعال کردن"
 
 }
