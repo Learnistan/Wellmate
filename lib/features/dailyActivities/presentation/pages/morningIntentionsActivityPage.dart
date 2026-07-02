@@ -135,11 +135,11 @@ class MorningIntentionsActivityPageState extends State<MorningIntentionsActivity
     final horizontalPadding = mq.size.width * 0.05;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black87),
@@ -232,16 +232,6 @@ class MorningIntentionsActivityPageState extends State<MorningIntentionsActivity
                 12,
                 horizontalPadding,
                 12,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
-                    blurRadius: 8,
-                    offset: const Offset(0, -2),
-                  ),
-                ],
               ),
               child: SizedBox(
                 width: double.infinity,

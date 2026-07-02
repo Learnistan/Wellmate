@@ -191,10 +191,10 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
 
     return SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.background,
           appBar: AppBar(
             centerTitle: true,
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.background,
             elevation: 0,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black87),
