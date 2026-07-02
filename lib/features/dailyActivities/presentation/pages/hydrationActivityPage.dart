@@ -49,8 +49,11 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
 
     Future.microtask(() async {
       final provider = context.read<ActivityProvider>();
+
       await provider.loadTodayHydrationGlasses();
+
       print(provider.hydrationGlasses);
+
       setState(() {
         currentGlasses = provider.hydrationGlasses;
       });
@@ -68,6 +71,7 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
 
     setState(() {
       currentGlasses++;
+
       context.read<ActivityProvider>().saveActivityLog(
         activityId: 3,
         value: '{"glasses":$currentGlasses}',
@@ -78,6 +82,7 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
 
     if (currentGlasses == maxGlasses) {
       Future.delayed(const Duration(milliseconds: 800), () {
+
         showDialog(
           context: context,
           builder: (_) => AlertDialog(
@@ -85,7 +90,9 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
               borderRadius: BorderRadius.circular(20),
             ),
             title: Text(loc.hydrationPopupTitle),
-            content: Text(loc.hydrationPopupMessage),
+            content: Text(
+              loc.hydrationPopupMessage,
+            ),
             actions: [
               TextButton(
                 onPressed: () {
@@ -111,77 +118,55 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
   Widget build(BuildContext context) {
     final waterLevel = currentGlasses / maxGlasses;
     final locale = Localizations.localeOf(context);
-    final mq = MediaQuery.of(context);
-    final scale = (mq.size.width / 390).clamp(0.85, 1.2);
 
     return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (didPop) return;
-        context.pop(currentGlasses);
-      },
-      child: Scaffold(
-        backgroundColor: AppColors.background,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black87),
-            onPressed: () => context.pop(currentGlasses),
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop) return ;
+
+          context.pop(currentGlasses);
+        },
+        child: Scaffold(
+          backgroundColor: AppColors.background,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: Text(
+              loc.activity_hydration,
+              style: AppTextStyles.semiBold(locale).copyWith(fontSize: 20),
+            ),
+            centerTitle: true,
           ),
-          title: Text(
-            loc.activity_hydration,
-            style: AppTextStyles.semiBold(locale).copyWith(fontSize: 20 * scale),
-          ),
-          centerTitle: true,
-        ),
-        body: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
+          body: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
 
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 400),
                       child: Text(
-                        motivationText,
-                        key: ValueKey(motivationText),
-                        textAlign: TextAlign.center,
-                        style: AppTextStyles.semiBold(locale).copyWith(
-                          fontSize: 15 * scale,
-                          color: AppColors.textPrimary,
-                        ),
+                          motivationText,
+                          key: ValueKey(motivationText),
+                          textAlign: TextAlign.center,
+                          style: AppTextStyles.semiBold(locale)
                       ),
                     ),
 
-                    SizedBox(height: mq.size.height * 0.01),
+                    const SizedBox(height: 30),
 
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 18 * scale,
-                        vertical: 6 * scale,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(
-                          color: AppColors.primary.withOpacity(0.3),
-                          width: 1.2,
-                        ),
-                      ),
-                      child: Text(
-                        "$currentGlasses / $maxGlasses ${loc.glassesTxt}",
-                        style: AppTextStyles.semiBold(locale).copyWith(
-                          fontSize: 15 * scale,
-                          color: AppColors.primary,
-                        ),
+                    Text(
+                      "$currentGlasses / $maxGlasses ${loc.glassesTxt}",
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.black54,
                       ),
                     ),
 
-                    SizedBox(height: mq.size.height * 0.025),
+                    const SizedBox(height: 40),
 
                     Expanded(
                       child: Center(
@@ -190,58 +175,97 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
                           duration: const Duration(milliseconds: 700),
                           curve: Curves.easeInOut,
                           builder: (context, value, child) {
-                            final glassH = mq.size.height * 0.32;
-                            final glassW = glassH * 0.58;
-                            return _BeautifulGlass(
-                              fillLevel: value,
-                              width: glassW,
-                              height: glassH,
+                            return SizedBox(
+                              width: 220,
+                              height: 340,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  ClipPath(
+                                    clipper: GlassClipper(),
+                                    child: Container(
+                                      width: 180,
+                                      height: 300,
+                                      color: Colors.white.withOpacity(0.15),
+                                      child: Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Container(
+                                          height: 300 * value,
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: [
+                                                Colors.lightBlueAccent.withOpacity(0.8),
+                                                Colors.blue.withOpacity(0.9),
+                                              ],
+                                            ),
+                                          ),
+                                          // child: const WaterSurface(),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  ClipPath(
+                                    clipper: GlassClipper(),
+                                    child: Container(
+                                      width: 180,
+                                      height: 300,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Colors.white.withOpacity(0.25),
+                                            Colors.white.withOpacity(0.05),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  CustomPaint(
+                                    size: const Size(180, 300),
+                                    painter: GlassBorderPainter(),
+                                  ),
+                                ],
+                              ),
                             );
                           },
                         ),
                       ),
                     ),
 
-                    SizedBox(height: mq.size.height * 0.025),
+                    const SizedBox(height: 20),
 
                     Row(
-                      children: List.generate(maxGlasses, (index) {
-                        final filled = index < currentGlasses;
-                        return Expanded(
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            margin: const EdgeInsets.symmetric(horizontal: 3),
-                            height: 10,
+                      children: List.generate(
+                        maxGlasses,
+                            (index) => Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            height: 12,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: filled
-                                  ? AppColors.primary
-                                  : AppColors.secondary,
-                              boxShadow: filled
-                                  ? [
-                                BoxShadow(
-                                  color: AppColors.primary.withOpacity(0.35),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ]
-                                  : null,
+                              color: index < currentGlasses
+                                  ? Colors.blue
+                                  : Colors.grey.shade300,
                             ),
                           ),
-                        );
-                      }),
+                        ),
+                      ),
                     ),
 
-                    SizedBox(height: mq.size.height * 0.03),
+                    const SizedBox(height: 30),
 
                     SizedBox(
                       width: double.infinity,
-                      height: 56 * scale,
                       child: ElevatedButton(
                         onPressed: drinkWater,
                         style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 18),
                           backgroundColor: AppColors.primary,
-                          elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
                           ),
@@ -250,211 +274,130 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
                           currentGlasses == maxGlasses
                               ? loc.hydrationBtn3
                               : loc.hydrationBtn1,
-                          style: AppTextStyles.semiBold(locale).copyWith(
-                            fontSize: 17 * scale,
+                          style: const TextStyle(
+                            fontSize: 18,
                             color: Colors.white,
                           ),
                         ),
                       ),
                     ),
 
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
 
                     TextButton(
                       onPressed: resetProgress,
                       child: Text(
-                        loc.hydrationBtn2,
-                        style: AppTextStyles.semiBold(locale).copyWith(
-                          color: AppColors.darkerGray,
-                          fontSize: 14 * scale,
-                        ),
+                          loc.hydrationBtn2,
+                          style: AppTextStyles.semiBold(locale)
                       ),
                     ),
 
-                    SizedBox(height: mq.size.height * 0.015),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        )
     );
   }
 }
 
-
-class _BeautifulGlass extends StatelessWidget {
-  final double fillLevel; // 0.0 → 1.0
-  final double width;
-  final double height;
-
-  const _BeautifulGlass({
-    required this.fillLevel,
-    required this.width,
-    required this.height,
-  });
-
+class GlassClipper extends CustomClipper<Path> {
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: width + 20,
-      height: height + 20,
-      child: CustomPaint(
-        painter: _GlassPainter(fillLevel: fillLevel),
-      ),
-    );
-  }
-}
-
-class _GlassPainter extends CustomPainter {
-  final double fillLevel;
-
-  const _GlassPainter({required this.fillLevel});
-
-  Path _glassOutlinePath(Size size) {
-    final w = size.width;
-    final h = size.height;
-
-    final tl = Offset(w * 0.05, h * 0.04);
-    final tr = Offset(w * 0.95, h * 0.04);
-    final br = Offset(w * 0.83, h * 0.96);
-    final bl = Offset(w * 0.17, h * 0.96);
-
-    const r = 12.0;
+  Path getClip(Size size) {
+    const bottomRadius = 28.0;
 
     final path = Path();
 
-    // Top edge — left to right
-    path.moveTo(tl.dx + r, tl.dy);
-    path.lineTo(tr.dx - r, tr.dy);
-    // Top-right corner
-    path.quadraticBezierTo(tr.dx, tr.dy, tr.dx, tr.dy + r);
-    // Right side — top to bottom
-    path.lineTo(br.dx, br.dy - r);
-    // Bottom-right corner
-    path.quadraticBezierTo(br.dx, br.dy, br.dx - r, br.dy);
-    // Bottom edge — right to left
-    path.lineTo(bl.dx + r, bl.dy);
-    // Bottom-left corner
-    path.quadraticBezierTo(bl.dx, bl.dy, bl.dx, bl.dy - r);
-    // Left side — bottom to top
-    path.lineTo(tl.dx, tl.dy + r);
-    // Top-left corner
-    path.quadraticBezierTo(tl.dx, tl.dy, tl.dx + r, tl.dy);
+    // top-left (sharp)
+    path.moveTo(size.width * 0.12, 0);
+
+    // top edge (sharp)
+    path.lineTo(size.width * 0.88, 0);
+
+    // right side going down (fat glass)
+    path.lineTo(size.width * 0.78, size.height - bottomRadius);
+
+    // bottom-right round corner
+    path.quadraticBezierTo(
+      size.width * 0.78,
+      size.height,
+      size.width * 0.62,
+      size.height,
+    );
+
+    // bottom line
+    path.lineTo(size.width * 0.38, size.height);
+
+    // bottom-left round corner
+    path.quadraticBezierTo(
+      size.width * 0.22,
+      size.height,
+      size.width * 0.22,
+      size.height - bottomRadius,
+    );
+
+    // left side up
+    path.lineTo(size.width * 0.12, 0);
 
     path.close();
+
     return path;
   }
 
   @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+class GlassBorderPainter extends CustomPainter {
+  @override
   void paint(Canvas canvas, Size size) {
-    final outlinePath = _glassOutlinePath(size);
+    const bottomRadius = 28.0;
 
-    final bgPaint = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Colors.white.withOpacity(0.18),
-          AppColors.secondary.withOpacity(0.10),
-          Colors.white.withOpacity(0.06),
-        ],
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
-      ..style = PaintingStyle.fill;
-
-    canvas.drawPath(outlinePath, bgPaint);
-
-    if (fillLevel > 0) {
-      canvas.save();
-      canvas.clipPath(outlinePath);
-
-      final fillTop = size.height * (1 - fillLevel * 0.93 - 0.04);
-
-      final wavePath = Path();
-      wavePath.moveTo(0, fillTop);
-
-      const waveCount = 3;
-      final segW = size.width / waveCount;
-      for (int i = 0; i < waveCount; i++) {
-        final x0 = i * segW;
-        wavePath.cubicTo(
-          x0 + segW * 0.25, fillTop - 5,
-          x0 + segW * 0.75, fillTop + 5,
-          x0 + segW, fillTop,
-        );
-      }
-
-      wavePath.lineTo(size.width, size.height);
-      wavePath.lineTo(0, size.height);
-      wavePath.close();
-
-      final waterPaint = Paint()
-        ..shader = LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            AppColors.primary.withOpacity(0.45),
-            AppColors.primary.withOpacity(0.70),
-            const Color(0xFF6E4A55).withOpacity(0.75),
-          ],
-        ).createShader(Rect.fromLTWH(0, fillTop, size.width, size.height - fillTop))
-        ..style = PaintingStyle.fill;
-
-      canvas.drawPath(wavePath, waterPaint);
-
-      final shimmerPaint = Paint()
-        ..color = Colors.white.withOpacity(0.35)
-        ..strokeWidth = 1.5
-        ..style = PaintingStyle.stroke;
-      canvas.drawPath(wavePath, shimmerPaint);
-
-      canvas.restore();
-    }
-
-    final shinePath = Path();
-    shinePath.moveTo(size.width * 0.12, size.height * 0.07);
-    shinePath.quadraticBezierTo(
-      size.width * 0.18, size.height * 0.40,
-      size.width * 0.14, size.height * 0.72,
-    );
-    shinePath.lineTo(size.width * 0.20, size.height * 0.72);
-    shinePath.quadraticBezierTo(
-      size.width * 0.23, size.height * 0.40,
-      size.width * 0.20, size.height * 0.07,
-    );
-    shinePath.close();
-
-    canvas.save();
-    canvas.clipPath(outlinePath);
-    final shinePaint = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Colors.white.withOpacity(0.55),
-          Colors.white.withOpacity(0.0),
-        ],
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
-      ..style = PaintingStyle.fill;
-    canvas.drawPath(shinePath, shinePaint);
-    canvas.restore();
-
-    final borderPaint = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          AppColors.primary.withOpacity(0.55),
-          AppColors.secondary.withOpacity(0.80),
-          AppColors.primary.withOpacity(0.30),
-        ],
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
-      ..strokeWidth = 2.0
+    final paint = Paint()
+      ..color = Colors.blueGrey.shade300
+      ..strokeWidth = 4
       ..style = PaintingStyle.stroke;
 
-    canvas.drawPath(outlinePath, borderPaint);
+    final path = Path();
+
+    // top-left sharp
+    path.moveTo(size.width * 0.12, 0);
+
+    // top edge
+    path.lineTo(size.width * 0.88, 0);
+
+    // right side
+    path.lineTo(size.width * 0.78, size.height - bottomRadius);
+
+    // rounded bottom-right
+    path.quadraticBezierTo(
+      size.width * 0.78,
+      size.height,
+      size.width * 0.62,
+      size.height,
+    );
+
+    // bottom edge
+    path.lineTo(size.width * 0.38, size.height);
+
+    // rounded bottom-left
+    path.quadraticBezierTo(
+      size.width * 0.22,
+      size.height,
+      size.width * 0.22,
+      size.height - bottomRadius,
+    );
+
+    // left side back to top
+    path.lineTo(size.width * 0.12, 0);
+
+    path.close();
+
+    canvas.drawPath(path, paint);
   }
 
   @override
-  bool shouldRepaint(_GlassPainter old) => old.fillLevel != fillLevel;
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
