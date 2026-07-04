@@ -122,7 +122,7 @@ const Map<Journeys, JourneyModel> journeysData = {
         35,
         38,
         40,
-        47
+        46
       ]
   ),
 };

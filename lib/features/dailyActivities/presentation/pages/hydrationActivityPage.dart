@@ -1,5 +1,3 @@
-import 'dart:math';
-import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +23,6 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
   int currentGlasses = 0;
 
   late AnimationController _waterController;
-  late ConfettiController _confettiController;
   late final loc = AppLocalizations.of(context)!;
 
   String get motivationText {
@@ -49,10 +46,6 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
       duration: const Duration(milliseconds: 700),
     );
 
-    _confettiController = ConfettiController(
-      duration: const Duration(seconds: 3),
-    );
-
     Future.microtask(() async {
       final provider = context.read<ActivityProvider>();
       await provider.loadTodayHydrationGlasses();
@@ -66,7 +59,6 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
   @override
   void dispose() {
     _waterController.dispose();
-    _confettiController.dispose();
     super.dispose();
   }
 
@@ -85,7 +77,6 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
 
     if (currentGlasses == maxGlasses) {
       Future.delayed(const Duration(milliseconds: 800), () {
-        _confettiController.play();
         showDialog(
           context: context,
           builder: (_) => AlertDialog(
@@ -146,18 +137,6 @@ class _HydrationActivityPageState extends State<HydrationActivityPage>
         body: Stack(
           alignment: Alignment.topCenter,
           children: [
-            ConfettiWidget(
-              confettiController: _confettiController,
-              blastDirectionality: BlastDirectionality.explosive,
-              shouldLoop: false,
-              numberOfParticles: 25,
-              colors: const [
-                AppColors.primary,
-                AppColors.secondary,
-                AppColors.appGreen,
-                Color(0xFFE8A0A8),
-              ],
-            ),
             SafeArea(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24 * scale),
