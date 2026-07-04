@@ -426,9 +426,9 @@ class _GlassPainter extends CustomPainter {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            AppColors.primary.withOpacity(0.45),
-            AppColors.primary.withOpacity(0.70),
-            const Color(0xFF6E4A55).withOpacity(0.75),
+            Colors.lightBlueAccent.withOpacity(0.60),
+            Colors.blue.withOpacity(0.75),
+            Colors.blue.shade700.withOpacity(0.80),
           ],
         ).createShader(Rect.fromLTWH(0, fillTop, size.width, size.height - fillTop))
         ..style = PaintingStyle.fill;
