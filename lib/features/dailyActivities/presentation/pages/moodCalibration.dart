@@ -110,10 +110,9 @@ class _MoodCalibrationState extends State<MoodCalibration> {
         ),
         title: Text(
           loc.moodCalibrationTitle,
-          style: AppTextStyles.title,
+          style: AppTextStyles.semiBold(locale).copyWith(fontSize: 20),
         ),
-        titleSpacing: 0,
-        centerTitle: false,
+        centerTitle: true,
       ),
       body: SafeArea(
         top: false,
