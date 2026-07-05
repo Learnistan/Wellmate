@@ -28,10 +28,10 @@ class CurvedNavBar extends StatelessWidget {
         'active': 'assets/icons/ic_dailyActivities_active.svg',
         'inactive': 'assets/icons/ic_dailyActivities_inactive.svg',
       },
-      {
-        'active': 'assets/icons/ic_journal_active.svg',
-        'inactive': 'assets/icons/ic_journal_inactive.svg',
-      },
+      // {
+      //   'active': 'assets/icons/ic_journal_active.svg',
+      //   'inactive': 'assets/icons/ic_journal_inactive.svg',
+      // },
       {
         'active': 'assets/icons/ic_profile_active.svg',
         'inactive': 'assets/icons/ic_profile_inactive.svg',
