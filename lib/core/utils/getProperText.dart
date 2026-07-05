@@ -80,3 +80,18 @@ String getJourneyDescription(Journeys key, AppLocalizations loc) {
       return loc.pomegranateDescription;
   }
 }
+
+String getJourneyExplanation(Journeys key, AppLocalizations loc) {
+  switch (key) {
+    case .carpet:
+      return loc.journeyCarpetExp;
+    case .minarets:
+      return loc.journeyMinaretsExp;
+    case .womenDress:
+      return loc.journeyWomenDressExp;
+    case .menDress:
+      return loc.journeyMenDressExp;
+    case .pomegranateTree:
+      return loc.journeyPomegranateExp;
+  }
+}
