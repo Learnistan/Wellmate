@@ -50,7 +50,7 @@ final List<Activity> defaultActivities = [
       isActive: true
   ),
   Activity(
-      id: 6,
+      id: 7,
       title: "evening_close",
       duration: "3",
       iconPath: "moon",

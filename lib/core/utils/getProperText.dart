@@ -95,3 +95,20 @@ String getJourneyExplanation(Journeys key, AppLocalizations loc) {
       return loc.journeyPomegranateExp;
   }
 }
+
+String getFeelingsLabel(String key, AppLocalizations loc) {
+  switch (key) {
+    case "😌":
+      return loc.feeling_calm;
+    case "😊":
+      return loc.feeling_good;
+    case "😞":
+      return loc.feeling_tired;
+    case "😣":
+      return loc.feeling_anxious;
+    case "😔":
+      return loc.feeling_sad;
+    default:
+      return key;
+  }
+}
