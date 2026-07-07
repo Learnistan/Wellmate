@@ -52,6 +52,16 @@
   "carpet_title": "Herat Carpet Weaving",
   "read_about": "Read about {journeyName}",
 
+  "feeling_calm_exp": "You are feeling calm. This is a good moment to care for your body. Drinking water helps you stay refreshed and balanced.",
+  "feeling_good_exp": "You are feeling happy. Movement can help you use this positive energy and keep your body active and fresh.",
+  "feeling_tired_exp": "You are feeling tired. Mood calibration can help you pause, check in with yourself, and understand what your body and mind need.",
+  "feeling_anxious_exp": "You are feeling worried. A short breathing activity can help calm your nervous system and bring your attention back to the present.",
+  "feeling_sad_exp": "You are feeling sad. A body scan can help you gently reconnect with yourself and release some tension from your body.",
+  "feeling_default_exp": "This activity can help you take a small positive step for your wellbeing.",
+
+  "carpet_title_exp": "Herat Carpet Weaving",
+  "read_about_exp": "Read about {journeyName}",
+
   "createAccount": "Create Account",
   "createAccountSubtitle": "Start your journey to a calmer mind",
   "email": "Email",
@@ -245,7 +255,7 @@
   "visualizingPopUpMessage": "Amazing work! You visualized 5 words successfully.",
   "goHome": "Go Home",
   "gameDialogTitle": "Good job!",
-  "chatBotTitle": "AI Assistant",
+  "chatBotTitle": "Wellmate Assistant",
   "chatBotHint": "Ask me anything...",
 
   "oneDayMissedDialogTitle": "You missed a day",
@@ -314,6 +324,17 @@
   "postureReminderDialogTitle": "Fix your posture",
   "postureReminderMessage": "Sit straight, relax your shoulders, and avoid bending your back.",
   "postureReminderPopUpMessage": "This reminder helps you protect your back and posture. It will remind you every day at 9:00 AM to sit properly, keep your back straight, relax your shoulders, and avoid bending.",
-  "activate": "Activate"
+  "activate": "Activate",
+
+  "journeyCarpetExp": "A Mazar carpet is woven slowly, thread by thread, with care and patience. In this journey, every daily activity helps complete the carpet, symbolizing healing, rebuilding, and the beauty of small consistent efforts.",
+  "journeyMinaretsExp": "The Minarets of Herat stand as symbols of history, strength, and resilience. In this journey, your progress helps rebuild the minarets, reminding you that strong foundations are created step by step.",
+  "journeyWomenDressExp": "The Afghan women dress is full of color, detail, and cultural beauty. As you complete your daily activities, the dress gradually comes to life, representing confidence, creativity, and pride in heritage.",
+  "journeyMenDressExp": "The Kandahari Ghara represents dignity, identity, and Afghan tradition. In this journey, each completed activity helps craft the garment, showing discipline, personal growth, and pride in who you are.",
+  "journeyPomegranateExp": "The pomegranate tree grows with time, care, and patience. Your daily progress helps it grow from a small beginning into a fruitful tree, symbolizing consistency, life, and meaningful growth.",
+  "selectJourney": "Select this journey",
+  "chooseAnotherJourney": "Choose another journey",
+
+  "doneActivityPopUpTitle": "This activity is done",
+  "doneActivityPopUpMessage": "You've already completed this activity today. Come back tomorrow to continue building your healthy habit."
 
 }

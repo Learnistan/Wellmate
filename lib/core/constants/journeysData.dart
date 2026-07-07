@@ -8,6 +8,7 @@ const Map<Journeys, JourneyModel> journeysData = {
     animationPath: 'assets/videos/Carpet.mp4',
     city: 'MAZAR',
     description: 'Care & Rebuilding',
+    explanation: '',
     pauseSeconds: [
       0,
       5,
@@ -33,6 +34,7 @@ const Map<Journeys, JourneyModel> journeysData = {
     animationPath: 'assets/videos/Minarets.mp4',
     city:'HERAT',
     description: 'Rebuilding & Strength',
+    explanation: '',
     pauseSeconds: [
       0,
       1,
@@ -57,6 +59,7 @@ const Map<Journeys, JourneyModel> journeysData = {
         animationPath: 'assets/videos/dress.mp4',
         city:'KABUL',
         description: 'Rebuilding & Strength',
+        explanation: '',
         pauseSeconds: [
             0,
             5,
@@ -82,6 +85,7 @@ const Map<Journeys, JourneyModel> journeysData = {
       animationPath: 'assets/videos/gare.mp4',
       city:'KANDAHAR',
       description: 'Identity & Pride',
+      explanation: '',
       pauseSeconds: [
         0,
         3,
@@ -107,6 +111,7 @@ const Map<Journeys, JourneyModel> journeysData = {
       animationPath: 'assets/videos/pomegranate.mp4',
       city:'KANDAHAR',
       description: 'Growth & Patience',
+      explanation: '',
       pauseSeconds: [
         0,
         5,

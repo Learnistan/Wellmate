@@ -4,6 +4,7 @@ class JourneyModel {
   final String animationPath;
   final String city;
   final String description;
+  final String explanation;
   final List<int> pauseSeconds;
 
   const JourneyModel({
@@ -12,6 +13,7 @@ class JourneyModel {
     required this.animationPath,
     required this.city,
     required this.description,
+    required this.explanation,
     required this.pauseSeconds
   });
 
@@ -22,6 +24,7 @@ class JourneyModel {
       animationPath: json['animationPath'],
       city: json['city'],
       description: json['description'],
+      explanation: json['explanation'],
       pauseSeconds: json['pauseSeconds']
     );
   }
@@ -33,6 +36,7 @@ class JourneyModel {
       'animationPath': animationPath,
       'city': city,
       'description': description,
+      'explanation': explanation,
       'pauseSeconds': pauseSeconds
     };
   }

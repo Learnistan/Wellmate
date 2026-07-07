@@ -27,7 +27,7 @@ class MainShell extends ConsumerWidget {
       HomePage(),
       MindfulGamesPage(),
       DailyActivitiesPage(),
-      JournalPage(),
+      // JournalPage(),
       ProfilePage(),
     ];
 
