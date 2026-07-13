@@ -150,7 +150,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   _OptionTile(
                     title: loc.english,
                     subtitle: "Use the app in English",
-                    icon: Icons.translate_rounded,
                     onTap: () {
                       context.read<LocaleProvider>().changeLocale('en');
                     },
@@ -158,7 +157,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   _OptionTile(
                     title: loc.dari,
                     subtitle: "استفاده از برنامه به زبان دری",
-                    icon: Icons.translate_rounded,
                     onTap: () {
                       context.read<LocaleProvider>().changeLocale('fa');
                     },
@@ -166,7 +164,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   _OptionTile(
                     title: loc.pashto,
                     subtitle: "اپلیکیشن په پښتو ژبه وکاروئ",
-                    icon: Icons.translate_rounded,
                     onTap: () {
                       context.read<LocaleProvider>().changeLocale('ps');
                     },
@@ -601,13 +598,11 @@ class _ReminderTile extends StatelessWidget {
 class _OptionTile extends StatelessWidget {
   final String title;
   final String subtitle;
-  final IconData icon;
   final VoidCallback onTap;
 
   const _OptionTile({
     required this.title,
     required this.subtitle,
-    required this.icon,
     required this.onTap,
   });
 
@@ -625,10 +620,6 @@ class _OptionTile extends StatelessWidget {
             padding: const EdgeInsets.all(14),
             child: Row(
               children: [
-                Icon(
-                  icon,
-                  color: AppColors.textPrimary,
-                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
