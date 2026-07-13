@@ -77,7 +77,23 @@ class MindfulGamesPage extends StatelessWidget {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(18),
                         onTap: () {
-                          context.push(game.route);
+                          if (game.id == 3) {
+                            showDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                title: Text(loc.readAboutDialogTitle),
+                                content: Text(loc.readAboutDialogMessage),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text(loc.moodCalibrationOkay),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            context.push(game.route);
+                          }
                         },
                         child: Container(
                           padding: const EdgeInsets.all(16),
