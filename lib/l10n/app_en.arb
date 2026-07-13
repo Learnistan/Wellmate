@@ -335,6 +335,8 @@
   "chooseAnotherJourney": "Choose another journey",
 
   "doneActivityPopUpTitle": "This activity is done",
-  "doneActivityPopUpMessage": "You've already completed this activity today. Come back tomorrow to continue building your healthy habit."
+  "doneActivityPopUpMessage": "You've already completed this activity today. Come back tomorrow to continue building your healthy habit.",
+  "readAboutDialogTitle": "Coming Soon",
+  "readAboutDialogMessage": "We're currently preparing this content. It will be available in a future update. Thank you for your patience!"
 
 }
