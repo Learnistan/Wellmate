@@ -332,6 +332,8 @@
   "chooseAnotherJourney": "بل سفر انتخاب کړئ",
 
   "doneActivityPopUpTitle": "دا فعالیت ترسره شوی دی",
-  "doneActivityPopUpMessage": "تاسو نن دا فعالیت لا دمخه بشپړ کړی دی. سبا بیا راشئ ترڅو خپل سالم عادت ته دوام ورکړئ."
+  "doneActivityPopUpMessage": "تاسو نن دا فعالیت لا دمخه بشپړ کړی دی. سبا بیا راشئ ترڅو خپل سالم عادت ته دوام ورکړئ.",
+  "readAboutDialogTitle": "ډېر ژر",
+  "readAboutDialogMessage": "موږ دا منځپانګه چمتو کوو. دا به په راتلونکې تازه‌کونه کې د لاسرسي وړ وي. ستاسو له زغم څخه مننه!"
 
 }

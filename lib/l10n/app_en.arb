@@ -148,7 +148,7 @@
   "womenDressName": "Afghan Women's Dress",
   "womenDressCity": "KABUL",
   "womenDressDescription": "Expression & Identity",
-  "gharaName": "Kandahari Ghara",
+  "gharaName": "Kandahari Gharah",
   "gharaDressCity": "KANDAHAR",
   "gharaDescription": "Identity & Pride",
   "pomegranateName": "Pomegranate Tree",
@@ -329,12 +329,14 @@
   "journeyCarpetExp": "A Mazar carpet is woven slowly, thread by thread, with care and patience. In this journey, every daily activity helps complete the carpet, symbolizing healing, rebuilding, and the beauty of small consistent efforts.",
   "journeyMinaretsExp": "The Minarets of Herat stand as symbols of history, strength, and resilience. In this journey, your progress helps rebuild the minarets, reminding you that strong foundations are created step by step.",
   "journeyWomenDressExp": "The Afghan women dress is full of color, detail, and cultural beauty. As you complete your daily activities, the dress gradually comes to life, representing confidence, creativity, and pride in heritage.",
-  "journeyMenDressExp": "The Kandahari Ghara represents dignity, identity, and Afghan tradition. In this journey, each completed activity helps craft the garment, showing discipline, personal growth, and pride in who you are.",
+  "journeyMenDressExp": "The Kandahari Gharah represents dignity, identity, and Afghan tradition. In this journey, each completed activity helps craft the garment, showing discipline, personal growth, and pride in who you are.",
   "journeyPomegranateExp": "The pomegranate tree grows with time, care, and patience. Your daily progress helps it grow from a small beginning into a fruitful tree, symbolizing consistency, life, and meaningful growth.",
   "selectJourney": "Select this journey",
   "chooseAnotherJourney": "Choose another journey",
 
   "doneActivityPopUpTitle": "This activity is done",
-  "doneActivityPopUpMessage": "You've already completed this activity today. Come back tomorrow to continue building your healthy habit."
+  "doneActivityPopUpMessage": "You've already completed this activity today. Come back tomorrow to continue building your healthy habit.",
+  "readAboutDialogTitle": "Coming Soon",
+  "readAboutDialogMessage": "We're currently preparing this content. It will be available in a future update. Thank you for your patience!"
 
 }
