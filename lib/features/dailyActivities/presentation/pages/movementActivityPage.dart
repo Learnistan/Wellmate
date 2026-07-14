@@ -17,7 +17,6 @@ class MovementActivityPage extends StatefulWidget {
 }
 
 class _MovementActivityPageState extends State<MovementActivityPage> {
-  // User-selectable duration in minutes. Minimum 1 minute.
   static const int minMinutes = 1;
   static const int maxMinutes = 120;
 
@@ -37,12 +36,15 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
   static const double _strideLengthMeters = 0.78;
   static const double _weightKg = 70;
 
+  int _activeSeconds = 0;
+  int _lastCheckedSteps = 0;
+
   double get _distanceKm => _sessionSteps * _strideLengthMeters / 1000;
 
   int get _elapsedSeconds => _sessionDuration - _remainingSeconds;
 
   double get _paceMinPerKm =>
-      _distanceKm > 0 ? (_elapsedSeconds / 60) / _distanceKm : 0;
+      _distanceKm > 0 ? (_activeSeconds / 60) / _distanceKm : 0;
 
   double get _caloriesBurned => _distanceKm * _weightKg * 0.53;
 
@@ -80,7 +82,13 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
         timer.cancel();
         _showSessionFinishedDialog();
       } else {
-        setState(() => _remainingSeconds--);
+        setState(() {
+          _remainingSeconds--;
+          if (_sessionSteps > _lastCheckedSteps) {
+            _activeSeconds++;
+          }
+          _lastCheckedSteps = _sessionSteps;
+        });
       }
     });
 
@@ -102,6 +110,8 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
       _remainingSeconds = _sessionDuration;
       _baselineSteps = null;
       _sessionSteps = 0;
+      _activeSeconds = 0;
+      _lastCheckedSteps = 0;
     });
   }
 
@@ -273,7 +283,6 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
     final locale = Localizations.localeOf(context);
     final loc = AppLocalizations.of(context)!;
 
-    // Allow changing duration only when nothing is in progress.
     final canChangeDuration = !_isRunning && _elapsedSeconds == 0;
 
     return Scaffold(
