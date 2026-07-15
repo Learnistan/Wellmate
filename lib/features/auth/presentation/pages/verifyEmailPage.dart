@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../provider/authProvider.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/ButtonCom.dart';
@@ -102,6 +103,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final loc = AppLocalizations.of(context)!;
+
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -138,8 +142,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
                         const SizedBox(height: 28),
 
-                        const Text(
-                          'Verify your email',
+                        Text(
+                          loc.verifyYourEmail,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 28,
@@ -150,7 +154,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                         const SizedBox(height: 12),
 
                         Text(
-                          'We sent a verification link to:\n$email',
+                          '${loc.weSentLink}\n$email',
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 16,
@@ -161,8 +165,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
                         const SizedBox(height: 12),
 
-                        const Text(
-                          'Open the email and select the verification link. Then return here and press the button below.',
+                        Text(
+                          loc.clickOnVerifyLink,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 14,
@@ -220,7 +224,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                           width: double.infinity,
                           child: AppButton(
                             text:
-                            'I have verified my email',
+                            loc.verified,
                             onPressed:
                             _checkVerification,
                           ),
@@ -235,8 +239,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                               : _resendEmail,
                           child: Text(
                             _canResend
-                                ? 'Resend verification email'
-                                : 'Resend email in $_resendSeconds seconds',
+                                ? loc.resendVerifyEmail
+                                : loc.resendVerifyEmailSec(_resendSeconds),
                           ),
                         ),
 
@@ -246,15 +250,15 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                           onPressed: auth.isLoading
                               ? null
                               : _returnToLogin,
-                          child: const Text(
-                            'Use another email address',
+                          child: Text(
+                            loc.userAnotherEmail,
                           ),
                         ),
 
                         const SizedBox(height: 16),
 
-                        const Text(
-                          'Check your spam or junk folder if the email does not appear in your inbox.',
+                        Text(
+                          loc.checkYourSpam,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12,

@@ -337,6 +337,15 @@
   "doneActivityPopUpTitle": "This activity is done",
   "doneActivityPopUpMessage": "You've already completed this activity today. Come back tomorrow to continue building your healthy habit.",
   "readAboutDialogTitle": "Coming Soon",
-  "readAboutDialogMessage": "We're currently preparing this content. It will be available in a future update. Thank you for your patience!"
+  "readAboutDialogMessage": "We're currently preparing this content. It will be available in a future update. Thank you for your patience!",
+
+  "verifyYourEmail": "Verify your email",
+  "weSentLink": "We sent a verification link to:",
+  "clickOnVerifyLink": "Open the email and click on the verification link. Then return here and press the button below.",
+  "verified": "I have verified my email",
+  "resendVerifyEmail": "Resend verification email",
+  "resendVerifyEmailSec": "Resend email in {_resendSeconds} seconds",
+  "userAnotherEmail": "Use another email address",
+  "checkYourSpam": "Check your spam or junk folder if the email does not appear in your inbox."
 
 }
