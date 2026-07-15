@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wellmate/features/auth/domain/useCases/checkEmailVerification.dart';
 import 'package:wellmate/features/auth/domain/useCases/renderVerificationEmail.dart';
+import '../../../../core/enums/authfailureType.dart';
 import '../../domain/entities/userEntity.dart';
 import '../../domain/useCases/signIn.dart';
 import '../../domain/useCases/signOut.dart';
@@ -36,8 +37,11 @@ class AuthProvider with ChangeNotifier {
   bool _verificationEmailSent = false;
 
   String? _pendingEmail;
-  String? _error;
-  String? _message;
+  AuthFailureType? _error;
+  AuthMessageType? _message;
+
+  AuthFailureType? get error => _error;
+  AuthMessageType? get message => _message;
 
   UserEntity? get user => _user;
 
@@ -52,41 +56,38 @@ class AuthProvider with ChangeNotifier {
 
   String? get pendingEmail => _pendingEmail;
 
-  String? get error => _error;
-
-  String? get message => _message;
-
   void _listenToAuthChanges() {
     _authSubscription =
-        firebaseAuth.userChanges().listen((firebaseUser) {
-          if (firebaseUser == null) {
-            _user = null;
-            _pendingEmail = null;
-            _isVerificationPending = false;
-          } else if (firebaseUser.emailVerified) {
-            _user = UserEntity(
-              id: firebaseUser.uid,
-              email: firebaseUser.email ?? '',
-              emailVerified: true,
-            );
+        firebaseAuth.userChanges().listen(
+              (firebaseUser) {
+            if (firebaseUser == null) {
+              _user = null;
+              _pendingEmail = null;
+              _isVerificationPending = false;
+            } else if (firebaseUser.emailVerified) {
+              _user = UserEntity(
+                id: firebaseUser.uid,
+                email: firebaseUser.email ?? '',
+                emailVerified: true,
+              );
 
-            _pendingEmail = null;
-            _isVerificationPending = false;
-          } else {
-            // Firebase has a user, but the application must not
-            // consider this person authenticated yet.
-            _user = null;
-            _pendingEmail = firebaseUser.email;
-            _isVerificationPending = true;
-          }
+              _pendingEmail = null;
+              _isVerificationPending = false;
+            } else {
+              _user = null;
+              _pendingEmail = firebaseUser.email;
+              _isVerificationPending = true;
+            }
 
-          _isLoading = false;
-          notifyListeners();
-        }, onError: (Object error) {
-          _isLoading = false;
-          _error = _cleanError(error);
-          notifyListeners();
-        });
+            _isLoading = false;
+            notifyListeners();
+          },
+          onError: (Object error) {
+            _isLoading = false;
+            _error = _mapError(error);
+            notifyListeners();
+          },
+        );
   }
 
   Future<bool> login(
@@ -98,26 +99,31 @@ class AuthProvider with ChangeNotifier {
     try {
       final result = await signInUseCase(email, password);
 
-      if (!result.emailVerified) {
-        _user = null;
-        _pendingEmail = result.email;
-        _isVerificationPending = true;
-        _verificationEmailSent = false;
-
-        _message =
-        'Please verify your email before continuing.';
-
-        return true;
-      }
-
       _user = result;
       _pendingEmail = null;
       _isVerificationPending = false;
       _verificationEmailSent = false;
 
       return true;
+    } on AuthException catch (error) {
+      if (error.type == AuthFailureType.emailNotVerified) {
+        final firebaseUser = firebaseAuth.currentUser;
+
+        _user = null;
+        _pendingEmail = firebaseUser?.email ?? email;
+        _isVerificationPending = true;
+        _verificationEmailSent = false;
+        _message = AuthMessageType.verificationRequired;
+
+        // Return true if your router interprets this as:
+        // "authentication operation handled; go to verify page".
+        return true;
+      }
+
+      _error = error.type;
+      return false;
     } catch (error) {
-      _error = _cleanError(error);
+      _error = AuthFailureType.unknown;
       return false;
     } finally {
       _stopLoading();
@@ -133,18 +139,18 @@ class AuthProvider with ChangeNotifier {
     try {
       final result = await signUpUseCase(email, password);
 
-      // Do not set _user here because the account is not verified.
       _user = null;
       _pendingEmail = result.email;
       _isVerificationPending = true;
       _verificationEmailSent = true;
-
-      _message =
-      'A verification email has been sent to ${result.email}.';
+      _message = AuthMessageType.verificationEmailSent;
 
       return true;
+    } on AuthException catch (error) {
+      _error = error.type;
+      return false;
     } catch (error) {
-      _error = _cleanError(error);
+      _error = AuthFailureType.unknown;
       return false;
     } finally {
       _stopLoading();
@@ -160,9 +166,7 @@ class AuthProvider with ChangeNotifier {
 
       if (verifiedUser == null ||
           !verifiedUser.emailVerified) {
-        _error =
-        'Your email is not verified yet. Open the link in your email, then try again.';
-
+        _error = AuthFailureType.emailNotVerified;
         return false;
       }
 
@@ -170,12 +174,14 @@ class AuthProvider with ChangeNotifier {
       _pendingEmail = null;
       _isVerificationPending = false;
       _verificationEmailSent = false;
-
-      _message = 'Your email has been verified successfully.';
+      _message = AuthMessageType.verificationSuccessful;
 
       return true;
+    } on AuthException catch (error) {
+      _error = error.type;
+      return false;
     } catch (error) {
-      _error = _cleanError(error);
+      _error = AuthFailureType.unknown;
       return false;
     } finally {
       _stopLoading();
@@ -189,11 +195,14 @@ class AuthProvider with ChangeNotifier {
       await resendVerificationEmailUseCase();
 
       _verificationEmailSent = true;
-      _message = 'A new verification email has been sent.';
+      _message = AuthMessageType.newVerificationEmailSent;
 
       return true;
+    } on AuthException catch (error) {
+      _error = error.type;
+      return false;
     } catch (error) {
-      _error = _cleanError(error);
+      _error = AuthFailureType.unknown;
       return false;
     } finally {
       _stopLoading();
@@ -210,8 +219,10 @@ class AuthProvider with ChangeNotifier {
       _pendingEmail = null;
       _isVerificationPending = false;
       _verificationEmailSent = false;
-    } catch (error) {
-      _error = _cleanError(error);
+    } on AuthException catch (error) {
+      _error = error.type;
+    } catch (_) {
+      _error = AuthFailureType.unknown;
     } finally {
       _stopLoading();
     }
@@ -235,11 +246,45 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  String _cleanError(Object error) {
-    return error
-        .toString()
-        .replaceFirst('Exception: ', '')
-        .trim();
+  AuthFailureType _mapError(Object error) {
+    if (error is AuthException) {
+      return error.type;
+    }
+
+    if (error is FirebaseAuthException) {
+      switch (error.code) {
+        case 'invalid-email':
+          return AuthFailureType.invalidEmail;
+
+        case 'email-already-in-use':
+          return AuthFailureType.emailAlreadyInUse;
+
+        case 'weak-password':
+          return AuthFailureType.weakPassword;
+
+        case 'user-not-found':
+        case 'wrong-password':
+        case 'invalid-credential':
+          return AuthFailureType.invalidCredentials;
+
+        case 'user-disabled':
+          return AuthFailureType.userDisabled;
+
+        case 'too-many-requests':
+          return AuthFailureType.tooManyRequests;
+
+        case 'network-request-failed':
+          return AuthFailureType.networkError;
+
+        case 'operation-not-allowed':
+          return AuthFailureType.operationNotAllowed;
+
+        default:
+          return AuthFailureType.unknown;
+      }
+    }
+
+    return AuthFailureType.unknown;
   }
 
   @override

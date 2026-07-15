@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wellmate/core/constants/assets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wellmate/core/utils/authFailureLocalization.dart';
 
 import '../provider/authProvider.dart';
 import '../../../../core/widgets/ButtonCom.dart';
@@ -192,7 +193,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           if (auth.error != null) ...[
                             const SizedBox(height: 12),
                             Text(
-                              auth.error!,
+                              auth.error!.localized(loc),
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.red,
@@ -224,8 +225,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 color: AppColors.secondary,
                               ),
                               const SizedBox(width: 8),
-                              const Text(
-                                'Or',
+                              Text(
+                                loc.or,
                                 style:
                                 TextStyle(color: Colors.grey),
                               ),

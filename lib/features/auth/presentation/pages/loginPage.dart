@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:wellmate/core/appController.dart';
 import 'package:wellmate/core/constants/assets.dart';
+import 'package:wellmate/core/utils/authFailureLocalization.dart';
 import 'package:wellmate/core/widgets/SocialIcon.dart';
 
 import '../provider/authProvider.dart';
@@ -190,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
                           if (authProvider.error != null) ...[
                             const SizedBox(height: 8),
                             Text(
-                              authProvider.error!,
+                              authProvider.error!.localized(loc),
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.red,
@@ -222,8 +223,8 @@ class _LoginPageState extends State<LoginPage> {
                                 color: AppColors.secondary,
                               ),
                               const SizedBox(width: 8),
-                              const Text(
-                                'Or',
+                              Text(
+                                loc.or,
                                 style:
                                 TextStyle(color: Colors.grey),
                               ),
