@@ -343,6 +343,33 @@
   "resendVerifyEmail": "د تایید برېښنالیک بیا ولېږئ",
   "resendVerifyEmailSec": "برېښنالیک به په {_resendSeconds} ثانیو کې بیا ولېږل شي",
   "userAnotherEmail": "بل برېښنالیک وکاروئ",
-  "checkYourSpam": "که برېښنالیک په انباکس کې نه ښکاري، د سپم یا نا غوښتل شوو برېښنالیکونو فولډر وګورئ."
+  "checkYourSpam": "که برېښنالیک په انباکس کې نه ښکاري، د سپم یا نا غوښتل شوو برېښنالیکونو فولډر وګورئ.",
+
+  "authInvalidEmail": "مهرباني وکړئ یو باوري برېښنالیک پته ولیکئ.",
+  "authEmailAlreadyInUse": "دا برېښنالیک پته مخکې ثبت شوې ده.",
+  "authWeakPassword": "مهرباني وکړئ یو پیاوړی پټنوم وټاکئ.",
+  "authInvalidCredentials": "برېښنالیک یا پټنوم ناسم دی.",
+  "authUserDisabled": "دا کارن حساب غیر فعال شوی دی.",
+  "authTooManyRequests": "ډېرې هڅې شوې دي. مهرباني وکړئ لږ انتظار وکړئ او بیا هڅه وکړئ.",
+  "authNetworkError": "مهرباني وکړئ خپل انټرنېټ اتصال وګورئ.",
+  "authOperationNotAllowed": "د برېښنالیک او پټنوم له لارې ننوتل فعال نه دي.",
+  "authEmailNotVerified": "ستاسو برېښنالیک لا نه دی تایید شوی. په برېښنالیک کې لینک پرانیزئ او بیا هڅه وکړئ.",
+  "authVerificationSessionExpired": "ستاسو د برېښنالیک د تایید ناسته پای ته رسېدلې ده. مهرباني وکړئ بیا ننوځئ.",
+  "authLoginFailed": "ننوتل ناکام شول. مهرباني وکړئ بیا هڅه وکړئ.",
+  "authAccountCreationFailed": "د حساب جوړول ناکام شول. مهرباني وکړئ بیا هڅه وکړئ.",
+  "authUnknownError": "تصدیق ناکام شو. مهرباني وکړئ بیا هڅه وکړئ.",
+  "authVerificationRequired": "مهرباني وکړئ له دوام مخکې خپل برېښنالیک تایید کړئ.",
+  "authVerificationEmailSent": "د تایید یو برېښنالیک {email} ته واستول شو.",
+  "@authVerificationEmailSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authVerificationSuccessful": "ستاسو برېښنالیک په بریالیتوب سره تایید شو.",
+  "authNewVerificationEmailSent": "د تایید یو نوی برېښنالیک واستول شو.",
+  "or": "یا",
+  "yourEmailAddress": "ستاسو د برېښنالیک پته"
 
 }

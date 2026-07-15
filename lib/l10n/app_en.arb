@@ -346,6 +346,34 @@
   "resendVerifyEmail": "Resend verification email",
   "resendVerifyEmailSec": "Resend email in {_resendSeconds} seconds",
   "userAnotherEmail": "Use another email address",
-  "checkYourSpam": "Check your spam or junk folder if the email does not appear in your inbox."
+  "checkYourSpam": "Check your spam or junk folder if the email does not appear in your inbox.",
+
+  "authInvalidEmail": "Please enter a valid email address.",
+  "authEmailAlreadyInUse": "This email address is already registered.",
+  "authWeakPassword": "Please choose a stronger password.",
+  "authInvalidCredentials": "The email or password is incorrect.",
+  "authUserDisabled": "This account has been disabled.",
+  "authTooManyRequests": "Too many attempts. Please wait and try again.",
+  "authNetworkError": "Please check your internet connection.",
+  "authOperationNotAllowed": "Email and password authentication is not enabled.",
+  "authEmailNotVerified": "Your email is not verified yet. Open the link in your email, then try again.",
+  "authVerificationSessionExpired": "Your verification session has expired. Please sign in again.",
+  "authLoginFailed": "Login failed. Please try again.",
+  "authAccountCreationFailed": "Account creation failed. Please try again.",
+  "authUnknownError": "Authentication failed. Please try again.",
+
+  "authVerificationRequired": "Please verify your email before continuing.",
+  "authVerificationEmailSent": "A verification email has been sent to {email}.",
+  "@authVerificationEmailSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authVerificationSuccessful": "Your email has been verified successfully.",
+  "authNewVerificationEmailSent": "A new verification email has been sent.",
+  "or": "Or",
+  "yourEmailAddress": "your email address"
 
 }

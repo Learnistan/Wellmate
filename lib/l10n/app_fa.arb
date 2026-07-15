@@ -343,6 +343,33 @@
   "resendVerifyEmail": "ارسال دوباره ایمیل تأیید",
   "resendVerifyEmailSec": "ارسال دوباره ایمیل تا {_resendSeconds} ثانیه دیگر",
   "userAnotherEmail": "استفاده از ایمیل دیگر",
-  "checkYourSpam": "اگر ایمیل را در صندوق ورودی نمی‌بینید، پوشه هرزنامه یا اسپم را بررسی کنید."
+  "checkYourSpam": "اگر ایمیل را در صندوق ورودی نمی‌بینید، پوشه هرزنامه یا اسپم را بررسی کنید.",
+
+  "authInvalidEmail": "لطفاً یک آدرس ایمیل معتبر وارد کنید.",
+  "authEmailAlreadyInUse": "این آدرس ایمیل قبلاً ثبت شده است.",
+  "authWeakPassword": "لطفاً یک رمز عبور قوی‌تر انتخاب کنید.",
+  "authInvalidCredentials": "ایمیل یا رمز عبور نادرست است.",
+  "authUserDisabled": "این حساب کاربری غیرفعال شده است.",
+  "authTooManyRequests": "تلاش‌های زیادی انجام شده است. لطفاً کمی صبر کرده و دوباره امتحان کنید.",
+  "authNetworkError": "لطفاً اتصال اینترنت خود را بررسی کنید.",
+  "authOperationNotAllowed": "ورود با ایمیل و رمز عبور فعال نشده است.",
+  "authEmailNotVerified": "ایمیل شما هنوز تأیید نشده است. لینک موجود در ایمیل را باز کرده و سپس دوباره امتحان کنید.",
+  "authVerificationSessionExpired": "نشست تأیید ایمیل شما منقضی شده است. لطفاً دوباره وارد شوید.",
+  "authLoginFailed": "ورود ناموفق بود. لطفاً دوباره امتحان کنید.",
+  "authAccountCreationFailed": "ساخت حساب ناموفق بود. لطفاً دوباره امتحان کنید.",
+  "authUnknownError": "احراز هویت ناموفق بود. لطفاً دوباره امتحان کنید.",
+  "authVerificationRequired": "لطفاً پیش از ادامه، ایمیل خود را تأیید کنید.",
+  "authVerificationEmailSent": "یک ایمیل تأیید به {email} ارسال شد.",
+  "@authVerificationEmailSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authVerificationSuccessful": "ایمیل شما با موفقیت تأیید شد.",
+  "authNewVerificationEmailSent": "یک ایمیل تأیید جدید ارسال شد.",
+  "or": "یا",
+  "yourEmailAddress": "آدرس ایمیل شما"
 
 }

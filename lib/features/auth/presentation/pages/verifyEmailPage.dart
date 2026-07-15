@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../core/utils/authFailureLocalization.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../provider/authProvider.dart';
 import '../../../../core/theme/colors.dart';
@@ -113,7 +114,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
           child: Consumer<AuthProvider>(
             builder: (context, auth, _) {
               final email =
-                  auth.pendingEmail ?? 'your email address';
+                  auth.pendingEmail ?? loc.yourEmailAddress;
 
               return Center(
                 child: SingleChildScrollView(
@@ -186,7 +187,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                               BorderRadius.circular(10),
                             ),
                             child: Text(
-                              auth.error!,
+                              auth.error!.localized(loc),
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.red,
@@ -207,7 +208,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                               BorderRadius.circular(10),
                             ),
                             child: Text(
-                              auth.message!,
+                              auth.message!.localized(
+                                loc,
+                                email: auth.pendingEmail,
+                              ),
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.green,

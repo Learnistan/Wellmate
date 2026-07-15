@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../../../core/enums/authfailureType.dart';
+
 class AuthRemoteDataSource {
   final FirebaseAuth firebaseAuth;
 
@@ -7,7 +9,8 @@ class AuthRemoteDataSource {
 
   Future<User> signIn(String email, String password) async {
     try {
-      final credential = await firebaseAuth.signInWithEmailAndPassword(
+      final credential =
+      await firebaseAuth.signInWithEmailAndPassword(
         email: email.trim(),
         password: password,
       );
@@ -17,21 +20,27 @@ class AuthRemoteDataSource {
       final user = firebaseAuth.currentUser;
 
       if (user == null) {
-        throw Exception('Login failed. Please try again.');
+        throw const AuthException(
+          AuthFailureType.userNotFoundAfterLogin,
+        );
       }
 
       if (!user.emailVerified) {
-        // Sign out so an unverified account cannot access protected pages.
-        await firebaseAuth.signOut();
-
-        throw Exception(
-          'Your email is not verified. Please check your inbox.',
+        /*
+         * Do not sign out here if your verification screen needs
+         * FirebaseAuth.currentUser to resend and check verification.
+         */
+        throw const AuthException(
+          AuthFailureType.emailNotVerified,
         );
       }
 
       return user;
-    } on FirebaseAuthException catch (e) {
-      throw Exception(_mapFirebaseAuthError(e));
+    } on FirebaseAuthException catch (error) {
+      throw AuthException(
+        _mapFirebaseAuthError(error.code),
+        debugMessage: error.message,
+      );
     }
   }
 
@@ -46,18 +55,21 @@ class AuthRemoteDataSource {
       final user = credential.user;
 
       if (user == null) {
-        throw Exception('Account creation failed. Please try again.');
+        throw const AuthException(
+          AuthFailureType.accountCreationFailed,
+        );
       }
 
       if (!user.emailVerified) {
         await user.sendEmailVerification();
       }
 
-      // Keep the user signed in temporarily so the verification page
-      // can resend the verification email and reload the account.
       return user;
-    } on FirebaseAuthException catch (e) {
-      throw Exception(_mapFirebaseAuthError(e));
+    } on FirebaseAuthException catch (error) {
+      throw AuthException(
+        _mapFirebaseAuthError(error.code),
+        debugMessage: error.message,
+      );
     }
   }
 
@@ -70,8 +82,8 @@ class AuthRemoteDataSource {
       final user = firebaseAuth.currentUser;
 
       if (user == null) {
-        throw Exception(
-          'Your verification session has expired. Please sign in again.',
+        throw const AuthException(
+          AuthFailureType.verificationSessionExpired,
         );
       }
 
@@ -80,8 +92,8 @@ class AuthRemoteDataSource {
       final refreshedUser = firebaseAuth.currentUser;
 
       if (refreshedUser == null) {
-        throw Exception(
-          'Your verification session has expired. Please sign in again.',
+        throw const AuthException(
+          AuthFailureType.verificationSessionExpired,
         );
       }
 
@@ -90,8 +102,11 @@ class AuthRemoteDataSource {
       }
 
       await refreshedUser.sendEmailVerification();
-    } on FirebaseAuthException catch (e) {
-      throw Exception(_mapFirebaseAuthError(e));
+    } on FirebaseAuthException catch (error) {
+      throw AuthException(
+        _mapFirebaseAuthError(error.code),
+        debugMessage: error.message,
+      );
     }
   }
 
@@ -103,56 +118,56 @@ class AuthRemoteDataSource {
         return null;
       }
 
-      // Firebase may still have the old verification value locally.
       await user.reload();
 
       final refreshedUser = firebaseAuth.currentUser;
 
-      if (refreshedUser == null || !refreshedUser.emailVerified) {
+      if (refreshedUser == null ||
+          !refreshedUser.emailVerified) {
         return null;
       }
 
-      // Refresh the ID token so email_verified is also updated
-      // for backend services and Firebase Security Rules.
       await refreshedUser.getIdToken(true);
 
       return refreshedUser;
-    } on FirebaseAuthException catch (e) {
-      throw Exception(_mapFirebaseAuthError(e));
+    } on FirebaseAuthException catch (error) {
+      throw AuthException(
+        _mapFirebaseAuthError(error.code),
+        debugMessage: error.message,
+      );
     }
   }
 
-  String _mapFirebaseAuthError(FirebaseAuthException exception) {
-    switch (exception.code) {
+  AuthFailureType _mapFirebaseAuthError(String code) {
+    switch (code) {
       case 'invalid-email':
-        return 'Please enter a valid email address.';
+        return AuthFailureType.invalidEmail;
 
       case 'email-already-in-use':
-        return 'This email address is already registered.';
+        return AuthFailureType.emailAlreadyInUse;
 
       case 'weak-password':
-        return 'Please choose a stronger password.';
+        return AuthFailureType.weakPassword;
 
       case 'user-not-found':
       case 'wrong-password':
       case 'invalid-credential':
-        return 'The email or password is incorrect.';
+        return AuthFailureType.invalidCredentials;
 
       case 'user-disabled':
-        return 'This account has been disabled.';
+        return AuthFailureType.userDisabled;
 
       case 'too-many-requests':
-        return 'Too many attempts. Please wait and try again.';
+        return AuthFailureType.tooManyRequests;
 
       case 'network-request-failed':
-        return 'Please check your internet connection.';
+        return AuthFailureType.networkError;
 
       case 'operation-not-allowed':
-        return 'Email and password authentication is not enabled.';
+        return AuthFailureType.operationNotAllowed;
 
       default:
-        return exception.message ??
-            'Authentication failed. Please try again.';
+        return AuthFailureType.unknown;
     }
   }
 }
