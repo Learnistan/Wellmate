@@ -375,6 +375,8 @@
   "save": "خوندي کړئ",
   "reminderChangeTo": "یادونه دې وخت ته بدله شوه",
   "timeSavedAs": "وخت د {selectedTime} په توګه خوندي شو. د فعالولو لپاره یادونه فعاله کړئ.",
-  "reminderActivatedTo": "یادونه د دې وخت لپاره فعاله شوه"
+  "reminderActivatedTo": "یادونه د دې وخت لپاره فعاله شوه",
+
+  "stretchActivity": "درېدل او د بدن غځول"
 
 }

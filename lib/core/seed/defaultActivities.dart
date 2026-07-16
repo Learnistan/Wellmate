@@ -57,5 +57,13 @@ final List<Activity> defaultActivities = [
       route: '/evening-close',
       isActive: true
   ),
+  Activity(
+      id: 8,
+      title: "stretch",
+      duration: "5",
+      iconPath: "stretch",
+      route: '/stretch',
+      isActive: true
+  ),
 
 ];

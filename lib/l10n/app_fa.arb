@@ -375,6 +375,8 @@
   "save": "ذخیره",
   "reminderChangeTo": "یادآوری تغییر یافت به",
   "timeSavedAs": "زمان به {selectedTime} ذخیره شد. برای فعال شدن، یادآوری را روشن کنید.",
-  "reminderActivatedTo": "یادآوری برای این زمان فعال شد"
+  "reminderActivatedTo": "یادآوری برای این زمان فعال شد",
+
+  "stretchActivity": "ایستادن و کشش بدن"
 
 }

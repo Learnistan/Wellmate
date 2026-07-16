@@ -22,6 +22,8 @@ IconData getIcon(String key) {
       return Icons.sunny;
     case 'moon':
       return Icons.nightlight;
+    case 'stretch':
+      return Icons.sports_gymnastics;
     default:
       return Icons.circle;
   }

@@ -12,6 +12,7 @@ import 'package:wellmate/features/dailyActivities/presentation/pages/moodCalibra
 import 'package:wellmate/features/dailyActivities/presentation/pages/hydrationActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/morningIntentionsActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/movementActivityPage.dart';
+import 'package:wellmate/features/dailyActivities/presentation/pages/stretchActivityPage.dart';
 import 'package:wellmate/features/language/presentation/languagePage.dart';
 import 'package:wellmate/features/mindfulGames/presentation/pages/BubblesGamePage.dart';
 import 'package:wellmate/features/mindfulGames/presentation/pages/emotionsGamePage.dart';
@@ -99,7 +100,8 @@ class AppRouter {
             '/bubbles',
             '/emotions',
             '/morning-intentions',
-            '/evening-close'
+            '/evening-close',
+            '/stretch'
           ];
 
           if (allowedRoutes.contains(location)) {
@@ -201,6 +203,10 @@ class AppRouter {
       GoRoute(
         path: '/evening-close',
         builder: (context, state) => EveningCloseActivityPage(),
+      ),
+      GoRoute(
+        path: '/stretch',
+        builder: (context, state) => StretchActivityPage(),
       ),
     ],
   );

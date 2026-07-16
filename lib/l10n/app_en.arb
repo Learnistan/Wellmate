@@ -379,6 +379,8 @@
   "save": "Save",
   "reminderChangeTo": "Reminder changed to",
   "timeSavedAs": "Time saved as {selectedTime}. Turn on the reminder to activate it.",
-  "reminderActivatedTo": "Reminder activated for"
+  "reminderActivatedTo": "Reminder activated for",
+
+  "stretchActivity": "Stand and Stretch"
 
 }
