@@ -1,5 +1,3 @@
-// profile_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Provider;
 import 'package:go_router/go_router.dart';
@@ -9,15 +7,13 @@ import 'package:wellmate/core/providers/journeyProvider.dart';
 
 import '../../../../core/enums/journeys.dart';
 import '../../../../core/localization/localeProvider.dart';
+import '../../../../core/services/notificationService.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/utils/getProperText.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/provider/authProvider.dart';
 import '../../../shell/presentation/navigationProvider.dart';
 import '../providers/profileProvider.dart';
-
-// Change this import path to your actual NotificationService location.
-import '../../../../core/services/notificationService.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -30,22 +26,26 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   final ScrollController _scrollController = ScrollController();
   final NotificationService _notificationService = NotificationService();
 
-  bool _sleepReminder = false;
-  bool _foodReminder = false;
-  bool _postureReminder = false;
-
   static const int _sleepId = 201;
   static const int _foodId = 202;
   static const int _postureId = 203;
+
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
 
     Future.microtask(() async {
-      final provider = context.read<ProfileProvider>();
-      await provider.loadJourneys();
-      await _loadReminderStates();
+      final profileProvider = context.read<ProfileProvider>();
+
+      await profileProvider.loadProfileData();
+
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     });
   }
 
@@ -53,16 +53,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
-  }
-
-  Future<void> _loadReminderStates() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    setState(() {
-      _sleepReminder = prefs.getBool('sleepReminder') ?? false;
-      _foodReminder = prefs.getBool('foodReminder') ?? false;
-      _postureReminder = prefs.getBool('postureReminder') ?? false;
-    });
   }
 
   void _scrollToBottom() {
@@ -84,7 +74,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     ref.listen<bool>(
       scrollProfileToBottomProvider,
           (previous, next) {
-        if (next == true) {
+        if (next) {
           _scrollToBottom();
         }
       },
@@ -92,10 +82,20 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
     final loc = AppLocalizations.of(context)!;
     final authProvider = Provider.of<AuthProvider>(context);
-    final selectedJourney = context.watch<JourneyProvider>().selectedJourney;
-
     final profileProvider = context.watch<ProfileProvider>();
+    final selectedJourney =
+        context.watch<JourneyProvider>().selectedJourney;
+
     final unlockedJourneys = profileProvider.unlockedJourneys;
+
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: AppColors.background,
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -149,21 +149,21 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 children: [
                   _OptionTile(
                     title: loc.english,
-                    subtitle: "Use the app in English",
+                    subtitle: 'Use the app in English',
                     onTap: () {
                       context.read<LocaleProvider>().changeLocale('en');
                     },
                   ),
                   _OptionTile(
                     title: loc.dari,
-                    subtitle: "استفاده از برنامه به زبان دری",
+                    subtitle: 'استفاده از برنامه به زبان دری',
                     onTap: () {
                       context.read<LocaleProvider>().changeLocale('fa');
                     },
                   ),
                   _OptionTile(
                     title: loc.pashto,
-                    subtitle: "اپلیکیشن په پښتو ژبه وکاروئ",
+                    subtitle: 'اپلیکیشن په پښتو ژبه وکاروئ',
                     onTap: () {
                       context.read<LocaleProvider>().changeLocale('ps');
                     },
@@ -179,75 +179,129 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 children: [
                   _ReminderTile(
                     title: loc.sleepReminderTitle,
-                    subtitle: loc.sleepReminderSubtitle,
+                    subtitle: loc.reminderSubtitle,
                     icon: Icons.bedtime_rounded,
-                    value: _sleepReminder,
-                    onChanged: (value) => _handleReminderToggle(
-                      key: 'sleepReminder',
-                      popupKey: 'sleepReminderPopupShown',
-                      value: value,
-                      notificationId: _sleepId,
-                      title: loc.sleepReminderDialogTitle,
-                      message:
-                      loc.sleepReminderMessage,
-                      hour: 22,
-                      minute: 0,
-                      popupTitle: loc.sleepReminderTitle,
-                      popupMessage:
-                      loc.sleepReminderPopUpMessage,
-                      loc: loc,
-                      updateState: (newValue) {
-                        setState(() => _sleepReminder = newValue);
-                      },
-                    ),
+                    value: profileProvider.sleepReminder,
+                    time: profileProvider.sleepReminderTime,
+                    onTimePressed: () {
+                      _selectReminderTime(
+                        initialTime: profileProvider.sleepReminderTime,
+                        notificationId: _sleepId,
+                        reminderEnabled:
+                        profileProvider.sleepReminder,
+                        notificationTitle:
+                        loc.sleepReminderDialogTitle,
+                        notificationMessage:
+                        loc.sleepReminderMessage,
+                        saveTime:
+                        profileProvider.setSleepReminderTime,
+                        loc: loc
+                      );
+                    },
+                    onChanged: (value) {
+                      _handleReminderToggle(
+                        preferenceKey: 'sleepReminder',
+                        popupKey: 'sleepReminderPopupShown',
+                        value: value,
+                        notificationId: _sleepId,
+                        notificationTitle:
+                        loc.sleepReminderDialogTitle,
+                        notificationMessage:
+                        loc.sleepReminderMessage,
+                        time: profileProvider.sleepReminderTime,
+                        popupTitle: loc.sleepReminderTitle,
+                        popupMessage:
+                        loc.sleepReminderPopUpMessage,
+                        updateState:
+                        profileProvider.setSleepReminder,
+                        loc: loc,
+                      );
+                    },
                   ),
+
                   _ReminderTile(
                     title: loc.foodReminderTitle,
-                    subtitle: loc.foodReminderSubtitle,
+                    subtitle: loc.reminderSubtitle,
                     icon: Icons.restaurant_rounded,
-                    value: _foodReminder,
-                    onChanged: (value) => _handleReminderToggle(
-                      key: 'foodReminder',
-                      popupKey: 'foodReminderPopupShown',
-                      value: value,
-                      notificationId: _foodId,
-                      title: loc.foodReminderDialogTitle,
-                      message:
-                      loc.foodReminderMessage,
-                      hour: 13,
-                      minute: 0,
-                      popupTitle: loc.foodReminderTitle,
-                      popupMessage:
-                      loc.foodReminderPopUpMessage,
-                      loc: loc,
-                      updateState: (newValue) {
-                        setState(() => _foodReminder = newValue);
-                      },
-                    ),
+                    value: profileProvider.foodReminder,
+                    time: profileProvider.foodReminderTime,
+                    onTimePressed: () {
+                      _selectReminderTime(
+                        initialTime: profileProvider.foodReminderTime,
+                        notificationId: _foodId,
+                        reminderEnabled:
+                        profileProvider.foodReminder,
+                        notificationTitle:
+                        loc.foodReminderDialogTitle,
+                        notificationMessage:
+                        loc.foodReminderMessage,
+                        saveTime:
+                        profileProvider.setFoodReminderTime,
+                        loc: loc
+                      );
+                    },
+                    onChanged: (value) {
+                      _handleReminderToggle(
+                        preferenceKey: 'foodReminder',
+                        popupKey: 'foodReminderPopupShown',
+                        value: value,
+                        notificationId: _foodId,
+                        notificationTitle:
+                        loc.foodReminderDialogTitle,
+                        notificationMessage:
+                        loc.foodReminderMessage,
+                        time: profileProvider.foodReminderTime,
+                        popupTitle: loc.foodReminderTitle,
+                        popupMessage:
+                        loc.foodReminderPopUpMessage,
+                        updateState:
+                        profileProvider.setFoodReminder,
+                        loc: loc,
+                      );
+                    },
                   ),
+
                   _ReminderTile(
                     title: loc.postureReminderTitle,
-                    subtitle: loc.postureReminderSubtitle,
+                    subtitle: loc.reminderSubtitle,
                     icon: Icons.accessibility_new_rounded,
-                    value: _postureReminder,
-                    onChanged: (value) => _handleReminderToggle(
-                      key: 'postureReminder',
-                      popupKey: 'postureReminderPopupShown',
-                      value: value,
-                      notificationId: _postureId,
-                      title: loc.postureReminderDialogTitle,
-                      message:
-                      loc.postureReminderMessage,
-                      hour: 9,
-                      minute: 0,
-                      popupTitle: loc.postureReminderTitle,
-                      popupMessage:
-                      loc.postureReminderPopUpMessage,
-                      loc: loc,
-                      updateState: (newValue) {
-                        setState(() => _postureReminder = newValue);
-                      },
-                    ),
+                    value: profileProvider.postureReminder,
+                    time: profileProvider.postureReminderTime,
+                    onTimePressed: () {
+                      _selectReminderTime(
+                        initialTime:
+                        profileProvider.postureReminderTime,
+                        notificationId: _postureId,
+                        reminderEnabled:
+                        profileProvider.postureReminder,
+                        notificationTitle:
+                        loc.postureReminderDialogTitle,
+                        notificationMessage:
+                        loc.postureReminderMessage,
+                        saveTime:
+                        profileProvider.setPostureReminderTime,
+                        loc: loc
+                      );
+                    },
+                    onChanged: (value) {
+                      _handleReminderToggle(
+                        preferenceKey: 'postureReminder',
+                        popupKey: 'postureReminderPopupShown',
+                        value: value,
+                        notificationId: _postureId,
+                        notificationTitle:
+                        loc.postureReminderDialogTitle,
+                        notificationMessage:
+                        loc.postureReminderMessage,
+                        time: profileProvider.postureReminderTime,
+                        popupTitle: loc.postureReminderTitle,
+                        popupMessage:
+                        loc.postureReminderPopUpMessage,
+                        updateState:
+                        profileProvider.setPostureReminder,
+                        loc: loc,
+                      );
+                    },
                   ),
                 ],
               ),
@@ -267,7 +321,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       imagePath: journey.thumbnailImage,
                       isSelected: selectedJourney == journeyEnum,
                       onTap: () => _changeJourney(journeyEnum),
-                      emoji: '',
                     );
                   }),
 
@@ -285,7 +338,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         backgroundColor: AppColors.selectedCard,
                         foregroundColor: AppColors.textPrimary,
                         elevation: 0,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        padding:
+                        const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                         ),
@@ -298,19 +352,20 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               const SizedBox(height: 28),
 
               if (authProvider.isLoading)
-                const Center(child: CircularProgressIndicator())
+                const Center(
+                  child: CircularProgressIndicator(),
+                )
               else
                 ElevatedButton.icon(
-                  onPressed: () {
-                    authProvider.logout();
-                  },
+                  onPressed: authProvider.logout,
                   icon: const Icon(Icons.logout_rounded),
                   label: Text(loc.logout),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red.shade50,
                     foregroundColor: Colors.red.shade700,
                     elevation: 0,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding:
+                    const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18),
                     ),
@@ -323,25 +378,98 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     );
   }
 
+  Future<void> _selectReminderTime({
+    required TimeOfDay initialTime,
+    required int notificationId,
+    required bool reminderEnabled,
+    required String notificationTitle,
+    required String notificationMessage,
+    required Future<void> Function(TimeOfDay time) saveTime,
+    required AppLocalizations loc,
+  }) async {
+    final selectedTime = await showTimePicker(
+      context: context,
+      initialTime: initialTime,
+      helpText: loc.chooseReminderTime,
+      cancelText: loc.cancel,
+      confirmText: loc.save,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            timePickerTheme: TimePickerThemeData(
+              backgroundColor: AppColors.lightCard,
+              hourMinuteTextColor: AppColors.textPrimary,
+              dialHandColor: AppColors.textPrimary,
+              dialBackgroundColor: AppColors.background,
+              dayPeriodTextColor: AppColors.textPrimary,
+              entryModeIconColor: AppColors.textPrimary,
+            ),
+            colorScheme: ColorScheme.light(
+              primary: AppColors.textPrimary,
+              surface: AppColors.lightCard,
+              onSurface: AppColors.textPrimary,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (selectedTime == null) {
+      return;
+    }
+
+    await saveTime(selectedTime);
+
+    /*
+     * When a reminder is already active, cancel its previous schedule
+     * and create a new schedule using the newly selected time.
+     */
+    if (reminderEnabled) {
+      await _notificationService.cancelReminder(notificationId);
+
+      await _notificationService.scheduleDailyReminder(
+        id: notificationId,
+        title: notificationTitle,
+        message: notificationMessage,
+        hour: selectedTime.hour,
+        minute: selectedTime.minute,
+      );
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          reminderEnabled
+              ? '${loc.reminderChangeTo} ${selectedTime.format(context)}'
+              : loc.timeSavedAs(selectedTime.format(context))
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
   Future<void> _handleReminderToggle({
-    required String key,
+    required String preferenceKey,
     required String popupKey,
     required bool value,
     required int notificationId,
-    required String title,
-    required String message,
-    required int hour,
-    required int minute,
+    required String notificationTitle,
+    required String notificationMessage,
+    required TimeOfDay time,
     required String popupTitle,
     required String popupMessage,
-    required ValueChanged<bool> updateState,
-    required AppLocalizations loc
+    required Future<void> Function(bool value) updateState,
+    required AppLocalizations loc,
   }) async {
     final prefs = await SharedPreferences.getInstance();
 
     if (!value) {
-      updateState(false);
-      await prefs.setBool(key, false);
+      await updateState(false);
       await _notificationService.cancelReminder(notificationId);
       return;
     }
@@ -352,39 +480,54 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       final shouldActivate = await _showReminderPopup(
         title: popupTitle,
         message: popupMessage,
-        loc: loc
+        loc: loc,
       );
 
+      /*
+       * This keeps your previous behavior:
+       * the information popup is shown only once.
+       */
       await prefs.setBool(popupKey, true);
 
       if (shouldActivate != true) {
-        updateState(false);
-        await prefs.setBool(key, false);
+        await updateState(false);
         return;
       }
     }
 
-    updateState(true);
-    await prefs.setBool(key, true);
+    await updateState(true);
 
     await _notificationService.scheduleDailyReminder(
       id: notificationId,
-      title: title,
-      message: message,
-      hour: hour,
-      minute: minute,
+      title: notificationTitle,
+      message: notificationMessage,
+      hour: time.hour,
+      minute: time.minute,
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          '${loc.reminderActivatedTo} ${time.format(context)}',
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
     );
   }
 
   Future<bool?> _showReminderPopup({
     required String title,
     required String message,
-    required AppLocalizations loc
+    required AppLocalizations loc,
   }) {
     return showDialog<bool>(
       context: context,
       barrierDismissible: false,
-      builder: (context) {
+      builder: (dialogContext) {
         return AlertDialog(
           backgroundColor: AppColors.lightCard,
           shape: RoundedRectangleBorder(
@@ -422,17 +565,24 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               height: 1.5,
             ),
           ),
-          actionsPadding: const EdgeInsets.fromLTRB(20, 0, 20, 18),
+          actionsPadding:
+          const EdgeInsets.fromLTRB(20, 0, 20, 18),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context, false),
+              onPressed: () {
+                Navigator.pop(dialogContext, false);
+              },
               child: Text(
                 loc.journeyCompletionDialogButton2,
-                style: TextStyle(color: AppColors.appGray),
+                style: TextStyle(
+                  color: AppColors.appGray,
+                ),
               ),
             ),
             ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
+              onPressed: () {
+                Navigator.pop(dialogContext, true);
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.selectedCard,
                 foregroundColor: AppColors.textPrimary,
@@ -500,12 +650,14 @@ class _SectionCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
               ),
             ],
@@ -523,14 +675,18 @@ class _ReminderTile extends StatelessWidget {
   final String subtitle;
   final IconData icon;
   final bool value;
+  final TimeOfDay time;
   final ValueChanged<bool> onChanged;
+  final VoidCallback onTimePressed;
 
   const _ReminderTile({
     required this.title,
     required this.subtitle,
     required this.icon,
     required this.value,
+    required this.time,
     required this.onChanged,
+    required this.onTimePressed,
   });
 
   @override
@@ -544,7 +700,9 @@ class _ReminderTile extends StatelessWidget {
           color: AppColors.background,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: AppColors.appGray.withOpacity(0.12),
+            color: value
+                ? AppColors.textPrimary.withOpacity(0.22)
+                : AppColors.appGray.withOpacity(0.12),
           ),
         ),
         child: Row(
@@ -560,7 +718,9 @@ class _ReminderTile extends StatelessWidget {
                 color: AppColors.textPrimary,
               ),
             ),
+
             const SizedBox(width: 12),
+
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -580,9 +740,28 @@ class _ReminderTile extends StatelessWidget {
                       color: AppColors.appGray,
                     ),
                   ),
+                  const SizedBox(height: 5),
+                  Text(
+                    time.format(context),
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
                 ],
               ),
             ),
+
+            IconButton(
+              tooltip: 'Change time',
+              onPressed: onTimePressed,
+              icon: const Icon(
+                Icons.schedule_rounded,
+                color: AppColors.textPrimary,
+              ),
+            ),
+
             Switch(
               value: value,
               activeColor: AppColors.textPrimary,
@@ -623,7 +802,8 @@ class _OptionTile extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment:
+                    CrossAxisAlignment.start,
                     children: [
                       Text(
                         title,
@@ -668,7 +848,6 @@ class _JourneyTile extends StatelessWidget {
     required this.imagePath,
     required this.isSelected,
     required this.onTap,
-    required String emoji,
   });
 
   @override
@@ -678,7 +857,9 @@ class _JourneyTile extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.selectedCard : AppColors.background,
+          color: isSelected
+              ? AppColors.selectedCard
+              : AppColors.background,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
             color: isSelected
@@ -712,7 +893,9 @@ class _JourneyTile extends StatelessWidget {
                   isSelected
                       ? Icons.check_circle_rounded
                       : Icons.circle_outlined,
-                  color: isSelected ? AppColors.textPrimary : AppColors.appGray,
+                  color: isSelected
+                      ? AppColors.textPrimary
+                      : AppColors.appGray,
                 ),
               ],
             ),

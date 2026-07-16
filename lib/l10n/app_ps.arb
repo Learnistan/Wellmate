@@ -305,19 +305,17 @@
   "remindersTitle": "یادونې",
 
   "sleepReminderTitle": "د خوب یادونه",
-  "sleepReminderSubtitle": "هره ورځ د شپې په ۱۰:۰۰ بجو",
+  "reminderSubtitle": "ورځنۍ یادونه په ساعت کې",
   "sleepReminderDialogTitle": "د خوب وخت دی",
   "sleepReminderMessage": "ستاسو بدن استراحت ته اړتیا لري. پر خپل وخت ویده شئ ترڅو سبا له انرژۍ ډک اوسئ.",
   "sleepReminderPopUpMessage": "دا یادونه له تاسو سره مرسته کوي چې د خوب ښه عادت جوړ کړئ. هره شپه د ۱۰:۰۰ بجو پر مهال به تاسو ته پر خپل وخت د ویده کېدو او د خپلې روغتیا د ساتنې یادونه وکړي.",
 
   "foodReminderTitle": "د سالمې خوړو یادونه",
-  "foodReminderSubtitle": "هره ورځ د ماسپښین په ۱:۰۰ بجه",
   "foodReminderDialogTitle": "سالم خواړه وخورئ",
   "foodReminderMessage": "نن یو سالم خواړه وټاکئ؛ ستاسو بدن به ترې منندوی وي.",
   "foodReminderPopUpMessage": "دا یادونه له تاسو سره مرسته کوي چې سالم خواړه هېر نه کړئ. هره ورځ د ماسپښین په ۱:۰۰ بجه به تاسو ته د غوره خوړو د انتخاب او د خپل بدن د پاملرنې یادونه وکړي.",
 
   "postureReminderTitle": "د بدن د سم حالت یادونه",
-  "postureReminderSubtitle": "هره ورځ د سهار په ۹:۰۰ بجو",
   "postureReminderDialogTitle": "د بدن حالت سم کړئ",
   "postureReminderMessage": "سم او نېغ کېنئ، اوږې مو ارامې وساتئ او د ملا له کوږولو ډډه وکړئ.",
   "postureReminderPopUpMessage": "دا یادونه ستاسو د ملا او د بدن د سم حالت په ساتنه کې مرسته کوي. هره ورځ د سهار په ۹:۰۰ بجو به تاسو ته د سم کېناستو، د ملا د نېغ ساتلو، د اوږو د ارام ساتلو او د ملا له کوږولو څخه د ډډې کولو یادونه وکړي.",
@@ -370,6 +368,13 @@
   "authVerificationSuccessful": "ستاسو برېښنالیک په بریالیتوب سره تایید شو.",
   "authNewVerificationEmailSent": "د تایید یو نوی برېښنالیک واستول شو.",
   "or": "یا",
-  "yourEmailAddress": "ستاسو د برېښنالیک پته"
+  "yourEmailAddress": "ستاسو د برېښنالیک پته",
+
+  "chooseReminderTime": "د یادونې وخت وټاکئ",
+  "cancel": "لغوه",
+  "save": "خوندي کړئ",
+  "reminderChangeTo": "یادونه دې وخت ته بدله شوه",
+  "timeSavedAs": "وخت د {selectedTime} په توګه خوندي شو. د فعالولو لپاره یادونه فعاله کړئ.",
+  "reminderActivatedTo": "یادونه د دې وخت لپاره فعاله شوه"
 
 }
