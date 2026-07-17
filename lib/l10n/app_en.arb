@@ -379,6 +379,24 @@
   "save": "Save",
   "reminderChangeTo": "Reminder changed to",
   "timeSavedAs": "Time saved as {selectedTime}. Turn on the reminder to activate it.",
-  "reminderActivatedTo": "Reminder activated for"
+  "reminderActivatedTo": "Reminder activated for",
+
+  "stretchActivity": "Stand and Stretch",
+  "stretchGuid1": "Stand comfortably. Keep both feet flat on the floor, relax your shoulders, and breathe.",
+  "stretchGuid2": "Slowly stretch your arms above your head. Breathe in gently as you stretch.",
+  "stretchGuid3": "Gently move your shoulders backward and forward. Keep the movement slow and easy.",
+  "stretchGuid4": "Now gently stretch your neck, back, and legs. Do only what feels comfortable.",
+  "stretchVideoCantLoad": "The stretching video could not be loaded.",
+  "stretchDialogTitle": "Stretching complete!",
+  "stretchDialogMessage": "Great job. You have completed all four stretching exercises.",
+  "repeat": "Repeat",
+  "finish": "Finish",
+  "step": "Step",
+  "appOf": "of",
+  "resume": "Resume",
+  "pause": "Pause",
+  "activityPaused": "Activity paused",
+  "videoUnavailable": "Video unavailable",
+  "previous": "Previous"
 
 }
