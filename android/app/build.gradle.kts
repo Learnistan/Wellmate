@@ -1,12 +1,5 @@
-import java.util.Properties
 import java.io.FileInputStream
-
-val keystorePropertiesFile = rootProject.file("key.properties")
-val keystoreProperties = Properties()
-
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-}
+import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -14,6 +7,22 @@ plugins {
     id("com.google.gms.google-services")
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+val keystorePropertiesFile = rootProject.file("key.properties")
+val keystoreProperties = Properties()
+
+if (keystorePropertiesFile.exists()) {
+    FileInputStream(keystorePropertiesFile).use { inputStream ->
+        keystoreProperties.load(inputStream)
+    }
+}
+
+val hasReleaseSigningConfig =
+    keystorePropertiesFile.exists() &&
+            !keystoreProperties.getProperty("keyAlias").isNullOrBlank() &&
+            !keystoreProperties.getProperty("keyPassword").isNullOrBlank() &&
+            !keystoreProperties.getProperty("storeFile").isNullOrBlank() &&
+            !keystoreProperties.getProperty("storePassword").isNullOrBlank()
 
 dependencies {
     // Import the Firebase BoM
@@ -50,19 +59,27 @@ android {
     }
 
     signingConfigs {
-        create("release") {
-            keyAlias = keystoreProperties["keyAlias"] as String
-            keyPassword = keystoreProperties["keyPassword"] as String
-            storeFile = file(keystoreProperties["storeFile"] as String)
-            storePassword = keystoreProperties["storePassword"] as String
+        if (hasReleaseSigningConfig) {
+            create("release") {
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+            }
         }
     }
 
     buildTypes {
-        release {
-            signingConfig = signingConfigs.getByName("release")
+        getByName("release") {
+            if (hasReleaseSigningConfig) {
+                signingConfig = signingConfigs.getByName("release")
+            } else {
+                logger.warn(
+                    "Release signing configuration was not found. " +
+                            "Debug builds will work, but release builds will not be signed."
+                )
+            }
 
-            // Keep this enabled for Play Store optimization
             isMinifyEnabled = false
             isShrinkResources = false
         }
