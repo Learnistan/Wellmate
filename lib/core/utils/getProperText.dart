@@ -18,6 +18,8 @@ String getActivityTitle(String key, AppLocalizations loc) {
       return loc.morningIntentionsActivity;
     case "evening_close":
       return loc.eveningCloseActivity;
+    case "stretch":
+      return loc.stretchActivity;
     default:
       return key;
   }

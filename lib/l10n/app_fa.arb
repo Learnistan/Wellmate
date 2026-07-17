@@ -305,19 +305,17 @@
   "remindersTitle": "یادآوری‌ها",
 
   "sleepReminderTitle": "یادآوری خواب",
-  "sleepReminderSubtitle": "هر روز ساعت ۱۰:۰۰ شب",
+  "reminderSubtitle": "یادآوری روزانه ساعت ",
   "sleepReminderDialogTitle": "وقت خواب است",
   "sleepReminderMessage": "بدنت به استراحت نیاز دارد. به‌موقع بخواب تا برای فردا انرژی داشته باشی.",
   "sleepReminderPopUpMessage": "این یادآوری به شما کمک می‌کند عادت خواب بهتری داشته باشید. هر شب ساعت ۱۰:۰۰ شما را برای خواب به‌موقع و مراقبت از سلامتی‌تان یادآوری می‌کند.",
 
   "foodReminderTitle": "یادآوری غذای سالم",
-  "foodReminderSubtitle": "هر روز ساعت ۱:۰۰ بعد از ظهر",
   "foodReminderDialogTitle": "غذای سالم بخورید",
   "foodReminderMessage": "امروز یک غذای سالم انتخاب کنید؛ بدنتان از شما سپاسگزار خواهد بود.",
   "foodReminderPopUpMessage": "این یادآوری به شما کمک می‌کند خوردن غذای سالم را فراموش نکنید. هر روز ساعت ۱:۰۰ بعد از ظهر شما را برای انتخاب غذای سالم‌تر و مراقبت از بدنتان یادآوری می‌کند.",
 
   "postureReminderTitle": "یادآوری وضعیت بدن",
-  "postureReminderSubtitle": "هر روز ساعت ۹:۰۰ صبح",
   "postureReminderDialogTitle": "وضعیت نشستن خود را اصلاح کنید",
   "postureReminderMessage": "صاف بنشینید، شانه‌ها را رها کنید و از خم کردن کمر خودداری کنید.",
   "postureReminderPopUpMessage": "این یادآوری به حفظ سلامت کمر و وضعیت بدن شما کمک می‌کند. هر روز ساعت ۹:۰۰ صبح شما را برای درست نشستن، صاف نگه‌داشتن کمر، شل کردن شانه‌ها و جلوگیری از خم شدن یادآوری می‌کند.",
@@ -332,6 +330,69 @@
   "chooseAnotherJourney": "سفر دیگری را انتخاب کن",
 
   "doneActivityPopUpTitle": "این فعالیت انجام شده است",
-  "doneActivityPopUpMessage": "شما امروز این فعالیت را قبلاً تکمیل کرده‌اید. فردا دوباره برگردید تا به ساختن عادت سالم خود ادامه دهید."
+  "doneActivityPopUpMessage": "شما امروز این فعالیت را قبلاً تکمیل کرده‌اید. فردا دوباره برگردید تا به ساختن عادت سالم خود ادامه دهید.",
+  "readAboutDialogTitle": "به‌زودی",
+  "readAboutDialogMessage": "ما در حال آماده‌سازی این محتوا هستیم. این بخش در یکی از به‌روزرسانی‌های آینده در دسترس قرار خواهد گرفت. از شکیبایی شما سپاسگزاریم!",
+
+  "verifyYourEmail": "ایمیل خود را تأیید کنید",
+  "weSentLink": "لینک تأیید را به این آدرس فرستادیم:",
+  "clickOnVerifyLink": "ایمیل را باز کرده و روی لینک تأیید بزنید. سپس به اینجا برگردید و دکمه زیر را فشار دهید.",
+  "verified": "ایمیل خود را تأیید کرده‌ام",
+  "resendVerifyEmail": "ارسال دوباره ایمیل تأیید",
+  "resendVerifyEmailSec": "ارسال دوباره ایمیل تا {_resendSeconds} ثانیه دیگر",
+  "userAnotherEmail": "استفاده از ایمیل دیگر",
+  "checkYourSpam": "اگر ایمیل را در صندوق ورودی نمی‌بینید، پوشه هرزنامه یا اسپم را بررسی کنید.",
+
+  "authInvalidEmail": "لطفاً یک آدرس ایمیل معتبر وارد کنید.",
+  "authEmailAlreadyInUse": "این آدرس ایمیل قبلاً ثبت شده است.",
+  "authWeakPassword": "لطفاً یک رمز عبور قوی‌تر انتخاب کنید.",
+  "authInvalidCredentials": "ایمیل یا رمز عبور نادرست است.",
+  "authUserDisabled": "این حساب کاربری غیرفعال شده است.",
+  "authTooManyRequests": "تلاش‌های زیادی انجام شده است. لطفاً کمی صبر کرده و دوباره امتحان کنید.",
+  "authNetworkError": "لطفاً اتصال اینترنت خود را بررسی کنید.",
+  "authOperationNotAllowed": "ورود با ایمیل و رمز عبور فعال نشده است.",
+  "authEmailNotVerified": "ایمیل شما هنوز تأیید نشده است. لینک موجود در ایمیل را باز کرده و سپس دوباره امتحان کنید.",
+  "authVerificationSessionExpired": "نشست تأیید ایمیل شما منقضی شده است. لطفاً دوباره وارد شوید.",
+  "authLoginFailed": "ورود ناموفق بود. لطفاً دوباره امتحان کنید.",
+  "authAccountCreationFailed": "ساخت حساب ناموفق بود. لطفاً دوباره امتحان کنید.",
+  "authUnknownError": "احراز هویت ناموفق بود. لطفاً دوباره امتحان کنید.",
+  "authVerificationRequired": "لطفاً پیش از ادامه، ایمیل خود را تأیید کنید.",
+  "authVerificationEmailSent": "یک ایمیل تأیید به {email} ارسال شد.",
+  "@authVerificationEmailSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authVerificationSuccessful": "ایمیل شما با موفقیت تأیید شد.",
+  "authNewVerificationEmailSent": "یک ایمیل تأیید جدید ارسال شد.",
+  "or": "یا",
+  "yourEmailAddress": "آدرس ایمیل شما",
+
+  "chooseReminderTime": "زمان یادآوری را انتخاب کنید",
+  "cancel": "لغو",
+  "save": "ذخیره",
+  "reminderChangeTo": "یادآوری تغییر یافت به",
+  "timeSavedAs": "زمان به {selectedTime} ذخیره شد. برای فعال شدن، یادآوری را روشن کنید.",
+  "reminderActivatedTo": "یادآوری برای این زمان فعال شد",
+
+  "stretchActivity": "ایستادن و کشش بدن",
+  "stretchGuid1": "راحت بایستید. هر دو پا را صاف روی زمین بگذارید، شانه‌ها را آرام نگه دارید و نفس بکشید.",
+  "stretchGuid2": "دست‌های خود را به‌آرامی بالای سر بکشید. هنگام کشش، به‌آرامی نفس بگیرید.",
+  "stretchGuid3": "شانه‌های خود را به‌آرامی به عقب و جلو حرکت دهید. حرکت را آهسته و راحت انجام دهید.",
+  "stretchGuid4": "اکنون گردن، کمر و پاهای خود را به‌آرامی بکشید. فقط تا جایی ادامه دهید که احساس راحتی می‌کنید.",
+  "stretchVideoCantLoad": "ویدیوی حرکات کششی بارگیری نشد.",
+  "stretchDialogTitle": "حرکات کششی تکمیل شد!",
+  "stretchDialogMessage": "آفرین! شما هر چهار حرکت کششی را تکمیل کردید.",
+  "repeat": "تکرار",
+  "finish": "پایان",
+  "step": "مرحله",
+  "appOf": "از",
+  "resume": "ادامه",
+  "pause": "توقف",
+  "activityPaused": "فعالیت متوقف شد",
+  "videoUnavailable": "ویدیو در دسترس نیست",
+  "previous": "قبلی"
 
 }

@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellmate/core/providers/journeyProvider.dart';
 import 'package:wellmate/core/theme/appTheme.dart';
+import 'package:wellmate/features/auth/domain/useCases/checkEmailVerification.dart';
+import 'package:wellmate/features/auth/domain/useCases/renderVerificationEmail.dart';
 import 'package:wellmate/features/chatbot/data/dataSources/openAIRemoteDataSource.dart';
 import 'package:wellmate/features/chatbot/data/repositories/chatRepositoyImpl.dart';
 import 'package:wellmate/features/chatbot/domain/useCases/sendMessage.dart';
@@ -82,7 +84,7 @@ void main() async {
       child: ChangeNotifierProvider(
         create: (_) => LocaleProvider(Locale(savedLanguage)),
 
-        child: MyApp(appController, authRepository, repository2, repository3, client, notificationService, repository4),
+        child: MyApp(appController, authRepository, repository2, repository3, client, notificationService, repository4, firebaseAuth),
 
       )
     ),
@@ -97,8 +99,9 @@ class MyApp extends StatefulWidget {
   final NotificationService notificationService;
   final http.Client client;
   final ProfileRepositoryImpl repository4;
+  final FirebaseAuth firebaseAuth;
 
-  const MyApp(this.appController, this.repository, this.repository2, this.repository3, this.client, this.notificationService, this.repository4, {super.key});
+  const MyApp(this.appController, this.repository, this.repository2, this.repository3, this.client, this.notificationService, this.repository4, this.firebaseAuth, {super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -133,6 +136,9 @@ class _MyAppState extends State<MyApp> {
             signInUseCase: SignIn(widget.repository),
             signUpUseCase: SignUp(widget.repository),
             signOutUseCase: SignOut(widget.repository),
+            checkEmailVerificationUseCase: CheckEmailVerification(widget.repository),
+            resendVerificationEmailUseCase: ResendVerificationEmail(widget.repository),
+            firebaseAuth: widget.firebaseAuth
           ),
         ),
         ChangeNotifierProvider(

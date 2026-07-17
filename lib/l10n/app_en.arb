@@ -148,7 +148,7 @@
   "womenDressName": "Afghan Women's Dress",
   "womenDressCity": "KABUL",
   "womenDressDescription": "Expression & Identity",
-  "gharaName": "Kandahari Ghara",
+  "gharaName": "Kandahari Gharah",
   "gharaDressCity": "KANDAHAR",
   "gharaDescription": "Identity & Pride",
   "pomegranateName": "Pomegranate Tree",
@@ -308,19 +308,17 @@
   "remindersTitle": "Reminders",
 
   "sleepReminderTitle": "Sleep Reminder",
-  "sleepReminderSubtitle": "Daily reminder at 10:00 PM",
+  "reminderSubtitle": "Daily reminder at",
   "sleepReminderDialogTitle": "Time to sleep",
   "sleepReminderMessage": "Your body needs rest. Try to sleep on time and recharge for tomorrow.",
   "sleepReminderPopUpMessage": "This reminder helps you build a better sleeping habit. It will remind you every night at 10:00 PM to sleep on time and take care of your health.",
 
   "foodReminderTitle": "Healthy Food Reminder",
-  "foodReminderSubtitle": "Daily reminder at 1:00 PM",
   "foodReminderDialogTitle": "Eat healthy food",
   "foodReminderMessage": "Choose something healthy today. Your body will thank you.",
   "foodReminderPopUpMessage": "This reminder helps you remember to eat healthy food. It will remind you every day at 1:00 PM to choose better meals and take care of your body.",
 
   "postureReminderTitle": "Posture Reminder",
-  "postureReminderSubtitle": "Daily reminder at 9:00 AM",
   "postureReminderDialogTitle": "Fix your posture",
   "postureReminderMessage": "Sit straight, relax your shoulders, and avoid bending your back.",
   "postureReminderPopUpMessage": "This reminder helps you protect your back and posture. It will remind you every day at 9:00 AM to sit properly, keep your back straight, relax your shoulders, and avoid bending.",
@@ -329,12 +327,76 @@
   "journeyCarpetExp": "A Mazar carpet is woven slowly, thread by thread, with care and patience. In this journey, every daily activity helps complete the carpet, symbolizing healing, rebuilding, and the beauty of small consistent efforts.",
   "journeyMinaretsExp": "The Minarets of Herat stand as symbols of history, strength, and resilience. In this journey, your progress helps rebuild the minarets, reminding you that strong foundations are created step by step.",
   "journeyWomenDressExp": "The Afghan women dress is full of color, detail, and cultural beauty. As you complete your daily activities, the dress gradually comes to life, representing confidence, creativity, and pride in heritage.",
-  "journeyMenDressExp": "The Kandahari Ghara represents dignity, identity, and Afghan tradition. In this journey, each completed activity helps craft the garment, showing discipline, personal growth, and pride in who you are.",
+  "journeyMenDressExp": "The Kandahari Gharah represents dignity, identity, and Afghan tradition. In this journey, each completed activity helps craft the garment, showing discipline, personal growth, and pride in who you are.",
   "journeyPomegranateExp": "The pomegranate tree grows with time, care, and patience. Your daily progress helps it grow from a small beginning into a fruitful tree, symbolizing consistency, life, and meaningful growth.",
   "selectJourney": "Select this journey",
   "chooseAnotherJourney": "Choose another journey",
 
   "doneActivityPopUpTitle": "This activity is done",
-  "doneActivityPopUpMessage": "You've already completed this activity today. Come back tomorrow to continue building your healthy habit."
+  "doneActivityPopUpMessage": "You've already completed this activity today. Come back tomorrow to continue building your healthy habit.",
+  "readAboutDialogTitle": "Coming Soon",
+  "readAboutDialogMessage": "We're currently preparing this content. It will be available in a future update. Thank you for your patience!",
+
+  "verifyYourEmail": "Verify your email",
+  "weSentLink": "We sent a verification link to:",
+  "clickOnVerifyLink": "Open the email and click on the verification link. Then return here and press the button below.",
+  "verified": "I have verified my email",
+  "resendVerifyEmail": "Resend verification email",
+  "resendVerifyEmailSec": "Resend email in {_resendSeconds} seconds",
+  "userAnotherEmail": "Use another email address",
+  "checkYourSpam": "Check your spam or junk folder if the email does not appear in your inbox.",
+
+  "authInvalidEmail": "Please enter a valid email address.",
+  "authEmailAlreadyInUse": "This email address is already registered.",
+  "authWeakPassword": "Please choose a stronger password.",
+  "authInvalidCredentials": "The email or password is incorrect.",
+  "authUserDisabled": "This account has been disabled.",
+  "authTooManyRequests": "Too many attempts. Please wait and try again.",
+  "authNetworkError": "Please check your internet connection.",
+  "authOperationNotAllowed": "Email and password authentication is not enabled.",
+  "authEmailNotVerified": "Your email is not verified yet. Open the link in your email, then try again.",
+  "authVerificationSessionExpired": "Your verification session has expired. Please sign in again.",
+  "authLoginFailed": "Login failed. Please try again.",
+  "authAccountCreationFailed": "Account creation failed. Please try again.",
+  "authUnknownError": "Authentication failed. Please try again.",
+
+  "authVerificationRequired": "Please verify your email before continuing.",
+  "authVerificationEmailSent": "A verification email has been sent to {email}.",
+  "@authVerificationEmailSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authVerificationSuccessful": "Your email has been verified successfully.",
+  "authNewVerificationEmailSent": "A new verification email has been sent.",
+  "or": "Or",
+  "yourEmailAddress": "your email address",
+
+  "chooseReminderTime": "Choose reminder time",
+  "cancel": "Cancel",
+  "save": "Save",
+  "reminderChangeTo": "Reminder changed to",
+  "timeSavedAs": "Time saved as {selectedTime}. Turn on the reminder to activate it.",
+  "reminderActivatedTo": "Reminder activated for",
+
+  "stretchActivity": "Stand and Stretch",
+  "stretchGuid1": "Stand comfortably. Keep both feet flat on the floor, relax your shoulders, and breathe.",
+  "stretchGuid2": "Slowly stretch your arms above your head. Breathe in gently as you stretch.",
+  "stretchGuid3": "Gently move your shoulders backward and forward. Keep the movement slow and easy.",
+  "stretchGuid4": "Now gently stretch your neck, back, and legs. Do only what feels comfortable.",
+  "stretchVideoCantLoad": "The stretching video could not be loaded.",
+  "stretchDialogTitle": "Stretching complete!",
+  "stretchDialogMessage": "Great job. You have completed all four stretching exercises.",
+  "repeat": "Repeat",
+  "finish": "Finish",
+  "step": "Step",
+  "appOf": "of",
+  "resume": "Resume",
+  "pause": "Pause",
+  "activityPaused": "Activity paused",
+  "videoUnavailable": "Video unavailable",
+  "previous": "Previous"
 
 }

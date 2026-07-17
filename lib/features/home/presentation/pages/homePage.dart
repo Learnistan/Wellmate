@@ -737,28 +737,53 @@ class _HomePageState extends ConsumerState<HomePage> {
                           fontSize: 14,
                         ),
                       ),
-                      const SizedBox(height: 5),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            loc.read_about(
-                              getJourneyName(selectedJourney, loc),
+
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            elevation: 0,
+                            padding: EdgeInsets.zero,
+                            minimumSize: Size.zero,
+                            overlayColor: Colors.transparent
+                        ),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              title: Text(loc.readAboutDialogTitle),
+                              content: Text(loc.readAboutDialogMessage),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text(loc.moodCalibrationOkay),
+                                ),
+                              ],
                             ),
-                            style: AppTextStyles.grayText(locale).copyWith(
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              loc.read_about(
+                                getJourneyName(selectedJourney, loc),
+                              ),
+                              style: AppTextStyles.grayText(locale).copyWith(
+                                color: AppColors.textPrimary,
+                                fontSize: 10,
+                                decoration: TextDecoration.underline,
+                                decorationColor: AppColors.textPrimary,
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            const Icon(
+                              Icons.arrow_forward,
                               color: AppColors.textPrimary,
-                              fontSize: 10,
-                              decoration: TextDecoration.underline,
-                              decorationColor: AppColors.textPrimary,
+                              size: 15,
                             ),
-                          ),
-                          const SizedBox(width: 5),
-                          const Icon(
-                            Icons.arrow_forward,
-                            color: AppColors.textPrimary,
-                            size: 15,
-                          ),
-                        ],
+                          ],
+                        ),
                       )
                     ],
                   ),

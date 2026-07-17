@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellmate/features/auth/presentation/pages/registerPage.dart';
+import 'package:wellmate/features/auth/presentation/pages/verifyEmailPage.dart';
 import 'package:wellmate/features/auth/presentation/provider/authProvider.dart';
 import 'package:wellmate/features/chatbot/presentation/pages/chatPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/bodyScanActivityPage.dart';
@@ -11,6 +12,7 @@ import 'package:wellmate/features/dailyActivities/presentation/pages/moodCalibra
 import 'package:wellmate/features/dailyActivities/presentation/pages/hydrationActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/morningIntentionsActivityPage.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/movementActivityPage.dart';
+import 'package:wellmate/features/dailyActivities/presentation/pages/stretchActivityPage.dart';
 import 'package:wellmate/features/language/presentation/languagePage.dart';
 import 'package:wellmate/features/mindfulGames/presentation/pages/BubblesGamePage.dart';
 import 'package:wellmate/features/mindfulGames/presentation/pages/emotionsGamePage.dart';
@@ -40,12 +42,15 @@ class AppRouter {
         final isFirstLaunch = appController.isFirstLaunch;
         final isLoggedIn = authProvider.isAuthenticated;
         final isAuthLoading = authProvider.isLoading;
+        final isVerificationPending =
+            authProvider.isVerificationPending;
 
         final isGoingToLogin = location == '/login';
         final isGoingToLanguage = location == '/language';
         final isGoingToIntro = location == '/intro';
         final isGoingToLoading = location == '/loading';
         final isGoingToRegister = location == '/register';
+        final isGoingToVerification = location == '/verify-email';
         final isGoingToQuestions = location == '/questions';
         final isGoingToJourneys = location == '/journeys';
 
@@ -60,13 +65,20 @@ class AppRouter {
           return '/language';
         }
 
-        // 3. Not logged in
+        // 3. Firebase user exists, but email is not verified
+        if (isVerificationPending) {
+          return isGoingToVerification
+              ? null
+              : '/verify-email';
+        }
+
+        // 4. Not logged in
         if (!isLoggedIn) {
           if (isGoingToLogin || isGoingToRegister) return null;
           return '/login';
         }
 
-        // 4. Logged in
+        // 5. Logged in
         if (isLoggedIn) {
           final selectedJourney = journeyProvider.selectedJourney;
 
@@ -88,7 +100,8 @@ class AppRouter {
             '/bubbles',
             '/emotions',
             '/morning-intentions',
-            '/evening-close'
+            '/evening-close',
+            '/stretch'
           ];
 
           if (allowedRoutes.contains(location)) {
@@ -130,6 +143,10 @@ class AppRouter {
       GoRoute(
         path: '/register',
         builder: (context, state) => RegisterPage()
+      ),
+      GoRoute(
+          path: '/verify-email',
+          builder: (context, state) => VerifyEmailPage()
       ),
       GoRoute(
         path: '/questions',
@@ -186,6 +203,10 @@ class AppRouter {
       GoRoute(
         path: '/evening-close',
         builder: (context, state) => EveningCloseActivityPage(),
+      ),
+      GoRoute(
+        path: '/stretch',
+        builder: (context, state) => StretchActivityPage(),
       ),
     ],
   );
