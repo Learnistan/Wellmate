@@ -21,26 +21,22 @@ class _StretchActivityPageState extends State<StretchActivityPage>
     with WidgetsBindingObserver {
   static const int _secondsPerStep = 60;
 
-  final List<_StretchStep> _steps = const [
+  final List<_StretchStep> _steps = [
     _StretchStep(
       videoAsset: 'assets/videos/stretch-1.mp4',
-      guideText:
-      'Stand comfortably. Keep both feet flat on the floor, relax your shoulders, and breathe.',
+      guideText: (loc) => loc.stretchGuid1,
     ),
     _StretchStep(
       videoAsset: 'assets/videos/stretch-2.mp4',
-      guideText:
-      'Slowly stretch your arms above your head. Breathe in gently as you stretch.',
+      guideText: (loc) => loc.stretchGuid2,
     ),
     _StretchStep(
       videoAsset: 'assets/videos/stretch-3.mp4',
-      guideText:
-      'Gently move your shoulders backward and forward. Keep the movement slow and easy.',
+      guideText: (loc) => loc.stretchGuid3,
     ),
     _StretchStep(
       videoAsset: 'assets/videos/stretch-4.mp4',
-      guideText:
-      'Now gently stretch your neck, back, and legs. Do only what feels comfortable.',
+      guideText: (loc) => loc.stretchGuid4,
     ),
   ];
 
@@ -116,19 +112,24 @@ class _StretchActivityPageState extends State<StretchActivityPage>
       });
 
       await controller.play();
-      _startTimer();
+
+      if (mounted) {
+        _startTimer();
+      }
     } catch (error) {
       await controller.dispose();
 
       if (!mounted) return;
+
+      final loc = AppLocalizations.of(context)!;
 
       setState(() {
         _isLoadingVideo = false;
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('The stretching video could not be loaded.'),
+        SnackBar(
+          content: Text(loc.stretchVideoCantLoad),
         ),
       );
     } finally {
@@ -197,7 +198,10 @@ class _StretchActivityPageState extends State<StretchActivityPage>
       });
 
       await _videoController?.play();
-      _startTimer();
+
+      if (mounted) {
+        _startTimer();
+      }
     } else {
       _pauseActivity();
     }
@@ -217,6 +221,8 @@ class _StretchActivityPageState extends State<StretchActivityPage>
   Future<void> _showCompletionDialog() async {
     if (!mounted || _completionDialogIsOpen) return;
 
+    final loc = AppLocalizations.of(context)!;
+
     _completionDialogIsOpen = true;
     _timer?.cancel();
 
@@ -228,12 +234,12 @@ class _StretchActivityPageState extends State<StretchActivityPage>
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
-          title: const Text(
-            'Stretching complete!',
+          title: Text(
+            loc.stretchDialogTitle,
             textAlign: TextAlign.center,
           ),
-          content: const Text(
-            'Great job. You have completed all four stretching exercises.',
+          content: Text(
+            loc.stretchDialogMessage,
             textAlign: TextAlign.center,
           ),
           actionsAlignment: MainAxisAlignment.center,
@@ -243,21 +249,30 @@ class _StretchActivityPageState extends State<StretchActivityPage>
                 Navigator.of(dialogContext).pop();
                 _restartActivity();
               },
-              child: const Text('Repeat', style: TextStyle(color: AppColors.primary),),
+              child: Text(
+                loc.repeat,
+                style: TextStyle(
+                  color: AppColors.primary,
+                ),
+              ),
             ),
             FilledButton(
-              style: OutlinedButton.styleFrom(
-                backgroundColor: AppColors.primary
+              style: FilledButton.styleFrom(
+                backgroundColor: AppColors.primary,
               ),
               onPressed: () {
                 context.read<ActivityProvider>().saveActivityLog(
                   activityId: 8,
                   value: '',
                 );
-                Navigator.pop(context);
-                context.pop("activity completed");
+
+                Navigator.of(dialogContext).pop();
+
+                if (mounted) {
+                  context.pop('activity completed');
+                }
               },
-              child: const Text('Finish'),
+              child: Text(loc.finish),
             ),
           ],
         );
@@ -332,34 +347,39 @@ class _StretchActivityPageState extends State<StretchActivityPage>
         top: false,
         child: Column(
           children: [
-            _buildTopSection(locale),
-
+            _buildTopSection(
+              locale: locale,
+              loc: loc,
+            ),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
                 child: Column(
                   children: [
-                    _buildVideo(),
-
+                    _buildVideo(loc),
                     const SizedBox(height: 24),
-
                     _buildGuideCard(
-                      locale: locale,
                       currentStep: currentStep,
+                      loc: loc,
                     ),
                   ],
                 ),
               ),
             ),
-
-            _buildNavigationButtons(locale),
+            _buildNavigationButtons(
+              locale: locale,
+              loc: loc,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTopSection(Locale locale) {
+  Widget _buildTopSection({
+    required Locale locale,
+    required AppLocalizations loc,
+  }) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 18),
       decoration: BoxDecoration(
@@ -378,13 +398,13 @@ class _StretchActivityPageState extends State<StretchActivityPage>
             children: [
               Expanded(
                 child: Text(
-                  'Step ${_currentStepIndex + 1} of ${_steps.length}',
+                  '${loc.step} ${_currentStepIndex + 1} '
+                      '${loc.appOf} ${_steps.length}',
                   style: AppTextStyles.semiBold(locale).copyWith(
                     fontSize: 16,
                   ),
                 ),
               ),
-
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 14,
@@ -415,24 +435,20 @@ class _StretchActivityPageState extends State<StretchActivityPage>
                   ],
                 ),
               ),
-
               const SizedBox(width: 8),
-
               IconButton.filledTonal(
-                tooltip: _isPaused ? 'Resume' : 'Pause',
+                tooltip: _isPaused ? loc.resume : loc.pause,
                 onPressed: _isLoadingVideo ? null : _togglePause,
                 icon: Icon(
-                  color: AppColors.primary,
                   _isPaused
                       ? Icons.play_arrow_rounded
                       : Icons.pause_rounded,
+                  color: AppColors.primary,
                 ),
               ),
             ],
           ),
-
           const SizedBox(height: 18),
-
           Row(
             children: List.generate(_steps.length, (index) {
               final isCompleted = index < _currentStepIndex;
@@ -463,21 +479,20 @@ class _StretchActivityPageState extends State<StretchActivityPage>
               );
             }),
           ),
-
           if (_isPaused) ...[
             const SizedBox(height: 12),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
+                const Icon(
                   Icons.pause_circle_outline,
                   size: 18,
                   color: Colors.orange,
                 ),
-                SizedBox(width: 6),
+                const SizedBox(width: 6),
                 Text(
-                  'Activity paused',
-                  style: TextStyle(
+                  loc.activityPaused,
+                  style: const TextStyle(
                     color: Colors.orange,
                     fontWeight: FontWeight.w600,
                   ),
@@ -490,7 +505,7 @@ class _StretchActivityPageState extends State<StretchActivityPage>
     );
   }
 
-  Widget _buildVideo() {
+  Widget _buildVideo(AppLocalizations loc) {
     return AspectRatio(
       aspectRatio: 4.8 / 5,
       child: ClipRRect(
@@ -503,12 +518,14 @@ class _StretchActivityPageState extends State<StretchActivityPage>
           )
               : _videoController == null ||
               !_videoController!.value.isInitialized
-              ? const Center(
+              ? Center(
             child: Padding(
-              padding: EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
               child: Text(
-                'Video unavailable',
-                style: TextStyle(color: Colors.white),
+                loc.videoUnavailable,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
               ),
             ),
           )
@@ -527,8 +544,8 @@ class _StretchActivityPageState extends State<StretchActivityPage>
   }
 
   Widget _buildGuideCard({
-    required Locale locale,
     required _StretchStep currentStep,
+    required AppLocalizations loc,
   }) {
     return Container(
       width: double.infinity,
@@ -547,23 +564,22 @@ class _StretchActivityPageState extends State<StretchActivityPage>
           ),
         ],
       ),
-      child: Column(
-        children: [
-          Text(
-            currentStep.guideText,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 16,
-              height: 1.55,
-              color: Colors.black87,
-            ),
-          ),
-        ],
+      child: Text(
+        currentStep.guideText(loc),
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 16,
+          height: 1.55,
+          color: Colors.black87,
+        ),
       ),
     );
   }
 
-  Widget _buildNavigationButtons(Locale locale) {
+  Widget _buildNavigationButtons({
+    required Locale locale,
+    required AppLocalizations loc,
+  }) {
     final isFirstStep = _currentStepIndex == 0;
     final isLastStep = _currentStepIndex == _steps.length - 1;
 
@@ -588,8 +604,18 @@ class _StretchActivityPageState extends State<StretchActivityPage>
                   : () {
                 _goToStep(_currentStepIndex - 1);
               },
-              icon: Icon(Icons.arrow_back_rounded, color: isFirstStep ? AppColors.appGray :AppColors.primary,),
-              label: Text('Previous', style: TextStyle(color: isFirstStep ? AppColors.appGray :AppColors.primary,),),
+              icon: Icon(
+                Icons.arrow_back_rounded,
+                color:
+                isFirstStep ? AppColors.appGray : AppColors.primary,
+              ),
+              label: Text(
+                loc.previous,
+                style: TextStyle(
+                  color:
+                  isFirstStep ? AppColors.appGray : AppColors.primary,
+                ),
+              ),
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size.fromHeight(34),
                 shape: RoundedRectangleBorder(
@@ -598,9 +624,7 @@ class _StretchActivityPageState extends State<StretchActivityPage>
               ),
             ),
           ),
-
           const SizedBox(width: 12),
-
           Expanded(
             child: FilledButton.icon(
               onPressed: _isChangingStep
@@ -619,7 +643,9 @@ class _StretchActivityPageState extends State<StretchActivityPage>
                     ? Icons.check_rounded
                     : Icons.arrow_forward_rounded,
               ),
-              label: Text(isLastStep ? 'Finish' : 'Next'),
+              label: Text(
+                isLastStep ? loc.finish : loc.next,
+              ),
               style: FilledButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 minimumSize: const Size.fromHeight(34),
@@ -637,7 +663,7 @@ class _StretchActivityPageState extends State<StretchActivityPage>
 
 class _StretchStep {
   final String videoAsset;
-  final String guideText;
+  final String Function(AppLocalizations loc) guideText;
 
   const _StretchStep({
     required this.videoAsset,
