@@ -2,6 +2,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer, Provider;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,7 +54,9 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   final notificationService = NotificationService();
   await notificationService.initNotification();
@@ -97,8 +100,8 @@ class MyApp extends StatefulWidget {
   final ActivityRepositoryImpl repository2;
   final HomeRepositoryImpl repository3;
   final NotificationService notificationService;
-  final http.Client client;
   final ProfileRepositoryImpl repository4;
+  final http.Client client;
   final FirebaseAuth firebaseAuth;
 
   const MyApp(this.appController, this.repository, this.repository2, this.repository3, this.client, this.notificationService, this.repository4, this.firebaseAuth, {super.key});
@@ -121,17 +124,6 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => HomeProvider(
-            InitProgressUseCase(widget.repository3),
-            UpdateProgressUseCase(widget.repository3),
-            GetProgressUseCase(widget.repository3),
-            GetLastCompletedDifferenceUseCase(widget.repository3),
-            ActivateAllActivitiesUseCase(widget.repository2),
-            widget.notificationService,
-            ResetJourneyUseCase(widget.repository3)
-          ),
-        ),
-        ChangeNotifierProvider(
           create: (_) => AuthProvider(
             signInUseCase: SignIn(widget.repository),
             signUpUseCase: SignUp(widget.repository),
@@ -142,31 +134,42 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         ChangeNotifierProvider(
-          create: (_) => ActivityProvider(
-            addActivity: AddActivity(widget.repository2),
-            getActivities: GetActivities(widget.repository2),
-            updateActivity: UpdateActivity(widget.repository2),
-            addActivityLog: AddActivityLog(widget.repository2),
-            getTodayHydrationGlasses: GetTodayHydrationGlasses(widget.repository2),
-          )
+          create: (_) => JourneyProvider()..loadJourney(),
         ),
         ChangeNotifierProvider(
-          create: (_) => JourneyProvider()..loadJourney(),
+          create: (_) => HomeProvider(
+              InitProgressUseCase(widget.repository3),
+              UpdateProgressUseCase(widget.repository3),
+              GetProgressUseCase(widget.repository3),
+              GetLastCompletedDifferenceUseCase(widget.repository3),
+              ActivateAllActivitiesUseCase(widget.repository2),
+              widget.notificationService,
+              ResetJourneyUseCase(widget.repository3)
+          ),
+        ),
+        ChangeNotifierProvider(
+            create: (_) => ActivityProvider(
+              addActivity: AddActivity(widget.repository2),
+              getActivities: GetActivities(widget.repository2),
+              updateActivity: UpdateActivity(widget.repository2),
+              addActivityLog: AddActivityLog(widget.repository2),
+              getTodayHydrationGlasses: GetTodayHydrationGlasses(widget.repository2),
+            )
+        ),
+        ChangeNotifierProvider(
+            create: (_) => ProfileProvider(
+                GetActiveJourneysUseCase(widget.repository4)
+            )
         ),
         ChangeNotifierProvider(
           create: (_) => ChatProvider(
               SendMessage(
-                ChatRepositoryImpl(
-                  OpenAIRemoteDataSource(FirebaseFunctions.instance)
-                )
+                  ChatRepositoryImpl(
+                      OpenAIRemoteDataSource(FirebaseFunctions.instance)
+                  )
               )
           ),
         ),
-        ChangeNotifierProvider(
-          create: (_) => ProfileProvider(
-              GetActiveJourneysUseCase(widget.repository4)
-          )
-        )
       ],
       child: Builder(
         builder: (context) {

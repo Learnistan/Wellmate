@@ -22,8 +22,16 @@ class NotificationService {
     const androidSettings =
     AndroidInitializationSettings('@mipmap/ic_launcher');
 
+    const DarwinInitializationSettings iosSettings =
+    DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
+
     const initSettings = InitializationSettings(
       android: androidSettings,
+      iOS: iosSettings
     );
 
     await _plugin.initialize(settings: initSettings);
@@ -34,6 +42,12 @@ class NotificationService {
 
     await androidPlugin?.requestNotificationsPermission();
     await androidPlugin?.requestExactAlarmsPermission();
+
+    await _plugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
 
     _isInitialized = true;
   }
