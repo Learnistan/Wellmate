@@ -311,17 +311,17 @@
   "reminderSubtitle": "Daily reminder at",
   "sleepReminderDialogTitle": "Time to sleep",
   "sleepReminderMessage": "Your body needs rest. Try to sleep on time and recharge for tomorrow.",
-  "sleepReminderPopUpMessage": "This reminder helps you build a better sleeping habit. It will remind you every night at 10:00 PM to sleep on time and take care of your health.",
+  "sleepReminderPopUpMessage": "This reminder helps you build a better sleeping habit. It will remind you every night to sleep on time and take care of your health.",
 
   "foodReminderTitle": "Healthy Food Reminder",
   "foodReminderDialogTitle": "Eat healthy food",
   "foodReminderMessage": "Choose something healthy today. Your body will thank you.",
-  "foodReminderPopUpMessage": "This reminder helps you remember to eat healthy food. It will remind you every day at 1:00 PM to choose better meals and take care of your body.",
+  "foodReminderPopUpMessage": "This reminder helps you remember to eat healthy food. It will remind you every day to choose better meals and take care of your body.",
 
   "postureReminderTitle": "Posture Reminder",
   "postureReminderDialogTitle": "Fix your posture",
   "postureReminderMessage": "Sit straight, relax your shoulders, and avoid bending your back.",
-  "postureReminderPopUpMessage": "This reminder helps you protect your back and posture. It will remind you every day at 9:00 AM to sit properly, keep your back straight, relax your shoulders, and avoid bending.",
+  "postureReminderPopUpMessage": "This reminder helps you protect your back and posture. It will remind you every day to sit properly, keep your back straight, relax your shoulders, and avoid bending.",
   "activate": "Activate",
 
   "journeyCarpetExp": "A Mazar carpet is woven slowly, thread by thread, with care and patience. In this journey, every daily activity helps complete the carpet, symbolizing healing, rebuilding, and the beauty of small consistent efforts.",
