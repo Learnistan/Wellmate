@@ -8,6 +8,7 @@ import 'package:wellmate/core/theme/colors.dart';
 import '../../../../core/theme/textStyles.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../providers/activityProvider.dart';
+import 'dart:io';
 
 class MovementActivityPage extends StatefulWidget {
   const MovementActivityPage({super.key});
@@ -55,7 +56,18 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
   }
 
   Future<void> _startSession() async {
-    final status = await Permission.activityRecognition.request();
+    final Permission permission;
+
+    if (Platform.isIOS) {
+      permission = Permission.sensors;
+    } else if (Platform.isAndroid) {
+      permission = Permission.activityRecognition;
+    } else {
+      return;
+    }
+
+    final status = await permission.request();
+
     if (!status.isGranted) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -65,16 +77,106 @@ class _MovementActivityPageState extends State<MovementActivityPage> {
       return;
     }
 
+    if(!status.isGranted) {
+      if (!mounted) return;
+
+      if(!status.isPermanentlyDenied || status.isRestricted) {
+        _showPermissionSettingsDialog();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(loc.walkingAskPermissionMessage),
+          ),
+        );
+      }
+
+      return;
+    }
+
+    _listenToSteps();
+    _startTimer();
+  }
+
+  void _showPermissionSettingsDialog() {
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Motion Permission Required'),
+          content: const Text(
+            'Please allow Motion & Fitness access in Settings so WellMate '
+                'can count your steps.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(dialogContext).pop();
+                await openAppSettings();
+              },
+              child: const Text('Open Settings'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _listenToSteps() {
     _stepSubscription ??= Pedometer.stepCountStream.listen(
           (event) {
+        if (!_isRunning || !mounted) return;
+
         _baselineSteps ??= event.steps;
-        if (_isRunning) {
+
+        final steps = event.steps - _baselineSteps!;
+
+        setState(() {
+          _sessionSteps = steps < 0 ? 0 : steps;
+        });
+      },
+      onError: (error) {
+        debugPrint('${loc.walkingPedometerError}: $error');
+      },
+      cancelOnError: false,
+    );
+  }
+
+  void _startTimer() {
+    _timer?.cancel();
+
+    setState(() {
+      _isRunning = true;
+    });
+
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+          (timer) {
+        if (!mounted) {
+          timer.cancel();
+          return;
+        }
+
+        if (_remainingSeconds <= 1) {
+          timer.cancel();
+
           setState(() {
-            _sessionSteps = event.steps - _baselineSteps!;
+            _remainingSeconds = 0;
+            _isRunning = false;
+          });
+
+          _showSessionFinishedDialog();
+        } else {
+          setState(() {
+            _remainingSeconds--;
           });
         }
       },
-      onError: (e) => debugPrint('${loc.walkingPedometerError}: $e'),
     );
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {

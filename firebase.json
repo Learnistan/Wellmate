@@ -1,16 +1,1 @@
-{
-  "functions": [
-    {
-      "source": "functions",
-      "codebase": "default",
-      "disallowLegacyRuntimeConfig": true,
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log",
-        "*.local"
-      ]
-    }
-  ]
-}
+{"functions":[{"source":"functions","codebase":"default","disallowLegacyRuntimeConfig":true,"ignore":["node_modules",".git","firebase-debug.log","firebase-debug.*.log","*.local"]}],"flutter":{"platforms":{"android":{"default":{"projectId":"wellmate-56205","appId":"1:897909384748:android:33c76db772917e527d5389","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"wellmate-56205","appId":"1:897909384748:ios:3a9015b42105236d7d5389","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"wellmate-56205","configurations":{"android":"1:897909384748:android:33c76db772917e527d5389","ios":"1:897909384748:ios:3a9015b42105236d7d5389"}}}}}}
