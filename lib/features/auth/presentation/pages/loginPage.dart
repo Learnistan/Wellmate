@@ -248,6 +248,9 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               SocialIcon(
                                 path: AppAssets.GoogleIcon,
+                                onTap: () {
+                                  authProvider.signInWithGoogleUseCase();
+                                },
                               ),
                               const SizedBox(width: 10),
                               SocialIcon(

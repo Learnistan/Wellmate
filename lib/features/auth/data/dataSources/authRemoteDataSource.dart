@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../../core/enums/authfailureType.dart';
 
@@ -170,4 +171,28 @@ class AuthRemoteDataSource {
         return AuthFailureType.unknown;
     }
   }
+
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount googleUser =
+    await GoogleSignIn.instance.authenticate();
+
+    final GoogleSignInAuthentication googleAuth =
+        googleUser.authentication;
+
+    final String? idToken = googleAuth.idToken;
+
+    if (idToken == null) {
+      throw FirebaseAuthException(
+        code: 'google-id-token-missing',
+        message: 'Google Sign-In did not return an ID token.',
+      );
+    }
+
+    final OAuthCredential credential = GoogleAuthProvider.credential(
+      idToken: idToken,
+    );
+
+    return firebaseAuth.signInWithCredential(credential);
+  }
+
 }

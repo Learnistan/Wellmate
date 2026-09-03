@@ -2,6 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <!-- Google Sign-In -->
+    <key>GIDClientID</key>
+    <string>897909384748-dfmnb94jaf0v324jfgvfi66p9v9s2sq2.apps.googleusercontent.com</string>
+
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.googleusercontent.apps.897909384748-dfmnb94jaf0v324jfgvfi66p9v9s2sq2</string>
+            </array>
+        </dict>
+    </array>
+
     <key>NSMotionUsageDescription</key>
     <string>WellMate uses motion data to count your steps and calculate walking distance.</string>
 

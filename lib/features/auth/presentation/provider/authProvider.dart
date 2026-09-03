@@ -7,6 +7,7 @@ import 'package:wellmate/features/auth/domain/useCases/renderVerificationEmail.d
 import '../../../../core/enums/authfailureType.dart';
 import '../../domain/entities/userEntity.dart';
 import '../../domain/useCases/signIn.dart';
+import '../../domain/useCases/signInWithGoogle.dart';
 import '../../domain/useCases/signOut.dart';
 import '../../domain/useCases/signUp.dart';
 
@@ -17,6 +18,7 @@ class AuthProvider with ChangeNotifier {
   final SignOut signOutUseCase;
   final ResendVerificationEmail resendVerificationEmailUseCase;
   final CheckEmailVerification checkEmailVerificationUseCase;
+  final SignInWithGoogle signInWithGoogleUseCase;
 
   AuthProvider({
     required this.firebaseAuth,
@@ -25,6 +27,7 @@ class AuthProvider with ChangeNotifier {
     required this.signOutUseCase,
     required this.resendVerificationEmailUseCase,
     required this.checkEmailVerificationUseCase,
+    required this.signInWithGoogleUseCase
   }) {
     _listenToAuthChanges();
   }
@@ -226,6 +229,10 @@ class AuthProvider with ChangeNotifier {
     } finally {
       _stopLoading();
     }
+  }
+
+  Future<void> signInWithGoogle() async {
+    await signInWithGoogleUseCase();
   }
 
   void clearMessages() {
