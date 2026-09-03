@@ -10,6 +10,7 @@ import '../../domain/useCases/signIn.dart';
 import '../../domain/useCases/signInWithGoogle.dart';
 import '../../domain/useCases/signOut.dart';
 import '../../domain/useCases/signUp.dart';
+import '../../domain/useCases/sendPasswordResetEmail.dart';
 
 class AuthProvider with ChangeNotifier {
   final FirebaseAuth firebaseAuth;
@@ -19,6 +20,7 @@ class AuthProvider with ChangeNotifier {
   final ResendVerificationEmail resendVerificationEmailUseCase;
   final CheckEmailVerification checkEmailVerificationUseCase;
   final SignInWithGoogle signInWithGoogleUseCase;
+  final SendPasswordResetEmail sendPasswordResetEmailUseCase;
 
   AuthProvider({
     required this.firebaseAuth,
@@ -27,7 +29,8 @@ class AuthProvider with ChangeNotifier {
     required this.signOutUseCase,
     required this.resendVerificationEmailUseCase,
     required this.checkEmailVerificationUseCase,
-    required this.signInWithGoogleUseCase
+    required this.signInWithGoogleUseCase,
+    required this.sendPasswordResetEmailUseCase,
   }) {
     _listenToAuthChanges();
   }
@@ -298,5 +301,29 @@ class AuthProvider with ChangeNotifier {
   void dispose() {
     _authSubscription?.cancel();
     super.dispose();
+  }
+
+  Future<bool> resetPassword(String email) async {
+    _startLoading();
+
+    try {
+      await sendPasswordResetEmailUseCase(
+        email.trim(),
+      );
+
+      _message = AuthMessageType.passwordResetEmailSent;
+
+      return true;
+    } on AuthException catch (error) {
+      _error = error.type;
+
+      return false;
+    } catch (_) {
+      _error = AuthFailureType.unknown;
+
+      return false;
+    } finally {
+      _stopLoading();
+    }
   }
 }

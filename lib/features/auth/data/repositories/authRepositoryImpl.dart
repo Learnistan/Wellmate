@@ -55,4 +55,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<UserCredential> signInWithGoogle() async {
     return remoteDataSource.signInWithGoogle();
   }
+
+  @override
+  Future<void> sendPasswordResetEmail(String email) {
+    return remoteDataSource.sendPasswordResetEmail(email);
+  }
 }

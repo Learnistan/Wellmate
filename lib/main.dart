@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:wellmate/features/auth/domain/useCases/sendPasswordResetEmail.dart';
 import 'package:wellmate/features/auth/domain/useCases/signInWithGoogle.dart';
 import 'firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer, Provider;
@@ -135,7 +136,8 @@ class _MyAppState extends State<MyApp> {
             checkEmailVerificationUseCase: CheckEmailVerification(widget.repository),
             resendVerificationEmailUseCase: ResendVerificationEmail(widget.repository),
             firebaseAuth: widget.firebaseAuth,
-            signInWithGoogleUseCase: SignInWithGoogle(widget.repository)
+            signInWithGoogleUseCase: SignInWithGoogle(widget.repository),
+            sendPasswordResetEmailUseCase: SendPasswordResetEmail(widget.repository)
           ),
         ),
         ChangeNotifierProvider(

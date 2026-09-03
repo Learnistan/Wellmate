@@ -195,4 +195,26 @@ class AuthRemoteDataSource {
     return firebaseAuth.signInWithCredential(credential);
   }
 
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(
+        email: email.trim(),
+      );
+    } on FirebaseAuthException catch (error) {
+      // Do not reveal whether an email is registered.
+      //
+      // With Firebase Email Enumeration Protection enabled,
+      // Firebase normally won't throw user-not-found here.
+      // This keeps the behavior safe if that protection is disabled.
+      if (error.code == 'user-not-found') {
+        return;
+      }
+
+      throw AuthException(
+        _mapFirebaseAuthError(error.code),
+        debugMessage: error.message,
+      );
+    }
+  }
+
 }

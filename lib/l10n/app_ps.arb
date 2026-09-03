@@ -367,6 +367,7 @@
   },
   "authVerificationSuccessful": "ستاسو برېښنالیک په بریالیتوب سره تایید شو.",
   "authNewVerificationEmailSent": "د تایید یو نوی برېښنالیک واستول شو.",
+  "passwordResetEmailSent": "د پټنوم بدل برېښنالیک واستول شو.",
   "or": "یا",
   "yourEmailAddress": "ستاسو د برېښنالیک پته",
 
@@ -393,6 +394,13 @@
   "pause": "تم",
   "activityPaused": "فعالیت درول شوی",
   "videoUnavailable": "ویډیو نشته",
-  "previous": "مخکینی"
+  "previous": "مخکینی",
+
+  "enterEmailToSendResetLink": "خپل برېښنالیک پته دننه کړئ، ترڅو د پټنوم د بیا تنظیمولو لینک درولېږو.",
+  "sendResetLink": "د بیا تنظیمولو لینک ولېږئ",
+  "enterYourEmail": "مهرباني وکړئ خپل برېښنالیک دننه کړئ.",
+  "enterValidEmail": "مهرباني وکړئ یو معتبر برېښنالیک دننه کړئ.",
+  "passwordResetMessage1": "که د دې برېښنالیک لپاره حساب موجود وي،\nد پټنوم د بیا تنظیمولو لینک درلېږل شوی دی.",
+  "passwordResetMessage2": "د بیا تنظیمولو ایمیل ونه لېږل شو.\nمهرباني وکړئ خپل انټرنېټي اتصال وګورئ او بیا هڅه وکړئ."
 
 }
