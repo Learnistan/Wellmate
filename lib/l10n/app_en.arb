@@ -371,6 +371,7 @@
   },
   "authVerificationSuccessful": "Your email has been verified successfully.",
   "authNewVerificationEmailSent": "A new verification email has been sent.",
+  "passwordResetEmailSent": "A password reset email has been sent.",
   "or": "Or",
   "yourEmailAddress": "your email address",
 
@@ -397,6 +398,13 @@
   "pause": "Pause",
   "activityPaused": "Activity paused",
   "videoUnavailable": "Video unavailable",
-  "previous": "Previous"
+  "previous": "Previous",
+
+  "enterEmailToSendResetLink": "Enter your email address and we will send you a link to reset your password.",
+  "sendResetLink": "Send Reset Link",
+  "enterYourEmail": "Please enter your email.",
+  "enterValidEmail": "Please enter a valid email.",
+  "passwordResetMessage1": "If an account exists for this email,\na password reset link has been sent.",
+  "passwordResetMessage2": "Unable to send the reset email. \nPlease check your connection and try again."
 
 }

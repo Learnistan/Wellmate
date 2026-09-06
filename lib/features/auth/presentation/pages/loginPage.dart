@@ -174,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.centerLeft,
                             child: TextButton(
                               onPressed: () {
-                                // TODO: Add forgot-password flow.
+                                context.push('/forgot-password');
                               },
                               child: Text(
                                 loc.forgotPassword,
@@ -248,6 +248,9 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               SocialIcon(
                                 path: AppAssets.GoogleIcon,
+                                onTap: () {
+                                  authProvider.signInWithGoogleUseCase();
+                                },
                               ),
                               const SizedBox(width: 10),
                               SocialIcon(

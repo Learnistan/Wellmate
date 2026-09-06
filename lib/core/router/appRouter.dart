@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wellmate/features/auth/presentation/pages/passwordResetPage.dart';
 import 'package:wellmate/features/auth/presentation/pages/registerPage.dart';
 import 'package:wellmate/features/auth/presentation/pages/verifyEmailPage.dart';
 import 'package:wellmate/features/auth/presentation/provider/authProvider.dart';
@@ -50,6 +51,7 @@ class AppRouter {
         final isGoingToIntro = location == '/intro';
         final isGoingToLoading = location == '/loading';
         final isGoingToRegister = location == '/register';
+        final isGoingToResetPassword = location == '/forgot-password';
         final isGoingToVerification = location == '/verify-email';
         final isGoingToQuestions = location == '/questions';
         final isGoingToJourneys = location == '/journeys';
@@ -74,7 +76,7 @@ class AppRouter {
 
         // 4. Not logged in
         if (!isLoggedIn) {
-          if (isGoingToLogin || isGoingToRegister) return null;
+          if (isGoingToLogin || isGoingToRegister || isGoingToResetPassword) return null;
           return '/login';
         }
 
@@ -101,7 +103,8 @@ class AppRouter {
             '/emotions',
             '/morning-intentions',
             '/evening-close',
-            '/stretch'
+            '/stretch',
+            '/forgot-password'
           ];
 
           if (allowedRoutes.contains(location)) {
@@ -207,6 +210,10 @@ class AppRouter {
       GoRoute(
         path: '/stretch',
         builder: (context, state) => StretchActivityPage(),
+      ),
+      GoRoute(
+        path: '/forgot-password',
+        builder: (context, state) => ForgotPasswordPage(),
       ),
     ],
   );

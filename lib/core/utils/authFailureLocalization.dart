@@ -63,6 +63,9 @@ extension AuthMessageLocalization on AuthMessageType {
 
       case AuthMessageType.newVerificationEmailSent:
         return loc.authNewVerificationEmailSent;
+
+      case AuthMessageType.passwordResetEmailSent:
+        return loc.passwordResetEmailSent;
     }
   }
 }

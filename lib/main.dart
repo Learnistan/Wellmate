@@ -2,6 +2,9 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:wellmate/features/auth/domain/useCases/sendPasswordResetEmail.dart';
+import 'package:wellmate/features/auth/domain/useCases/signInWithGoogle.dart';
 import 'firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer, Provider;
 import 'package:http/http.dart' as http;
@@ -57,6 +60,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await GoogleSignIn.instance.initialize();
 
   final notificationService = NotificationService();
   await notificationService.initNotification();
@@ -130,7 +135,9 @@ class _MyAppState extends State<MyApp> {
             signOutUseCase: SignOut(widget.repository),
             checkEmailVerificationUseCase: CheckEmailVerification(widget.repository),
             resendVerificationEmailUseCase: ResendVerificationEmail(widget.repository),
-            firebaseAuth: widget.firebaseAuth
+            firebaseAuth: widget.firebaseAuth,
+            signInWithGoogleUseCase: SignInWithGoogle(widget.repository),
+            sendPasswordResetEmailUseCase: SendPasswordResetEmail(widget.repository)
           ),
         ),
         ChangeNotifierProvider(

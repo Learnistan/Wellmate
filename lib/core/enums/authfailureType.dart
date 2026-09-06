@@ -19,6 +19,7 @@ enum AuthMessageType {
   verificationEmailSent,
   verificationSuccessful,
   newVerificationEmailSent,
+  passwordResetEmailSent,
 }
 
 class AuthException implements Exception {

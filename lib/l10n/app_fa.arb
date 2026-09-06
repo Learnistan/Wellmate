@@ -367,6 +367,7 @@
   },
   "authVerificationSuccessful": "ایمیل شما با موفقیت تأیید شد.",
   "authNewVerificationEmailSent": "یک ایمیل تأیید جدید ارسال شد.",
+  "passwordResetEmailSent": "ایمیل تغییر رمز عبور ارسال شد.",
   "or": "یا",
   "yourEmailAddress": "آدرس ایمیل شما",
 
@@ -393,6 +394,13 @@
   "pause": "توقف",
   "activityPaused": "فعالیت متوقف شد",
   "videoUnavailable": "ویدیو در دسترس نیست",
-  "previous": "قبلی"
+  "previous": "قبلی",
+
+  "enterEmailToSendResetLink": "آدرس ایمیل خود را وارد کنید تا لینک بازنشانی رمز عبور برایتان ارسال شود.",
+  "sendResetLink": "ارسال لینک بازنشانی",
+  "enterYourEmail": "لطفاً ایمیل خود را وارد کنید.",
+  "enterValidEmail": "لطفاً یک ایمیل معتبر وارد کنید.",
+  "passwordResetMessage1": "اگر حسابی با این ایمیل وجود داشته باشد،\nلینک بازنشانی رمز عبور برایتان ارسال شده است.",
+  "passwordResetMessage2": "ارسال ایمیل بازنشانی ممکن نشد.\nلطفاً اتصال اینترنت خود را بررسی کرده و دوباره تلاش کنید."
 
 }

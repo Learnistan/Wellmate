@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../domain/entities/userEntity.dart';
 import '../../domain/repositories/authRepository.dart';
 import '../dataSources/authRemoteDataSource.dart';
@@ -47,5 +49,15 @@ class AuthRepositoryImpl implements AuthRepository {
     }
 
     return UserModel.fromFirebase(user);
+  }
+
+  @override
+  Future<UserCredential> signInWithGoogle() async {
+    return remoteDataSource.signInWithGoogle();
+  }
+
+  @override
+  Future<void> sendPasswordResetEmail(String email) {
+    return remoteDataSource.sendPasswordResetEmail(email);
   }
 }
