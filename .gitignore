@@ -48,3 +48,11 @@ app.*.map.json
 
 # Localization generated files
 lib/l10n/app_localizations*.dart
+
+# Generated platform files
+linux/
+macos/
+
+# Swift package generated data
+ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+ios/Runner.xcworkspace/xcshareddata/swiftpm/

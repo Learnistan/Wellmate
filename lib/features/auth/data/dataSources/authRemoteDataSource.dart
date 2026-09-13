@@ -217,4 +217,76 @@ class AuthRemoteDataSource {
     }
   }
 
+  Future<void> deleteAccount({String? password}) async {
+    try {
+      final user = firebaseAuth.currentUser;
+
+      if (user == null) {
+        throw const AuthException(
+          AuthFailureType.unknown,
+          debugMessage: 'No authenticated user.',
+        );
+      }
+
+      final providerIds =
+      user.providerData.map((provider) => provider.providerId).toList();
+
+      // GOOGLE USER
+      if (providerIds.contains('google.com')) {
+        final googleUser = await GoogleSignIn.instance.authenticate();
+
+        final googleAuth = googleUser.authentication;
+
+        final idToken = googleAuth.idToken;
+
+        if (idToken == null) {
+          throw FirebaseAuthException(
+            code: 'google-id-token-missing',
+            message: 'Google Sign-In did not return an ID token.',
+          );
+        }
+
+        final credential = GoogleAuthProvider.credential(
+          idToken: idToken,
+        );
+
+        await user.reauthenticateWithCredential(credential);
+      }
+
+      // EMAIL / PASSWORD USER
+      else if (providerIds.contains('password')) {
+        if (password == null || password.isEmpty) {
+          throw FirebaseAuthException(
+            code: 'password-required',
+            message: 'Password is required to delete the account.',
+          );
+        }
+
+        final email = user.email;
+
+        if (email == null) {
+          throw FirebaseAuthException(
+            code: 'email-missing',
+            message: 'User email is missing.',
+          );
+        }
+
+        final credential = EmailAuthProvider.credential(
+          email: email,
+          password: password,
+        );
+
+        await user.reauthenticateWithCredential(credential);
+      }
+
+      // DELETE FIREBASE ACCOUNT
+      await firebaseAuth.currentUser!.delete();
+    } on FirebaseAuthException catch (error) {
+      throw AuthException(
+        _mapFirebaseAuthError(error.code),
+        debugMessage: error.message,
+      );
+    }
+  }
+
 }
