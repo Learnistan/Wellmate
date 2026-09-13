@@ -11,6 +11,7 @@ import '../../domain/useCases/signInWithGoogle.dart';
 import '../../domain/useCases/signOut.dart';
 import '../../domain/useCases/signUp.dart';
 import '../../domain/useCases/sendPasswordResetEmail.dart';
+import '../../domain/useCases/deleteAccount.dart';
 
 class AuthProvider with ChangeNotifier {
   final FirebaseAuth firebaseAuth;
@@ -21,6 +22,7 @@ class AuthProvider with ChangeNotifier {
   final CheckEmailVerification checkEmailVerificationUseCase;
   final SignInWithGoogle signInWithGoogleUseCase;
   final SendPasswordResetEmail sendPasswordResetEmailUseCase;
+  final DeleteAccount deleteAccountUseCase;
 
   AuthProvider({
     required this.firebaseAuth,
@@ -31,6 +33,7 @@ class AuthProvider with ChangeNotifier {
     required this.checkEmailVerificationUseCase,
     required this.signInWithGoogleUseCase,
     required this.sendPasswordResetEmailUseCase,
+    required this.deleteAccountUseCase,
   }) {
     _listenToAuthChanges();
   }
@@ -61,6 +64,18 @@ class AuthProvider with ChangeNotifier {
   bool get verificationEmailSent => _verificationEmailSent;
 
   String? get pendingEmail => _pendingEmail;
+
+  bool get isGoogleUser {
+    final user = firebaseAuth.currentUser;
+
+    if (user == null) {
+      return false;
+    }
+
+    return user.providerData.any(
+          (provider) => provider.providerId == 'google.com',
+    );
+  }
 
   void _listenToAuthChanges() {
     _authSubscription =
@@ -321,6 +336,31 @@ class AuthProvider with ChangeNotifier {
     } catch (_) {
       _error = AuthFailureType.unknown;
 
+      return false;
+    } finally {
+      _stopLoading();
+    }
+  }
+
+  Future<bool> deleteAccount({String? password}) async {
+    _startLoading();
+
+    try {
+      await deleteAccountUseCase(
+        password: password,
+      );
+
+      _user = null;
+      _pendingEmail = null;
+      _isVerificationPending = false;
+      _verificationEmailSent = false;
+
+      return true;
+    } on AuthException catch (error) {
+      _error = error.type;
+      return false;
+    } catch (_) {
+      _error = AuthFailureType.unknown;
       return false;
     } finally {
       _stopLoading();

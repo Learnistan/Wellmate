@@ -371,10 +371,134 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     ),
                   ),
                 ),
+
+              SizedBox(height: 10,),
+
+              ElevatedButton.icon(
+                onPressed: () => _handleDeleteAccount(authProvider),
+                icon: const Icon(Icons.delete_forever_rounded),
+                label: Text("Delete Account"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red.shade50,
+                  foregroundColor: Colors.red.shade700,
+                  elevation: 0,
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _handleDeleteAccount(
+      AuthProvider authProvider,
+      ) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Delete Account'),
+          content: const Text(
+            'Are you sure? This action cannot be undone.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext, false);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext, true);
+              },
+              child: const Text(
+                'Delete',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed != true) {
+      return;
+    }
+
+    String? password;
+
+    // Email/password users must enter password again.
+    if (!authProvider.isGoogleUser) {
+      password = await _askForPassword();
+
+      if (password == null || password.isEmpty) {
+        return;
+      }
+    }
+
+    final success = await authProvider.deleteAccount(
+      password: password,
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    if (!success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Could not delete account. Please try again.',
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<String?> _askForPassword() async {
+    String password = '';
+
+    return showDialog<String>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Confirm Password'),
+          content: TextField(
+            obscureText: true,
+            autofocus: true,
+            onChanged: (value) {
+              password = value;
+            },
+            decoration: const InputDecoration(
+              labelText: 'Password',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(
+                  dialogContext,
+                  password.trim(),
+                );
+              },
+              child: const Text('Continue'),
+            ),
+          ],
+        );
+      },
     );
   }
 

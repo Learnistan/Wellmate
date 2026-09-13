@@ -60,4 +60,11 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> sendPasswordResetEmail(String email) {
     return remoteDataSource.sendPasswordResetEmail(email);
   }
+
+  @override
+  Future<void> deleteAccount({String? password}) {
+    return remoteDataSource.deleteAccount(
+      password: password,
+    );
+  }
 }
