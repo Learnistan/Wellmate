@@ -58,4 +58,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
     return localProfile;
   }
+
+  @override
+  Future<void> clearLocalProfile() => local.clearProfile();
 }

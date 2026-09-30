@@ -10,6 +10,7 @@ import 'package:wellmate/features/auth/domain/useCases/signInWithGoogle.dart';
 import 'package:wellmate/features/profile/data/dataSources/profileRemoteDataSource.dart';
 import 'package:wellmate/features/profile/domain/useCases/saveProfile.dart';
 import 'package:wellmate/features/profile/domain/useCases/updateSelectedJourney.dart'; // NEW (adjust path/file name to where you created it)
+import 'features/profile/domain/useCases/clearLocalProfile.dart';
 import 'features/profile/domain/useCases/restoreProfile.dart';
 import 'firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer, Provider;
@@ -152,6 +153,7 @@ class _MyAppState extends State<MyApp> {
             saveProfileUseCase: SaveProfile(widget.repository4),
             restoreProfileUseCase: RestoreProfile(widget.repository4),
             journeyProvider: journeyProvider,
+            clearLocalProfileUseCase: ClearLocalProfile(widget.repository4),
           ),
         ),
         ChangeNotifierProvider.value(value: journeyProvider),

@@ -7,6 +7,7 @@ import 'package:wellmate/features/auth/domain/useCases/renderVerificationEmail.d
 import '../../../../core/enums/authfailureType.dart';
 import '../../../../core/providers/journeyProvider.dart';
 import '../../../profile/domain/entities/profileEntity.dart';
+import '../../../profile/domain/useCases/clearLocalProfile.dart';
 import '../../../profile/domain/useCases/restoreProfile.dart';
 import '../../../profile/domain/useCases/saveProfile.dart';
 import '../../domain/entities/userEntity.dart';
@@ -30,6 +31,7 @@ class AuthProvider with ChangeNotifier {
   final SaveProfile saveProfileUseCase;
   final RestoreProfile restoreProfileUseCase;
   final JourneyProvider journeyProvider;
+  final ClearLocalProfile clearLocalProfileUseCase;
 
   AuthProvider({
     required this.firebaseAuth,
@@ -44,6 +46,7 @@ class AuthProvider with ChangeNotifier {
     required this.saveProfileUseCase,
     required this.restoreProfileUseCase,
     required this.journeyProvider,
+    required this.clearLocalProfileUseCase,
   }) {
     _listenToAuthChanges();
   }
@@ -265,6 +268,7 @@ class AuthProvider with ChangeNotifier {
 
     try {
       await signOutUseCase();
+      await _clearLocalUserData();
 
       _restores.clear();
       await journeyProvider.clearSelectedJourney();
@@ -382,6 +386,7 @@ class AuthProvider with ChangeNotifier {
       await deleteAccountUseCase(
         password: password,
       );
+      await _clearLocalUserData();
 
       _restores.clear();
       await journeyProvider.clearSelectedJourney();
@@ -415,5 +420,15 @@ class AuthProvider with ChangeNotifier {
         // Never block login because of this.
       }
     });
+  }
+
+  Future<void> _clearLocalUserData() async {
+    _restores.clear();
+    try {
+      await clearLocalProfileUseCase();
+      await journeyProvider.clearSelectedJourney();
+    } catch (_) {
+      // Cleanup errors must not block logout.
+    }
   }
 }

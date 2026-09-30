@@ -71,4 +71,9 @@ class ProfileDataSource {
     if (rows.isEmpty) return null;
     return ProfileModel.fromLocal(rows.first);
   }
+
+  Future<void> clearProfile() async {
+    final db = await DatabaseHelper.instance.database;
+    await db.delete('profile');
+  }
 }
