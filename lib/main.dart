@@ -11,6 +11,8 @@ import 'package:wellmate/features/profile/data/dataSources/profileRemoteDataSour
 import 'package:wellmate/features/profile/domain/useCases/saveProfile.dart';
 import 'package:wellmate/features/profile/domain/useCases/updateSelectedJourney.dart'; // NEW (adjust path/file name to where you created it)
 import 'features/profile/domain/useCases/clearLocalProfile.dart';
+import 'features/profile/domain/useCases/deleteProfile.dart';
+import 'features/profile/domain/useCases/reauthenticateUser.dart';
 import 'features/profile/domain/useCases/restoreProfile.dart';
 import 'firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer, Provider;
@@ -154,6 +156,8 @@ class _MyAppState extends State<MyApp> {
             restoreProfileUseCase: RestoreProfile(widget.repository4),
             journeyProvider: journeyProvider,
             clearLocalProfileUseCase: ClearLocalProfile(widget.repository4),
+            deleteProfileUseCase: DeleteProfile(widget.repository4),
+            reauthenticateUserUseCase: ReauthenticateUser(widget.repository),
           ),
         ),
         ChangeNotifierProvider.value(value: journeyProvider),

@@ -61,4 +61,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
   @override
   Future<void> clearLocalProfile() => local.clearProfile();
+
+  @override
+  Future<void> deleteProfile(String uid) => remote.deleteProfile(uid);
 }

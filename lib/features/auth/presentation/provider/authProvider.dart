@@ -8,6 +8,8 @@ import '../../../../core/enums/authfailureType.dart';
 import '../../../../core/providers/journeyProvider.dart';
 import '../../../profile/domain/entities/profileEntity.dart';
 import '../../../profile/domain/useCases/clearLocalProfile.dart';
+import '../../../profile/domain/useCases/deleteProfile.dart';
+import '../../../profile/domain/useCases/reauthenticateUser.dart';
 import '../../../profile/domain/useCases/restoreProfile.dart';
 import '../../../profile/domain/useCases/saveProfile.dart';
 import '../../domain/entities/userEntity.dart';
@@ -32,6 +34,8 @@ class AuthProvider with ChangeNotifier {
   final RestoreProfile restoreProfileUseCase;
   final JourneyProvider journeyProvider;
   final ClearLocalProfile clearLocalProfileUseCase;
+  final DeleteProfile deleteProfileUseCase;
+  final ReauthenticateUser reauthenticateUserUseCase;
 
   AuthProvider({
     required this.firebaseAuth,
@@ -47,6 +51,8 @@ class AuthProvider with ChangeNotifier {
     required this.restoreProfileUseCase,
     required this.journeyProvider,
     required this.clearLocalProfileUseCase,
+    required this.deleteProfileUseCase,
+    required this.reauthenticateUserUseCase
   }) {
     _listenToAuthChanges();
   }
@@ -383,13 +389,25 @@ class AuthProvider with ChangeNotifier {
     _startLoading();
 
     try {
-      await deleteAccountUseCase(
-        password: password,
-      );
-      await _clearLocalUserData();
+      // 1. Verify identity first. A wrong password stops here, nothing deleted.
+      await reauthenticateUserUseCase(password: password);
 
-      _restores.clear();
-      await journeyProvider.clearSelectedJourney();
+      // 2. Delete the Firestore profile.
+      final uid = firebaseAuth.currentUser?.uid;
+      if (uid != null) {
+        try {
+          await deleteProfileUseCase(uid);
+        } catch (_) {
+          _error = AuthFailureType.networkError;
+          return false;
+        }
+      }
+
+      // 3. Delete the Auth account.
+      await deleteAccountUseCase();
+
+      // 4. Clear local data.
+      await _clearLocalUserData();
 
       _user = null;
       _pendingEmail = null;

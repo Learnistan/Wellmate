@@ -62,9 +62,12 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> deleteAccount({String? password}) {
-    return remoteDataSource.deleteAccount(
-      password: password,
-    );
+  Future<void> reauthenticate({String? password}) {
+    return remoteDataSource.reauthenticate(password: password);
+  }
+
+  @override
+  Future<void> deleteAccount() {
+    return remoteDataSource.deleteAccount();
   }
 }

@@ -217,7 +217,7 @@ class AuthRemoteDataSource {
     }
   }
 
-  Future<void> deleteAccount({String? password}) async {
+  Future<void> reauthenticate({String? password}) async {
     try {
       final user = firebaseAuth.currentUser;
 
@@ -234,10 +234,7 @@ class AuthRemoteDataSource {
       // GOOGLE USER
       if (providerIds.contains('google.com')) {
         final googleUser = await GoogleSignIn.instance.authenticate();
-
-        final googleAuth = googleUser.authentication;
-
-        final idToken = googleAuth.idToken;
+        final idToken = googleUser.authentication.idToken;
 
         if (idToken == null) {
           throw FirebaseAuthException(
@@ -246,10 +243,7 @@ class AuthRemoteDataSource {
           );
         }
 
-        final credential = GoogleAuthProvider.credential(
-          idToken: idToken,
-        );
-
+        final credential = GoogleAuthProvider.credential(idToken: idToken);
         await user.reauthenticateWithCredential(credential);
       }
 
@@ -278,9 +272,26 @@ class AuthRemoteDataSource {
 
         await user.reauthenticateWithCredential(credential);
       }
+    } on FirebaseAuthException catch (error) {
+      throw AuthException(
+        _mapFirebaseAuthError(error.code),
+        debugMessage: error.message,
+      );
+    }
+  }
 
-      // DELETE FIREBASE ACCOUNT
-      await firebaseAuth.currentUser!.delete();
+  Future<void> deleteAccount() async {
+    try {
+      final user = firebaseAuth.currentUser;
+
+      if (user == null) {
+        throw const AuthException(
+          AuthFailureType.unknown,
+          debugMessage: 'No authenticated user.',
+        );
+      }
+
+      await user.delete();
     } on FirebaseAuthException catch (error) {
       throw AuthException(
         _mapFirebaseAuthError(error.code),

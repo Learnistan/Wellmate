@@ -31,4 +31,12 @@ class ProfileRemoteDataSource {
     if (!doc.exists) return null;
     return ProfileModel.fromRemote(uid, doc.data()!);
   }
+
+  Future<void> deleteProfile(String uid) {
+    return firestore
+        .collection('users')
+        .doc(uid)
+        .delete()
+        .timeout(const Duration(seconds: 10));
+  }
 }

@@ -7,4 +7,5 @@ abstract class ProfileRepository {
   Future<void> updateSelectedJourney(String uid, Journeys journey);
   Future<ProfileEntity?> restoreProfile(String uid);
   Future<void> clearLocalProfile();
+  Future<void> deleteProfile(String uid);
 }

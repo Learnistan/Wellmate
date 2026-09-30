@@ -17,5 +17,7 @@ abstract class AuthRepository {
 
   Future<void> sendPasswordResetEmail(String email);
 
-  Future<void> deleteAccount({String? password});
+  Future<void> deleteAccount();
+
+  Future<void> reauthenticate({String? password});
 }
