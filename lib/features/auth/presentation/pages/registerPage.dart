@@ -23,17 +23,64 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
 
+  final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController =
   TextEditingController();
 
+  DateTime? selectedDateOfBirth;
+
   @override
   void dispose() {
+    usernameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _selectDateOfBirth() async {
+    final now = DateTime.now();
+
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDateOfBirth ??
+          DateTime(
+            now.year - 18,
+            now.month,
+            now.day,
+          ),
+      firstDate: DateTime(1900),
+      lastDate: now,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+              primary: AppColors.primary,
+              onPrimary: Colors.white,
+            ),
+            datePickerTheme: DatePickerThemeData(
+              backgroundColor: Colors.white,
+              headerBackgroundColor: AppColors.primary,
+              headerForegroundColor: Colors.white,
+              todayForegroundColor:
+              WidgetStatePropertyAll(AppColors.primary),
+              todayBorder: BorderSide(
+                color: AppColors.primary,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        selectedDateOfBirth = pickedDate;
+      });
+    }
   }
 
   Future<void> _submit() async {
@@ -43,11 +90,22 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
+    if (selectedDateOfBirth == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select your date of birth'),
+        ),
+      );
+      return;
+    }
+
     final authProvider = context.read<AuthProvider>();
 
     final success = await authProvider.register(
       emailController.text.trim(),
       passwordController.text,
+      usernameController.text.trim(),
+      selectedDateOfBirth!,
     );
 
     if (!mounted) return;
@@ -120,6 +178,59 @@ class _RegisterPageState extends State<RegisterPage> {
                             key: _formKey,
                             child: Column(
                               children: [
+                                // USERNAME
+                                AppInputField(
+                                  controller: usernameController,
+                                  label: 'Username',
+                                  validator: (value) {
+                                    final username =
+                                        value?.trim() ?? '';
+
+                                    if (username.isEmpty) {
+                                      return 'Username is required';
+                                    }
+
+                                    return null;
+                                  },
+                                ),
+
+                                const SizedBox(height: 12),
+
+                                // DATE OF BIRTH
+                                FormField<DateTime>(
+                                  validator: (value) {
+                                    if (selectedDateOfBirth == null) {
+                                      return 'Date of birth is required';
+                                    }
+
+                                    return null;
+                                  },
+                                  builder: (field) {
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        await _selectDateOfBirth();
+
+                                        field.didChange(selectedDateOfBirth);
+                                      },
+                                      child: AbsorbPointer(
+                                        child: AppInputField(
+                                          controller: TextEditingController(
+                                            text: selectedDateOfBirth == null
+                                                ? ''
+                                                : '${selectedDateOfBirth!.day.toString().padLeft(2, '0')}/'
+                                                '${selectedDateOfBirth!.month.toString().padLeft(2, '0')}/'
+                                                '${selectedDateOfBirth!.year}',
+                                          ),
+                                          label: 'Date of birth',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+
+                                const SizedBox(height: 12),
+
+                                // EMAIL
                                 AppInputField(
                                   controller: emailController,
                                   label: loc.email,
@@ -135,8 +246,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
                                     );
 
-                                    if (!emailRegex
-                                        .hasMatch(email)) {
+                                    if (!emailRegex.hasMatch(email)) {
                                       return loc.invalidEmail;
                                     }
 
@@ -146,6 +256,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                                 const SizedBox(height: 12),
 
+                                // PASSWORD
                                 AppInputField(
                                   controller:
                                   passwordController,
@@ -167,6 +278,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                                 const SizedBox(height: 12),
 
+                                // CONFIRM PASSWORD
                                 AppInputField(
                                   controller:
                                   confirmPasswordController,
@@ -227,8 +339,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               const SizedBox(width: 8),
                               Text(
                                 loc.or,
-                                style:
-                                TextStyle(color: Colors.grey),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
                               ),
                               const SizedBox(width: 8),
                               Container(

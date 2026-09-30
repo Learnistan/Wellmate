@@ -10,7 +10,9 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/textStyles.dart';
 import '../../../../core/utils/getProperText.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../auth/presentation/provider/authProvider.dart';
 import '../../../home/presentation/providers/homeProvider.dart';
+import '../../../profile/domain/useCases/updateSelectedJourney.dart';
 import '../../../shell/presentation/navigationProvider.dart';
 
 class SelectJourneyPage extends ConsumerStatefulWidget {
@@ -24,19 +26,30 @@ class _SelectJourneyPageState extends ConsumerState<SelectJourneyPage> {
   bool _isSaving = false;
 
   Future<void> _selectJourney(Journeys journeyKey) async {
-    setState(() {
-      _isSaving = true;
-    });
+    setState(() => _isSaving = true);
 
-    await context.read<JourneyProvider>().saveSelectedJourney(journeyKey);
+    try {
+      await context.read<JourneyProvider>().saveSelectedJourney(journeyKey);
 
-    final homeProvider = context.read<HomeProvider>();
-    await homeProvider.initProgress();
+      final uid = context.read<AuthProvider>().user?.id;
+      if (uid != null) {
+        try {
+          await context.read<UpdateSelectedJourney>()(uid, journeyKey);
+        } catch (_) {
+          // Profile sync must not block the flow.
+        }
+      }
 
-    if (!context.mounted) return;
+      final homeProvider = context.read<HomeProvider>();
+      await homeProvider.initProgress();
 
-    ref.read(navigationIndexProvider.notifier).state = 0;
-    context.go('/shell');
+      if (!mounted) return;
+
+      ref.read(navigationIndexProvider.notifier).state = 0;
+      context.go('/shell');
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
   }
 
   void _openJourneyDetails({

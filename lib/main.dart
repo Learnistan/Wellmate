@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:firebase_core/firebase_core.dart';
@@ -6,6 +7,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wellmate/features/auth/domain/useCases/deleteAccount.dart';
 import 'package:wellmate/features/auth/domain/useCases/sendPasswordResetEmail.dart';
 import 'package:wellmate/features/auth/domain/useCases/signInWithGoogle.dart';
+import 'package:wellmate/features/profile/data/dataSources/profileRemoteDataSource.dart';
+import 'package:wellmate/features/profile/domain/useCases/saveProfile.dart';
+import 'package:wellmate/features/profile/domain/useCases/updateSelectedJourney.dart'; // NEW (adjust path/file name to where you created it)
+import 'features/profile/domain/useCases/restoreProfile.dart';
 import 'firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer, Provider;
 import 'package:http/http.dart' as http;
@@ -71,6 +76,7 @@ void main() async {
   final savedLanguage = prefs.getString('language_code') ?? 'en';
 
   final firebaseAuth = FirebaseAuth.instance;
+  final firestore = FirebaseFirestore.instance;
   final remoteDataSource = AuthRemoteDataSource(firebaseAuth);
   final authRepository = AuthRepositoryImpl(remoteDataSource);
 
@@ -83,19 +89,18 @@ void main() async {
   final localDataSource2 = ActivityLocalDataSource(dbHelper);
   final localDataSource3 = HomeLocalDataSource(dbHelper);
   final localDataSource4 = ProfileDataSource(dbHelper);
+  final remoteDataSource2 = ProfileRemoteDataSource(firestore);
 
   final repository2 = ActivityRepositoryImpl(localDataSource2);
   final repository3 = HomeRepositoryImpl(localDataSource3);
-  final repository4 = ProfileRepositoryImpl(localDataSource4);
+  final repository4 = ProfileRepositoryImpl(localDataSource4, remoteDataSource2);
 
   runApp(
     ProviderScope(
       child: ChangeNotifierProvider(
         create: (_) => LocaleProvider(Locale(savedLanguage)),
-
         child: MyApp(appController, authRepository, repository2, repository3, client, notificationService, repository4, firebaseAuth),
-
-      )
+      ),
     ),
   );
 }
@@ -118,6 +123,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   AppRouter? appRouter;
+  late final JourneyProvider journeyProvider = JourneyProvider()..loadJourney();
 
   @override
   void initState() {
@@ -129,6 +135,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<UpdateSelectedJourney>(
+          create: (_) => UpdateSelectedJourney(widget.repository4),
+        ),
         ChangeNotifierProvider(
           create: (_) => AuthProvider(
             signInUseCase: SignIn(widget.repository),
@@ -139,55 +148,53 @@ class _MyAppState extends State<MyApp> {
             firebaseAuth: widget.firebaseAuth,
             signInWithGoogleUseCase: SignInWithGoogle(widget.repository),
             sendPasswordResetEmailUseCase: SendPasswordResetEmail(widget.repository),
-            deleteAccountUseCase: DeleteAccount(widget.repository)
+            deleteAccountUseCase: DeleteAccount(widget.repository),
+            saveProfileUseCase: SaveProfile(widget.repository4),
+            restoreProfileUseCase: RestoreProfile(widget.repository4),
+            journeyProvider: journeyProvider,
           ),
         ),
-        ChangeNotifierProvider(
-          create: (_) => JourneyProvider()..loadJourney(),
-        ),
+        ChangeNotifierProvider.value(value: journeyProvider),
         ChangeNotifierProvider(
           create: (_) => HomeProvider(
-              InitProgressUseCase(widget.repository3),
-              UpdateProgressUseCase(widget.repository3),
-              GetProgressUseCase(widget.repository3),
-              GetLastCompletedDifferenceUseCase(widget.repository3),
-              ActivateAllActivitiesUseCase(widget.repository2),
-              widget.notificationService,
-              ResetJourneyUseCase(widget.repository3)
+            InitProgressUseCase(widget.repository3),
+            UpdateProgressUseCase(widget.repository3),
+            GetProgressUseCase(widget.repository3),
+            GetLastCompletedDifferenceUseCase(widget.repository3),
+            ActivateAllActivitiesUseCase(widget.repository2),
+            widget.notificationService,
+            ResetJourneyUseCase(widget.repository3),
           ),
         ),
         ChangeNotifierProvider(
-            create: (_) => ActivityProvider(
-              addActivity: AddActivity(widget.repository2),
-              getActivities: GetActivities(widget.repository2),
-              updateActivity: UpdateActivity(widget.repository2),
-              addActivityLog: AddActivityLog(widget.repository2),
-              getTodayHydrationGlasses: GetTodayHydrationGlasses(widget.repository2),
-            )
+          create: (_) => ActivityProvider(
+            addActivity: AddActivity(widget.repository2),
+            getActivities: GetActivities(widget.repository2),
+            updateActivity: UpdateActivity(widget.repository2),
+            addActivityLog: AddActivityLog(widget.repository2),
+            getTodayHydrationGlasses: GetTodayHydrationGlasses(widget.repository2),
+          ),
         ),
         ChangeNotifierProvider(
-            create: (_) => ProfileProvider(
-                GetActiveJourneysUseCase(widget.repository4)
-            )
+          create: (_) => ProfileProvider(
+            GetActiveJourneysUseCase(widget.repository4),
+          ),
         ),
         ChangeNotifierProvider(
           create: (_) => ChatProvider(
-              SendMessage(
-                  ChatRepositoryImpl(
-                      OpenAIRemoteDataSource(FirebaseFunctions.instance)
-                  )
-              )
+            SendMessage(
+              ChatRepositoryImpl(
+                OpenAIRemoteDataSource(FirebaseFunctions.instance),
+              ),
+            ),
           ),
         ),
       ],
       child: Builder(
         builder: (context) {
-          // ✅ SAFE: provider exists here
           final authProvider = Provider.of<AuthProvider>(context, listen: false);
-
           final journeyProvider = Provider.of<JourneyProvider>(context, listen: false);
 
-          // ✅ initialize ONLY ONCE
           appRouter ??= AppRouter(widget.appController, authProvider, journeyProvider);
 
           final localeProvider = context.watch<LocaleProvider>();

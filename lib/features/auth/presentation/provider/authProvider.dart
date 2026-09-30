@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:wellmate/features/auth/domain/useCases/checkEmailVerification.dart';
 import 'package:wellmate/features/auth/domain/useCases/renderVerificationEmail.dart';
 import '../../../../core/enums/authfailureType.dart';
+import '../../../../core/providers/journeyProvider.dart';
+import '../../../profile/domain/entities/profileEntity.dart';
+import '../../../profile/domain/useCases/restoreProfile.dart';
+import '../../../profile/domain/useCases/saveProfile.dart';
 import '../../domain/entities/userEntity.dart';
 import '../../domain/useCases/signIn.dart';
 import '../../domain/useCases/signInWithGoogle.dart';
@@ -23,6 +27,9 @@ class AuthProvider with ChangeNotifier {
   final SignInWithGoogle signInWithGoogleUseCase;
   final SendPasswordResetEmail sendPasswordResetEmailUseCase;
   final DeleteAccount deleteAccountUseCase;
+  final SaveProfile saveProfileUseCase;
+  final RestoreProfile restoreProfileUseCase;
+  final JourneyProvider journeyProvider;
 
   AuthProvider({
     required this.firebaseAuth,
@@ -34,6 +41,9 @@ class AuthProvider with ChangeNotifier {
     required this.signInWithGoogleUseCase,
     required this.sendPasswordResetEmailUseCase,
     required this.deleteAccountUseCase,
+    required this.saveProfileUseCase,
+    required this.restoreProfileUseCase,
+    required this.journeyProvider,
   }) {
     _listenToAuthChanges();
   }
@@ -65,6 +75,8 @@ class AuthProvider with ChangeNotifier {
 
   String? get pendingEmail => _pendingEmail;
 
+  final Map<String, Future<void>> _restores = {};
+
   bool get isGoogleUser {
     final user = firebaseAuth.currentUser;
 
@@ -80,12 +92,14 @@ class AuthProvider with ChangeNotifier {
   void _listenToAuthChanges() {
     _authSubscription =
         firebaseAuth.userChanges().listen(
-              (firebaseUser) {
+              (firebaseUser) async {
             if (firebaseUser == null) {
               _user = null;
               _pendingEmail = null;
               _isVerificationPending = false;
             } else if (firebaseUser.emailVerified) {
+              await _restoreJourney(firebaseUser.uid);
+
               _user = UserEntity(
                 id: firebaseUser.uid,
                 email: firebaseUser.email ?? '',
@@ -119,6 +133,8 @@ class AuthProvider with ChangeNotifier {
 
     try {
       final result = await signInUseCase(email, password);
+
+      await _restoreJourney(result.id);
 
       _user = result;
       _pendingEmail = null;
@@ -154,11 +170,23 @@ class AuthProvider with ChangeNotifier {
   Future<bool> register(
       String email,
       String password,
+      String username,
+      DateTime dateOfBirth,
       ) async {
     _startLoading();
 
     try {
       final result = await signUpUseCase(email, password);
+
+      try {
+        await saveProfileUseCase(ProfileEntity(
+          uid: result.id, // assuming signUp returns UserEntity with id
+          username: username,
+          dateOfBirth: dateOfBirth,
+        ));
+      } catch (_) {
+        // A local save error must not block registration.
+      }
 
       _user = null;
       _pendingEmail = result.email;
@@ -190,6 +218,8 @@ class AuthProvider with ChangeNotifier {
         _error = AuthFailureType.emailNotVerified;
         return false;
       }
+
+      await _restoreJourney(verifiedUser.id);
 
       _user = verifiedUser;
       _pendingEmail = null;
@@ -235,6 +265,9 @@ class AuthProvider with ChangeNotifier {
 
     try {
       await signOutUseCase();
+
+      _restores.clear();
+      await journeyProvider.clearSelectedJourney();
 
       _user = null;
       _pendingEmail = null;
@@ -350,6 +383,9 @@ class AuthProvider with ChangeNotifier {
         password: password,
       );
 
+      _restores.clear();
+      await journeyProvider.clearSelectedJourney();
+
       _user = null;
       _pendingEmail = null;
       _isVerificationPending = false;
@@ -365,5 +401,19 @@ class AuthProvider with ChangeNotifier {
     } finally {
       _stopLoading();
     }
+  }
+
+  Future<void> _restoreJourney(String uid) {
+    return _restores.putIfAbsent(uid, () async {
+      try {
+        final profile = await restoreProfileUseCase(uid);
+        final journey = profile?.selectedJourney;
+        if (journey != null) {
+          await journeyProvider.saveSelectedJourney(journey);
+        }
+      } catch (_) {
+        // Never block login because of this.
+      }
+    });
   }
 }
