@@ -35,11 +35,12 @@ class _SelectJourneyPageState extends ConsumerState<SelectJourneyPage> {
       final uid = context.read<AuthProvider>().user?.id;
       if (uid != null) {
         try {
-          await context.read<UpdateSelectedJourney>()(uid, journeyKey);
-          context.read<SyncProvider>().refreshStatus();
-        } catch (_) {
-          // Profile sync must not block the flow.
-        }
+          await context.read<UpdateSelectedJourney>()(uid, journeyKey); // local, instant
+        } catch (_) {}
+
+        final sync = context.read<SyncProvider>();
+        sync.refreshStatus(); // label appears right away (local check)
+        sync.sync();          // background push, not awaited
       }
 
       final homeProvider = context.read<HomeProvider>();

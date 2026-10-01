@@ -37,12 +37,8 @@ class ProfileRepositoryImpl implements ProfileRepository, Syncable {
   }
 
   @override
-  Future<void> updateSelectedJourney(String uid, Journeys journey) async {
-    await local.updateJourney(uid, journey);
-    try {
-      await remote.updateJourney(uid, journey);
-      await local.markSynced(uid);
-    } catch (_) {}
+  Future<void> updateSelectedJourney(String uid, Journeys journey) {
+    return local.updateJourney(uid, journey); // marks is_synced = 0
   }
 
   @override
