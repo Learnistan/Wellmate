@@ -5,17 +5,22 @@ import '../../../../core/constants/journeysData.dart';
 import '../../../../core/enums/journeys.dart';
 import '../../../../core/models/journeyModel.dart';
 import '../../domain/useCases/getActiveJourneysUseCase.dart';
+import '../../domain/useCases/getProfile.dart';
 
 class ProfileProvider extends ChangeNotifier {
   final GetActiveJourneysUseCase getActiveJourneysUseCase;
+  final GetProfile getProfileUseCase;
 
-  ProfileProvider(this.getActiveJourneysUseCase);
+  ProfileProvider(this.getActiveJourneysUseCase, this.getProfileUseCase);
 
   List<String> unlockedJourneyNames = [];
 
   bool _sleepReminder = false;
   bool _foodReminder = false;
   bool _postureReminder = false;
+
+  String? _username;
+  String? get username => _username;
 
   TimeOfDay _sleepReminderTime = const TimeOfDay(
     hour: 22,
@@ -136,5 +141,15 @@ class ProfileProvider extends ChangeNotifier {
     return journeysData.entries.where((entry) {
       return unlockedJourneyNames.contains(entry.key.name);
     }).toList();
+  }
+
+  Future<void> loadProfile(String uid) async {
+    try {
+      final profile = await getProfileUseCase(uid);
+      _username = profile?.username;
+    } catch (_) {
+      _username = null;
+    }
+    notifyListeners();
   }
 }

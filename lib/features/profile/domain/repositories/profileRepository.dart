@@ -9,4 +9,5 @@ abstract class ProfileRepository {
   Future<void> clearLocalProfile();
   Future<void> deleteProfile(String uid);
   Future<bool> syncProfile(String uid);
+  Future<ProfileEntity?> getProfile(String uid);
 }

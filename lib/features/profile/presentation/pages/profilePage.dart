@@ -41,8 +41,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
     Future.microtask(() async {
       final profileProvider = context.read<ProfileProvider>();
+      final uid = context.read<AuthProvider>().user?.id; // NEW
 
       await profileProvider.loadProfileData();
+
+      if (uid != null) {
+        await profileProvider.loadProfile(uid); // NEW
+      }
 
       if (mounted) {
         setState(() {
@@ -121,21 +126,26 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 ),
               ),
 
+              // NEW: username under the avatar
+              if (profileProvider.username != null &&
+                  profileProvider.username!.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                Text(
+                  profileProvider.username!,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+              ],
+
               const SizedBox(height: 16),
 
               const SyncReminder(),
 
               const SizedBox(height: 16),
-
-              Text(
-                loc.profile,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                ),
-              ),
 
               const SizedBox(height: 6),
 
@@ -192,17 +202,17 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     time: profileProvider.sleepReminderTime,
                     onTimePressed: () {
                       _selectReminderTime(
-                        initialTime: profileProvider.sleepReminderTime,
-                        notificationId: _sleepId,
-                        reminderEnabled:
-                        profileProvider.sleepReminder,
-                        notificationTitle:
-                        loc.sleepReminderDialogTitle,
-                        notificationMessage:
-                        loc.sleepReminderMessage,
-                        saveTime:
-                        profileProvider.setSleepReminderTime,
-                        loc: loc
+                          initialTime: profileProvider.sleepReminderTime,
+                          notificationId: _sleepId,
+                          reminderEnabled:
+                          profileProvider.sleepReminder,
+                          notificationTitle:
+                          loc.sleepReminderDialogTitle,
+                          notificationMessage:
+                          loc.sleepReminderMessage,
+                          saveTime:
+                          profileProvider.setSleepReminderTime,
+                          loc: loc
                       );
                     },
                     onChanged: (value) {
@@ -234,17 +244,17 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     time: profileProvider.foodReminderTime,
                     onTimePressed: () {
                       _selectReminderTime(
-                        initialTime: profileProvider.foodReminderTime,
-                        notificationId: _foodId,
-                        reminderEnabled:
-                        profileProvider.foodReminder,
-                        notificationTitle:
-                        loc.foodReminderDialogTitle,
-                        notificationMessage:
-                        loc.foodReminderMessage,
-                        saveTime:
-                        profileProvider.setFoodReminderTime,
-                        loc: loc
+                          initialTime: profileProvider.foodReminderTime,
+                          notificationId: _foodId,
+                          reminderEnabled:
+                          profileProvider.foodReminder,
+                          notificationTitle:
+                          loc.foodReminderDialogTitle,
+                          notificationMessage:
+                          loc.foodReminderMessage,
+                          saveTime:
+                          profileProvider.setFoodReminderTime,
+                          loc: loc
                       );
                     },
                     onChanged: (value) {
@@ -276,18 +286,18 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     time: profileProvider.postureReminderTime,
                     onTimePressed: () {
                       _selectReminderTime(
-                        initialTime:
-                        profileProvider.postureReminderTime,
-                        notificationId: _postureId,
-                        reminderEnabled:
-                        profileProvider.postureReminder,
-                        notificationTitle:
-                        loc.postureReminderDialogTitle,
-                        notificationMessage:
-                        loc.postureReminderMessage,
-                        saveTime:
-                        profileProvider.setPostureReminderTime,
-                        loc: loc
+                          initialTime:
+                          profileProvider.postureReminderTime,
+                          notificationId: _postureId,
+                          reminderEnabled:
+                          profileProvider.postureReminder,
+                          notificationTitle:
+                          loc.postureReminderDialogTitle,
+                          notificationMessage:
+                          loc.postureReminderMessage,
+                          saveTime:
+                          profileProvider.setPostureReminderTime,
+                          loc: loc
                       );
                     },
                     onChanged: (value) {
@@ -575,9 +585,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          reminderEnabled
-              ? '${loc.reminderChangeTo} ${selectedTime.format(context)}'
-              : loc.timeSavedAs(selectedTime.format(context))
+            reminderEnabled
+                ? '${loc.reminderChangeTo} ${selectedTime.format(context)}'
+                : loc.timeSavedAs(selectedTime.format(context))
         ),
         behavior: SnackBarBehavior.floating,
       ),

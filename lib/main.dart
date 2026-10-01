@@ -12,6 +12,7 @@ import 'package:wellmate/features/profile/domain/useCases/saveProfile.dart';
 import 'package:wellmate/features/profile/domain/useCases/updateSelectedJourney.dart'; // NEW (adjust path/file name to where you created it)
 import 'features/profile/domain/useCases/clearLocalProfile.dart';
 import 'features/profile/domain/useCases/deleteProfile.dart';
+import 'features/profile/domain/useCases/getProfile.dart';
 import 'features/profile/domain/useCases/reauthenticateUser.dart';
 import 'features/profile/domain/useCases/restoreProfile.dart';
 import 'core/sync/syncData.dart';
@@ -186,6 +187,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_) => ProfileProvider(
             GetActiveJourneysUseCase(widget.repository4),
+            GetProfile(widget.repository4),
           ),
         ),
         ChangeNotifierProvider(

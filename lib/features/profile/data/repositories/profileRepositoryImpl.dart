@@ -83,4 +83,7 @@ class ProfileRepositoryImpl implements ProfileRepository, Syncable {
   @override
   Future<bool> hasUnsynced(String uid) async =>
       (await local.getUnsynced(uid)) != null;
+
+  @override
+  Future<ProfileEntity?> getProfile(String uid) => local.getByUid(uid);
 }
