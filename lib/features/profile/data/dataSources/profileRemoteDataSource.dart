@@ -32,11 +32,14 @@ class ProfileRemoteDataSource {
     return ProfileModel.fromRemote(uid, doc.data()!);
   }
 
-  Future<void> deleteProfile(String uid) {
-    return firestore
-        .collection('users')
-        .doc(uid)
-        .delete()
+  Future<void> deleteProfile(String uid) async {
+    final ref = firestore.collection('users').doc(uid);
+
+    // Throws if the server can't be reached, so no delete gets queued.
+    await ref
+        .get(const GetOptions(source: Source.server))
         .timeout(const Duration(seconds: 10));
+
+    await ref.delete().timeout(const Duration(seconds: 10));
   }
 }

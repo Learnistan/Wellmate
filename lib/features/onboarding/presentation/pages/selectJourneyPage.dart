@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/constants/journeysData.dart';
 import '../../../../core/enums/journeys.dart';
 import '../../../../core/providers/journeyProvider.dart';
+import '../../../../core/providers/syncProvider.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/textStyles.dart';
 import '../../../../core/utils/getProperText.dart';
@@ -35,6 +36,7 @@ class _SelectJourneyPageState extends ConsumerState<SelectJourneyPage> {
       if (uid != null) {
         try {
           await context.read<UpdateSelectedJourney>()(uid, journeyKey);
+          context.read<SyncProvider>().refreshStatus();
         } catch (_) {
           // Profile sync must not block the flow.
         }

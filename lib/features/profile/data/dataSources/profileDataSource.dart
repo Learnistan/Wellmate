@@ -76,4 +76,18 @@ class ProfileDataSource {
     final db = await DatabaseHelper.instance.database;
     await db.delete('profile');
   }
+
+  Future<ProfileModel?> getUnsynced(String uid) async {
+    final db = await DatabaseHelper.instance.database;
+
+    final rows = await db.query(
+      'profile',
+      where: 'remote_id = ? AND is_synced = 0',
+      whereArgs: [uid],
+      limit: 1,
+    );
+
+    if (rows.isEmpty) return null;
+    return ProfileModel.fromLocal(rows.first);
+  }
 }

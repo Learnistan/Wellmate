@@ -1,3 +1,5 @@
+import 'package:wellmate/core/sync/syncable.dart';
+
 import '../../../../core/enums/journeys.dart';
 import '../../domain/entities/profileEntity.dart';
 import '../../domain/repositories/profileRepository.dart';
@@ -5,7 +7,7 @@ import '../dataSources/profileDataSource.dart';
 import '../dataSources/profileRemoteDataSource.dart';
 import '../models/profileModel.dart';
 
-class ProfileRepositoryImpl implements ProfileRepository {
+class ProfileRepositoryImpl implements ProfileRepository, Syncable {
 
   final ProfileDataSource local;
   final ProfileRemoteDataSource remote;
@@ -64,4 +66,25 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
   @override
   Future<void> deleteProfile(String uid) => remote.deleteProfile(uid);
+
+  @override
+  Future<bool> syncProfile(String uid) async {
+    try {
+      final profile = await local.getUnsynced(uid);
+      if (profile == null) return true; // nothing to sync
+
+      await remote.save(profile);
+      await local.markSynced(uid);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> sync(String uid) => syncProfile(uid);
+
+  @override
+  Future<bool> hasUnsynced(String uid) async =>
+      (await local.getUnsynced(uid)) != null;
 }

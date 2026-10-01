@@ -10,10 +10,13 @@ import '../../../../core/localization/localeProvider.dart';
 import '../../../../core/services/notificationService.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/utils/getProperText.dart';
+import '../../../../core/widgets/ButtonCom.dart';
+import '../../../../core/widgets/syncReminder.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/provider/authProvider.dart';
 import '../../../shell/presentation/navigationProvider.dart';
 import '../providers/profileProvider.dart';
+import '../../../../core/providers/syncProvider.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -117,6 +120,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   color: AppColors.textPrimary,
                 ),
               ),
+
+              const SizedBox(height: 16),
+
+              const SyncReminder(),
 
               const SizedBox(height: 16),
 

@@ -8,4 +8,5 @@ abstract class ProfileRepository {
   Future<ProfileEntity?> restoreProfile(String uid);
   Future<void> clearLocalProfile();
   Future<void> deleteProfile(String uid);
+  Future<bool> syncProfile(String uid);
 }

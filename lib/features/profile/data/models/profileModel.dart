@@ -30,7 +30,7 @@ class ProfileModel extends ProfileEntity {
   Map<String, dynamic> toRemote() => {
     'username': username,
     'dateOfBirth': dateOfBirth.toIso8601String(),
-    'selectedJourney': selectedJourney?.name,
+    if (selectedJourney != null) 'selectedJourney': selectedJourney!.name,
     'updatedAt': FieldValue.serverTimestamp(),
   };
 

@@ -14,6 +14,8 @@ import 'features/profile/domain/useCases/clearLocalProfile.dart';
 import 'features/profile/domain/useCases/deleteProfile.dart';
 import 'features/profile/domain/useCases/reauthenticateUser.dart';
 import 'features/profile/domain/useCases/restoreProfile.dart';
+import 'core/sync/syncData.dart';
+import 'core/providers/syncProvider.dart';
 import 'firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer, Provider;
 import 'package:http/http.dart' as http;
@@ -193,6 +195,12 @@ class _MyAppState extends State<MyApp> {
                 OpenAIRemoteDataSource(FirebaseFunctions.instance),
               ),
             ),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SyncProvider(
+            SyncData([widget.repository4]),
+            widget.firebaseAuth,
           ),
         ),
       ],
