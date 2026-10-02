@@ -2,8 +2,8 @@ import '../../../../core/enums/journeys.dart';
 
 class ProfileEntity {
   final String uid;
-  final String username;
-  final DateTime dateOfBirth;
+  final String? username;
+  final DateTime? dateOfBirth;
   final Journeys? selectedJourney;
 
   const ProfileEntity({

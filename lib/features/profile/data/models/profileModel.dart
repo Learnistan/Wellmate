@@ -21,15 +21,15 @@ class ProfileModel extends ProfileEntity {
   Map<String, dynamic> toLocal({required bool synced}) => {
     'remote_id': uid,
     'username': username,
-    'date_of_birth': dateOfBirth.toIso8601String(),
+    'date_of_birth': dateOfBirth?.toIso8601String(),
     'selected_journey': selectedJourney?.name,
     'is_synced': synced ? 1 : 0,
     'updated_at': DateTime.now().toIso8601String(),
   };
 
   Map<String, dynamic> toRemote() => {
-    'username': username,
-    'dateOfBirth': dateOfBirth.toIso8601String(),
+    if (username != null) 'username': username,
+    if (dateOfBirth != null) 'dateOfBirth': dateOfBirth!.toIso8601String(),
     if (selectedJourney != null) 'selectedJourney': selectedJourney!.name,
     'updatedAt': FieldValue.serverTimestamp(),
   };
@@ -40,7 +40,9 @@ class ProfileModel extends ProfileEntity {
     return ProfileModel(
       uid: uid,
       username: data['username'] ?? '',
-      dateOfBirth: DateTime.parse(data['dateOfBirth']),
+      dateOfBirth: data["dateOfBirth"] == null
+          ? null
+          : DateTime.parse(data['dateOfBirth']),
       selectedJourney: journeyName == null
           ? null
           : Journeys.values.firstWhere((j) => j.name == journeyName),
@@ -53,7 +55,9 @@ class ProfileModel extends ProfileEntity {
     return ProfileModel(
       uid: row['remote_id'] as String,
       username: row['username'] ?? '',
-      dateOfBirth: DateTime.parse(row['date_of_birth'] as String),
+      dateOfBirth: row['date_of_birth'] == null
+          ? null
+          : DateTime.parse(row['date_of_birth'] as String),
       selectedJourney: journeyName == null
           ? null
           : Journeys.values.firstWhere((j) => j.name == journeyName),

@@ -15,6 +15,7 @@ import '../../../../core/widgets/syncReminder.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/provider/authProvider.dart';
 import '../../../shell/presentation/navigationProvider.dart';
+import '../../domain/useCases/updateSelectedJourney.dart';
 import '../providers/profileProvider.dart';
 import '../../../../core/providers/syncProvider.dart';
 
@@ -740,8 +741,25 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     );
   }
 
-  void _changeJourney(Journeys journey) {
-    context.read<JourneyProvider>().changeJourney(journey);
+  Future<void> _changeJourney(Journeys journey) async {
+    // Read everything from context before any await.
+    final journeyProvider = context.read<JourneyProvider>();
+    final updateSelectedJourney = context.read<UpdateSelectedJourney>();
+    final syncProvider = context.read<SyncProvider>();
+    final uid = context.read<AuthProvider>().user?.id;
+
+    await journeyProvider.changeJourney(journey); // SharedPreferences, instant
+
+    if (uid != null) {
+      try {
+        await updateSelectedJourney(uid, journey); // local profile row, instant
+      } catch (_) {}
+
+      syncProvider.refreshStatus(); // label shows right away if offline
+      syncProvider.sync();          // background push, not awaited
+    }
+
+    if (!mounted) return;
     ref.read(navigationIndexProvider.notifier).state = 0;
   }
 }

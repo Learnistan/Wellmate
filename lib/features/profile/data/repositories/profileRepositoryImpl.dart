@@ -86,4 +86,15 @@ class ProfileRepositoryImpl implements ProfileRepository, Syncable {
 
   @override
   Future<ProfileEntity?> getProfile(String uid) => local.getByUid(uid);
+
+  @override
+  Future<void> ensureProfile(String uid, {String? username}) async {
+    final existing = await local.getByUid(uid);
+    if (existing != null) return;
+
+    await local.upsert(
+      ProfileModel(uid: uid, username: username, dateOfBirth: null),
+      synced: false, // the normal sync will push it
+    );
+  }
 }

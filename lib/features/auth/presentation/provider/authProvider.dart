@@ -9,6 +9,7 @@ import '../../../../core/providers/journeyProvider.dart';
 import '../../../profile/domain/entities/profileEntity.dart';
 import '../../../profile/domain/useCases/clearLocalProfile.dart';
 import '../../../profile/domain/useCases/deleteProfile.dart';
+import '../../../profile/domain/useCases/ensureProfile.dart';
 import '../../../profile/domain/useCases/reauthenticateUser.dart';
 import '../../../profile/domain/useCases/restoreProfile.dart';
 import '../../../profile/domain/useCases/saveProfile.dart';
@@ -36,6 +37,7 @@ class AuthProvider with ChangeNotifier {
   final ClearLocalProfile clearLocalProfileUseCase;
   final DeleteProfile deleteProfileUseCase;
   final ReauthenticateUser reauthenticateUserUseCase;
+  final EnsureProfile ensureProfileUseCase;
 
   AuthProvider({
     required this.firebaseAuth,
@@ -52,7 +54,8 @@ class AuthProvider with ChangeNotifier {
     required this.journeyProvider,
     required this.clearLocalProfileUseCase,
     required this.deleteProfileUseCase,
-    required this.reauthenticateUserUseCase
+    required this.reauthenticateUserUseCase,
+    required this.ensureProfileUseCase,
   }) {
     _listenToAuthChanges();
   }
@@ -276,9 +279,6 @@ class AuthProvider with ChangeNotifier {
       await signOutUseCase();
       await _clearLocalUserData();
 
-      _restores.clear();
-      await journeyProvider.clearSelectedJourney();
-
       _user = null;
       _pendingEmail = null;
       _isVerificationPending = false;
@@ -430,6 +430,14 @@ class AuthProvider with ChangeNotifier {
     return _restores.putIfAbsent(uid, () async {
       try {
         final profile = await restoreProfileUseCase(uid);
+
+        if (profile == null) {
+          await ensureProfileUseCase(
+            uid,
+            username: firebaseAuth.currentUser?.displayName,
+          );
+        }
+
         final journey = profile?.selectedJourney;
         if (journey != null) {
           await journeyProvider.saveSelectedJourney(journey);
