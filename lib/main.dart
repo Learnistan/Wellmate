@@ -11,6 +11,7 @@ import 'package:wellmate/features/profile/data/dataSources/profileRemoteDataSour
 import 'package:wellmate/features/profile/domain/useCases/saveProfile.dart';
 import 'package:wellmate/features/profile/domain/useCases/updateSelectedJourney.dart'; // NEW (adjust path/file name to where you created it)
 import 'core/sync/clearLocalData.dart';
+import 'features/dailyActivities/data/dataSources/activityRemoteDataSource.dart';
 import 'features/home/data/dataSources/progressRemoteDataSource.dart';
 import 'features/profile/domain/useCases/deleteProfile.dart';
 import 'features/profile/domain/useCases/ensureProfile.dart';
@@ -86,6 +87,7 @@ void main() async {
   final firestore = FirebaseFirestore.instance;
   final remoteDataSource = AuthRemoteDataSource(firebaseAuth);
   final authRepository = AuthRepositoryImpl(remoteDataSource);
+  final activityRemote = ActivityRemoteDataSource(firestore);
 
   final client = http.Client();
 
@@ -99,16 +101,28 @@ void main() async {
   final remoteDataSource2 = ProfileRemoteDataSource(firestore);
   final progressRemote = ProgressRemoteDataSource(firestore);
 
-  final repository2 = ActivityRepositoryImpl(localDataSource2);
+  final repository2 = ActivityRepositoryImpl(localDataSource2, activityRemote);
   final repository3 = HomeRepositoryImpl(localDataSource3, progressRemote);
   final repository4 = ProfileRepositoryImpl(localDataSource4, remoteDataSource2);
   final repository5 = HomeRepositoryImpl(localDataSource3, progressRemote);
+  final repository6 = ActivityRepositoryImpl(localDataSource2, activityRemote);
 
   runApp(
     ProviderScope(
       child: ChangeNotifierProvider(
         create: (_) => LocaleProvider(Locale(savedLanguage)),
-        child: MyApp(appController, authRepository, repository2, repository3, client, notificationService, repository4, firebaseAuth, repository5),
+        child: MyApp(
+            appController,
+            authRepository,
+            repository2,
+            repository3,
+            client,
+            notificationService,
+            repository4,
+            firebaseAuth,
+            repository5,
+            repository6
+        ),
       ),
     ),
   );
@@ -124,8 +138,21 @@ class MyApp extends StatefulWidget {
   final http.Client client;
   final FirebaseAuth firebaseAuth;
   final HomeRepositoryImpl repository5;
+  final ActivityRepositoryImpl repository6;
 
-  const MyApp(this.appController, this.repository, this.repository2, this.repository3, this.client, this.notificationService, this.repository4, this.firebaseAuth, this.repository5, {super.key});
+  const MyApp(
+      this.appController,
+      this.repository,
+      this.repository2,
+      this.repository3,
+      this.client,
+      this.notificationService,
+      this.repository4,
+      this.firebaseAuth,
+      this.repository5,
+      this.repository6,
+      {super.key}
+    );
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -135,10 +162,10 @@ class _MyAppState extends State<MyApp> {
   AppRouter? appRouter;
   late final JourneyProvider journeyProvider = JourneyProvider()..loadJourney();
 
-  late final SyncData syncData = SyncData([widget.repository4, widget.repository3]);
+  late final SyncData syncData = SyncData([widget.repository4, widget.repository3, widget.repository6]);
 
   late final ClearLocalData clearLocalData =
-  ClearLocalData([widget.repository4, widget.repository3, widget.repository2]);
+  ClearLocalData([widget.repository4, widget.repository3, widget.repository6]);
 
   @override
   void initState() {

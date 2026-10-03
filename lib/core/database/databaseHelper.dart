@@ -35,7 +35,8 @@ class DatabaseHelper {
         iconPath TEXT NOT NULL,
         route TEXT NOT NULL,
         duration TEXT NOT NULL,
-        isActive INTEGER NOT NULL DEFAULT 1
+        isActive INTEGER NOT NULL DEFAULT 1,
+        completed_on TEXT
       )
     ''');
 
@@ -92,6 +93,7 @@ class DatabaseHelper {
       await db.execute('ALTER TABLE progress ADD COLUMN updated_at TEXT');
       await db.execute('ALTER TABLE activity_logs ADD COLUMN is_synced INTEGER NOT NULL DEFAULT 0');
       await db.execute('ALTER TABLE activity_logs ADD COLUMN updated_at TEXT');
+      await db.execute('ALTER TABLE activities ADD COLUMN completed_on TEXT');
     }
 
     // Future versions go here, never edit the blocks above:

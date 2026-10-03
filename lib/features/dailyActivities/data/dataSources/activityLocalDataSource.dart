@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import 'package:sqflite/sqflite.dart';
+import '../../../../core/seed/defaultActivities.dart';
 import '../models/activityLogModel.dart';
 import '../models/activityModel.dart';
 import '../../../../core/database/databaseHelper.dart';
 
 class ActivityLocalDataSource {
+
   final DatabaseHelper dbHelper;
+  String get _today => DateTime.now().toIso8601String().split('T').first;
 
   ActivityLocalDataSource(this.dbHelper);
 
@@ -32,7 +35,10 @@ class ActivityLocalDataSource {
 
     await db.update(
       'activities',
-      activity.toMap(),
+      {
+        ...activity.toMap(),
+        'completed_on': activity.isActive ? null : _today,
+      },
       where: 'id = ?',
       whereArgs: [activity.id],
     );
@@ -115,6 +121,49 @@ class ActivityLocalDataSource {
   Future<void> clearUserData() async {
     final db = await dbHelper.database;
     await db.delete('activity_logs');
-    await db.update('activities', {'isActive': 1});
+    await db.update('activities', {'isActive': 1, 'completed_on': null});
+  }
+
+  Future<List<int>> getCompletedTodayIds() async {
+    final db = await dbHelper.database;
+    final rows = await db.query(
+      'activities',
+      columns: ['id'],
+      where: 'completed_on = ?',
+      whereArgs: [_today],
+    );
+    return rows.map((r) => r['id'] as int).toList()..sort();
+  }
+
+  Future<void> markCompleted(List<int> ids) async {
+    if (ids.isEmpty) return;
+    final db = await dbHelper.database;
+    await db.update(
+      'activities',
+      {'isActive': 0, 'completed_on': _today},
+      where: 'id IN (${ids.map((_) => '?').join(',')})',
+      whereArgs: ids,
+    );
+  }
+
+  Future<void> seedDefaultsIfEmpty() async {
+    final db = await dbHelper.database;
+    final count =
+        Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM activities')) ?? 0;
+    if (count > 0) return;
+
+    for (final a in defaultActivities) {
+      await db.insert(
+        'activities',
+        ActivityModel(
+          id: a.id,
+          title: a.title,
+          isActive: a.isActive,
+          duration: a.duration,
+          iconPath: a.iconPath,
+          route: a.route,
+        ).toMap(),
+      );
+    }
   }
 }
