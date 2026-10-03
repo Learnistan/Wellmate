@@ -22,4 +22,12 @@ class SyncData {
     }
     return false;
   }
+
+  Future<void> restore(String uid) async {
+    for (final syncable in syncables) {
+      try {
+        await syncable.restore(uid);
+      } catch (_) {} // offline or error: continue without it
+    }
+  }
 }

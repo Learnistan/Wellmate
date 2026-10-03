@@ -1,13 +1,17 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wellmate/core/sync/syncable.dart';
 import 'package:wellmate/core/utils/timeUtils.dart';
 
+import '../../../../core/sync/localClearable.dart';
 import '../../domain/repositories/homeRepository.dart';
 import '../dataSources/homeLocalDataSource.dart';
+import '../dataSources/progressRemoteDataSource.dart';
 
-class HomeRepositoryImpl implements HomeRepository {
+class HomeRepositoryImpl implements HomeRepository, Syncable, LocalClearable {
   final HomeLocalDataSource local;
+  final ProgressRemoteDataSource remote;
 
-  HomeRepositoryImpl(this.local);
+  HomeRepositoryImpl(this.local, this.remote);
 
   @override
   Future<void> initProgressIfNeeded() async {
@@ -46,5 +50,40 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<void> resetProgress() {
     return local.resetProgress();
+  }
+
+  @override
+  Future<bool> sync(String uid) async {
+    try {
+      final rows = await local.getUnsyncedProgress();
+
+      for (final row in rows) {
+        await remote.save(uid, row);
+        await local.markProgressSynced(
+          row['journey'] as String,
+          row['updated_at'] as String?,
+        );
+      }
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> hasUnsynced(String uid) async =>
+      (await local.getUnsyncedProgress()).isNotEmpty;
+
+  @override
+  Future<void> clearLocal() => local.clearProgress();
+
+  @override
+  Future<void> restore(String uid) async {
+    if (await local.hasProgress()) return; // never overwrite local data
+
+    final docs = await remote.getAll(uid);
+    for (final doc in docs) {
+      await local.insertRestoredProgress(doc);
+    }
   }
 }

@@ -6,12 +6,13 @@ import 'package:wellmate/features/auth/domain/useCases/checkEmailVerification.da
 import 'package:wellmate/features/auth/domain/useCases/renderVerificationEmail.dart';
 import '../../../../core/enums/authfailureType.dart';
 import '../../../../core/providers/journeyProvider.dart';
+import '../../../../core/sync/clearLocalData.dart';
+import '../../../../core/sync/syncData.dart';
 import '../../../profile/domain/entities/profileEntity.dart';
-import '../../../profile/domain/useCases/clearLocalProfile.dart';
 import '../../../profile/domain/useCases/deleteProfile.dart';
 import '../../../profile/domain/useCases/ensureProfile.dart';
+import '../../../profile/domain/useCases/getProfile.dart';
 import '../../../profile/domain/useCases/reauthenticateUser.dart';
-import '../../../profile/domain/useCases/restoreProfile.dart';
 import '../../../profile/domain/useCases/saveProfile.dart';
 import '../../domain/entities/userEntity.dart';
 import '../../domain/useCases/signIn.dart';
@@ -32,12 +33,13 @@ class AuthProvider with ChangeNotifier {
   final SendPasswordResetEmail sendPasswordResetEmailUseCase;
   final DeleteAccount deleteAccountUseCase;
   final SaveProfile saveProfileUseCase;
-  final RestoreProfile restoreProfileUseCase;
   final JourneyProvider journeyProvider;
-  final ClearLocalProfile clearLocalProfileUseCase;
   final DeleteProfile deleteProfileUseCase;
   final ReauthenticateUser reauthenticateUserUseCase;
   final EnsureProfile ensureProfileUseCase;
+  final SyncData syncData;
+  final ClearLocalData clearLocalData;
+  final GetProfile getProfileUseCase;
 
   AuthProvider({
     required this.firebaseAuth,
@@ -50,12 +52,13 @@ class AuthProvider with ChangeNotifier {
     required this.sendPasswordResetEmailUseCase,
     required this.deleteAccountUseCase,
     required this.saveProfileUseCase,
-    required this.restoreProfileUseCase,
     required this.journeyProvider,
-    required this.clearLocalProfileUseCase,
     required this.deleteProfileUseCase,
     required this.reauthenticateUserUseCase,
     required this.ensureProfileUseCase,
+    required this.clearLocalData,
+    required this.syncData,
+    required this.getProfileUseCase
   }) {
     _listenToAuthChanges();
   }
@@ -276,6 +279,14 @@ class AuthProvider with ChangeNotifier {
     _startLoading();
 
     try {
+      // Push unsynced data while she's still signed in (max 5 seconds).
+      final uid = firebaseAuth.currentUser?.uid;
+      if (uid != null) {
+        try {
+          await syncData(uid).timeout(const Duration(seconds: 5));
+        } catch (_) {}
+      }
+
       await signOutUseCase();
       await _clearLocalUserData();
 
@@ -429,7 +440,11 @@ class AuthProvider with ChangeNotifier {
   Future<void> _restoreJourney(String uid) {
     return _restores.putIfAbsent(uid, () async {
       try {
-        final profile = await restoreProfileUseCase(uid);
+        // 1. Pull everything from remote into local (profile, progress...).
+        await syncData.restore(uid);
+
+        // 2. Read the profile from local, like any other screen.
+        final profile = await getProfileUseCase(uid);
 
         if (profile == null) {
           await ensureProfileUseCase(
@@ -451,7 +466,7 @@ class AuthProvider with ChangeNotifier {
   Future<void> _clearLocalUserData() async {
     _restores.clear();
     try {
-      await clearLocalProfileUseCase();
+      await clearLocalData();
       await journeyProvider.clearSelectedJourney();
     } catch (_) {
       // Cleanup errors must not block logout.

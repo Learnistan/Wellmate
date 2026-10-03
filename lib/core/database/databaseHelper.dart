@@ -46,6 +46,8 @@ class DatabaseHelper {
         activity_id INTEGER NOT NULL,
         date TEXT NOT NULL,
         value TEXT,
+        is_synced INTEGER NOT NULL DEFAULT 0,
+        updated_at TEXT,
         FOREIGN KEY (activity_id) REFERENCES activities (id),
         UNIQUE(activity_id, date)
       )
@@ -57,7 +59,9 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         current_level INTEGER NOT NULL DEFAULT 0,
         last_completed_date TEXT,
-        journey TEXT NOT NULL
+        journey TEXT NOT NULL,
+        is_synced INTEGER NOT NULL DEFAULT 0,
+        updated_at TEXT
       )
     ''');
 
@@ -84,6 +88,10 @@ class DatabaseHelper {
       await db.execute(
           'ALTER TABLE profile ADD COLUMN is_synced INTEGER NOT NULL DEFAULT 0');
       await db.execute('ALTER TABLE profile ADD COLUMN updated_at TEXT');
+      await db.execute('ALTER TABLE progress ADD COLUMN is_synced INTEGER NOT NULL DEFAULT 0');
+      await db.execute('ALTER TABLE progress ADD COLUMN updated_at TEXT');
+      await db.execute('ALTER TABLE activity_logs ADD COLUMN is_synced INTEGER NOT NULL DEFAULT 0');
+      await db.execute('ALTER TABLE activity_logs ADD COLUMN updated_at TEXT');
     }
 
     // Future versions go here, never edit the blocks above:

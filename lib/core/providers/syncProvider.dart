@@ -73,7 +73,12 @@ class SyncProvider extends ChangeNotifier {
 
   Future<void> refreshStatus() async {
     final uid = firebaseAuth.currentUser?.uid;
-    if (uid == null) return;
+
+    if (uid == null) {
+      _hasUnsynced = false;
+      notifyListeners();
+      return;
+    }
 
     try {
       _hasUnsynced = await syncData.hasUnsynced(uid);

@@ -1,13 +1,14 @@
 import 'package:wellmate/core/sync/syncable.dart';
 
 import '../../../../core/enums/journeys.dart';
+import '../../../../core/sync/localClearable.dart';
 import '../../domain/entities/profileEntity.dart';
 import '../../domain/repositories/profileRepository.dart';
 import '../dataSources/profileDataSource.dart';
 import '../dataSources/profileRemoteDataSource.dart';
 import '../models/profileModel.dart';
 
-class ProfileRepositoryImpl implements ProfileRepository, Syncable {
+class ProfileRepositoryImpl implements ProfileRepository, Syncable, LocalClearable {
 
   final ProfileDataSource local;
   final ProfileRemoteDataSource remote;
@@ -42,23 +43,18 @@ class ProfileRepositoryImpl implements ProfileRepository, Syncable {
   }
 
   @override
-  Future<ProfileEntity?> restoreProfile(String uid) async {
+  Future<void> restore(String uid) async {
     final localProfile = await local.getByUid(uid);
-    if (localProfile?.selectedJourney != null) return localProfile;
+    if (localProfile?.selectedJourney != null) return; // local data wins
 
-    try {
-      final remoteProfile = await remote.getProfile(uid);
-      if (remoteProfile != null) {
-        await local.upsert(remoteProfile, synced: true);
-        return remoteProfile;
-      }
-    } catch (_) {}
-
-    return localProfile;
+    final remoteProfile = await remote.getProfile(uid);
+    if (remoteProfile != null) {
+      await local.upsert(remoteProfile, synced: true);
+    }
   }
 
   @override
-  Future<void> clearLocalProfile() => local.clearProfile();
+  Future<void> clearLocal() => local.clearProfile();
 
   @override
   Future<void> deleteProfile(String uid) => remote.deleteProfile(uid);

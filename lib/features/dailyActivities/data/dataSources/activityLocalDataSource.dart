@@ -111,4 +111,10 @@ class ActivityLocalDataSource {
       {'isActive': 1},
     );
   }
+
+  Future<void> clearUserData() async {
+    final db = await dbHelper.database;
+    await db.delete('activity_logs');
+    await db.update('activities', {'isActive': 1});
+  }
 }

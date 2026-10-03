@@ -1,3 +1,6 @@
+import 'package:wellmate/core/sync/syncable.dart';
+
+import '../../../../core/sync/localClearable.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/entities/activityLog.dart';
 import '../../domain/repositories/activityRepository.dart';
@@ -5,7 +8,7 @@ import '../dataSources/activityLocalDataSource.dart';
 import '../models/activityLogModel.dart';
 import '../models/activityModel.dart';
 
-class ActivityRepositoryImpl implements ActivityRepository {
+class ActivityRepositoryImpl implements ActivityRepository, LocalClearable {
   final ActivityLocalDataSource localDataSource;
 
   ActivityRepositoryImpl(this.localDataSource);
@@ -73,4 +76,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
   Future<void> activateAllActivitiesUseCase() async {
     return await localDataSource.ActivateAllActivitiesUseCase();
   }
+
+  @override
+  Future<void> clearLocal() => localDataSource.clearUserData();
 }
