@@ -7,6 +7,7 @@ import 'package:wellmate/features/auth/domain/useCases/renderVerificationEmail.d
 import '../../../../core/enums/authfailureType.dart';
 import '../../domain/entities/userEntity.dart';
 import '../../domain/useCases/signIn.dart';
+import '../../domain/useCases/signInWithApple.dart';
 import '../../domain/useCases/signInWithGoogle.dart';
 import '../../domain/useCases/signOut.dart';
 import '../../domain/useCases/signUp.dart';
@@ -21,6 +22,7 @@ class AuthProvider with ChangeNotifier {
   final ResendVerificationEmail resendVerificationEmailUseCase;
   final CheckEmailVerification checkEmailVerificationUseCase;
   final SignInWithGoogle signInWithGoogleUseCase;
+  final SignInWithApple signInWithAppleUseCase;
   final SendPasswordResetEmail sendPasswordResetEmailUseCase;
   final DeleteAccount deleteAccountUseCase;
 
@@ -32,6 +34,7 @@ class AuthProvider with ChangeNotifier {
     required this.resendVerificationEmailUseCase,
     required this.checkEmailVerificationUseCase,
     required this.signInWithGoogleUseCase,
+    required this.signInWithAppleUseCase,
     required this.sendPasswordResetEmailUseCase,
     required this.deleteAccountUseCase,
   }) {
@@ -77,6 +80,18 @@ class AuthProvider with ChangeNotifier {
     );
   }
 
+  bool get isEmailPasswordUser {
+    final user = firebaseAuth.currentUser;
+
+    if (user == null) {
+      return false;
+    }
+
+    return user.providerData.any(
+          (provider) => provider.providerId == 'password',
+    );
+  }
+
   void _listenToAuthChanges() {
     _authSubscription =
         firebaseAuth.userChanges().listen(
@@ -85,19 +100,27 @@ class AuthProvider with ChangeNotifier {
               _user = null;
               _pendingEmail = null;
               _isVerificationPending = false;
-            } else if (firebaseUser.emailVerified) {
-              _user = UserEntity(
-                id: firebaseUser.uid,
-                email: firebaseUser.email ?? '',
-                emailVerified: true,
+            } else {
+              final isSocialLogin = firebaseUser.providerData.any(
+                    (provider) =>
+                provider.providerId == 'google.com' ||
+                    provider.providerId == 'apple.com',
               );
 
-              _pendingEmail = null;
-              _isVerificationPending = false;
-            } else {
-              _user = null;
-              _pendingEmail = firebaseUser.email;
-              _isVerificationPending = true;
+              if (firebaseUser.emailVerified || isSocialLogin) {
+                _user = UserEntity(
+                  id: firebaseUser.uid,
+                  email: firebaseUser.email ?? '',
+                  emailVerified: true,
+                );
+
+                _pendingEmail = null;
+                _isVerificationPending = false;
+              } else {
+                _user = null;
+                _pendingEmail = firebaseUser.email;
+                _isVerificationPending = true;
+              }
             }
 
             _isLoading = false;
@@ -251,6 +274,10 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> signInWithGoogle() async {
     await signInWithGoogleUseCase();
+  }
+
+  Future<void> signInWithApple() async {
+    await signInWithAppleUseCase();
   }
 
   void clearMessages() {
