@@ -453,7 +453,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     String? password;
 
     // Email/password users must enter password again.
-    if (!authProvider.isGoogleUser) {
+    if (authProvider.isEmailPasswordUser) {
       password = await _askForPassword();
 
       if (password == null || password.isEmpty) {

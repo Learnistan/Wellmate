@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wellmate/features/auth/domain/useCases/deleteAccount.dart';
 import 'package:wellmate/features/auth/domain/useCases/sendPasswordResetEmail.dart';
+import 'package:wellmate/features/auth/domain/useCases/signInWithApple.dart';
 import 'package:wellmate/features/auth/domain/useCases/signInWithGoogle.dart';
 import 'package:wellmate/features/profile/data/dataSources/profileRemoteDataSource.dart';
 import 'package:wellmate/features/profile/domain/useCases/saveProfile.dart';
@@ -198,7 +199,8 @@ class _MyAppState extends State<MyApp> {
             reauthenticateUserUseCase: ReauthenticateUser(widget.repository),
             ensureProfileUseCase: EnsureProfile(widget.repository4),
             syncData: syncData,
-            clearLocalData: clearLocalData
+            clearLocalData: clearLocalData,
+            signInWithAppleUseCase: SignInWithApple(widget.repository)
           ),
         ),
         ChangeNotifierProvider.value(value: journeyProvider),

@@ -57,6 +57,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<UserCredential> signInWithApple() async {
+    return remoteDataSource.signInWithApple();
+  }
+
+  @override
   Future<void> sendPasswordResetEmail(String email) {
     return remoteDataSource.sendPasswordResetEmail(email);
   }

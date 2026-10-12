@@ -355,26 +355,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             ],
                           ),
 
-                          const SizedBox(height: 20),
-
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
-                            children: [
-                              SocialIcon(
-                                path: AppAssets.GoogleIcon,
-                              ),
-                              const SizedBox(width: 10),
-                              SocialIcon(
-                                path: AppAssets.FacebookIcon,
-                              ),
-                              const SizedBox(width: 10),
-                              SocialIcon(
-                                path: AppAssets.AppleIcon,
-                              ),
-                            ],
-                          ),
-
                           Expanded(
                             flex: 1,
                             child: Column(
