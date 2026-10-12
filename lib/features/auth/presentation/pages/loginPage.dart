@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
 import 'package:wellmate/core/appController.dart';
 import 'package:wellmate/core/constants/assets.dart';
 import 'package:wellmate/core/utils/authFailureLocalization.dart';
-import 'package:wellmate/core/widgets/SocialIcon.dart';
 
 import '../provider/authProvider.dart';
 import '../../../../core/widgets/ButtonCom.dart';
@@ -48,16 +48,10 @@ class _LoginPageState extends State<LoginPage> {
 
     final authProvider = context.read<AuthProvider>();
 
-    final success = await authProvider.login(
+    await authProvider.login(
       emailController.text.trim(),
       passwordController.text,
     );
-
-    if (!mounted) return;
-
-    if (success) {
-      // context.go('/home');
-    }
   }
 
   @override
@@ -88,8 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: IntrinsicHeight(
                       child: Column(
-                        mainAxisAlignment:
-                        MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Expanded(
                             flex: 1,
@@ -140,8 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                                       r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
                                     );
 
-                                    if (!emailRegex
-                                        .hasMatch(email)) {
+                                    if (!emailRegex.hasMatch(email)) {
                                       return loc.invalidEmail;
                                     }
 
@@ -152,8 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                                 const SizedBox(height: 12),
 
                                 AppInputField(
-                                  controller:
-                                  passwordController,
+                                  controller: passwordController,
                                   label: loc.password,
                                   obscureText: true,
                                   validator: (value) {
@@ -179,8 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               child: Text(
                                 loc.forgotPassword,
-                                style:
-                                AppTextStyles.semiBold(locale)
+                                style: AppTextStyles.semiBold(locale)
                                     .copyWith(
                                   fontSize: 12,
                                   color: AppColors.primary,
@@ -209,74 +199,96 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: _submit,
                           ),
 
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 24),
 
                           Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
                             children: [
-                              Container(
-                                width: MediaQuery.of(context)
-                                    .size
-                                    .width *
-                                    0.18,
-                                height: 2,
-                                color: AppColors.secondary,
+                              Expanded(
+                                child: Container(
+                                  height: 1,
+                                  color: AppColors.secondary,
+                                ),
                               ),
-                              const SizedBox(width: 8),
-                              Text(
-                                loc.or,
-                                style:
-                                TextStyle(color: Colors.grey),
+                              Padding(
+                                padding:
+                                const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                ),
+                                child: Text(
+                                  loc.or,
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                  ),
+                                ),
                               ),
-                              const SizedBox(width: 8),
-                              Container(
-                                width: MediaQuery.of(context)
-                                    .size
-                                    .width *
-                                    0.18,
-                                height: 2,
-                                color: AppColors.secondary,
+                              Expanded(
+                                child: Container(
+                                  height: 1,
+                                  color: AppColors.secondary,
+                                ),
                               ),
                             ],
                           ),
 
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 24),
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
+                              // Google Sign In
                               SizedBox(
-                                width: 160,
-                                height: 44,
+                                height: 50,
                                 child: OutlinedButton(
-                                  onPressed: () {
-                                    authProvider.signInWithGoogleUseCase();
+                                  onPressed: authProvider.isLoading
+                                      ? null
+                                      : () async {
+                                    await authProvider.signInWithGoogleUseCase();
                                   },
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    foregroundColor: const Color(0xFF202124),
+                                    side: const BorderSide(
+                                      color: Color(0xFFDADCE0),
+                                      width: 1,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Image.asset(
                                         AppAssets.GoogleIcon,
-                                        width: 20,
-                                        height: 20,
+                                        width: 22,
+                                        height: 22,
                                       ),
-                                      const SizedBox(width: 8),
+                                      const SizedBox(width: 12),
                                       const Text(
-                                        'Sign in\nwith Google',
+                                        'Continue with Google',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
 
-                              const SizedBox(width: 10),
+                              const SizedBox(height: 12),
 
+                              // Apple Sign In
                               SizedBox(
-                                width: 160,
-                                height: 44,
+                                height: 50,
+                                width: double.infinity,
                                 child: SignInWithAppleButton(
-                                  onPressed: () async {
+                                  style: SignInWithAppleButtonStyle.black,
+                                  borderRadius: BorderRadius.circular(12),
+                                  onPressed: authProvider.isLoading
+                                      ? () {}
+                                      : () async {
                                     await authProvider.signInWithApple();
                                   },
                                 ),
@@ -284,22 +296,25 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
 
+                          const SizedBox(height: 24),
+
                           Expanded(
                             flex: 1,
                             child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Row(
                                   mainAxisAlignment:
                                   MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      loc.dontHaveAccount,
-                                      style: AppTextStyles
-                                          .semiBold(locale)
-                                          .copyWith(
-                                        color: Colors.grey,
+                                    Flexible(
+                                      child: Text(
+                                        loc.dontHaveAccount,
+                                        style: AppTextStyles
+                                            .semiBold(locale)
+                                            .copyWith(
+                                          color: Colors.grey,
+                                        ),
                                       ),
                                     ),
                                     TextButton(
@@ -311,8 +326,7 @@ class _LoginPageState extends State<LoginPage> {
                                         style: AppTextStyles
                                             .semiBold(locale)
                                             .copyWith(
-                                          color:
-                                          AppColors.primary,
+                                          color: AppColors.primary,
                                         ),
                                       ),
                                     ),
