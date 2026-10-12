@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:wellmate/core/appController.dart';
 import 'package:wellmate/core/constants/assets.dart';
 import 'package:wellmate/core/utils/authFailureLocalization.dart';
@@ -243,22 +244,42 @@ class _LoginPageState extends State<LoginPage> {
                           const SizedBox(height: 20),
 
                           Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SocialIcon(
-                                path: AppAssets.GoogleIcon,
-                                onTap: () {
-                                  authProvider.signInWithGoogleUseCase();
-                                },
+                              SizedBox(
+                                width: 160,
+                                height: 44,
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    authProvider.signInWithGoogleUseCase();
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        AppAssets.GoogleIcon,
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      const Text(
+                                        'Sign in\nwith Google',
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
+
                               const SizedBox(width: 10),
-                              SocialIcon(
-                                path: AppAssets.FacebookIcon,
-                              ),
-                              const SizedBox(width: 10),
-                              SocialIcon(
-                                path: AppAssets.AppleIcon,
+
+                              SizedBox(
+                                width: 160,
+                                height: 44,
+                                child: SignInWithAppleButton(
+                                  onPressed: () async {
+                                    await authProvider.signInWithApple();
+                                  },
+                                ),
                               ),
                             ],
                           ),

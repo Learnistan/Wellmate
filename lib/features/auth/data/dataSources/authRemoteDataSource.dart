@@ -195,6 +195,21 @@ class AuthRemoteDataSource {
     return firebaseAuth.signInWithCredential(credential);
   }
 
+  Future<UserCredential> signInWithApple() async {
+    try {
+      final appleProvider = AppleAuthProvider();
+
+      return await firebaseAuth.signInWithProvider(
+        appleProvider,
+      );
+    } on FirebaseAuthException catch (error) {
+      throw AuthException(
+        _mapFirebaseAuthError(error.code),
+        debugMessage: error.message,
+      );
+    }
+  }
+
   Future<void> sendPasswordResetEmail(String email) async {
     try {
       await firebaseAuth.sendPasswordResetEmail(
@@ -251,6 +266,28 @@ class AuthRemoteDataSource {
         );
 
         await user.reauthenticateWithCredential(credential);
+      }
+
+      // APPLE USER
+      else if (providerIds.contains('apple.com')) {
+        final appleProvider = AppleAuthProvider();
+
+        final reauthResult =
+        await user.reauthenticateWithProvider(appleProvider);
+
+        final authorizationCode =
+            reauthResult.additionalUserInfo?.authorizationCode;
+
+        if (authorizationCode == null || authorizationCode.isEmpty) {
+          throw FirebaseAuthException(
+            code: 'apple-authorization-code-missing',
+            message: 'Apple authorization code is missing.',
+          );
+        }
+
+        await firebaseAuth.revokeTokenWithAuthorizationCode(
+          authorizationCode,
+        );
       }
 
       // EMAIL / PASSWORD USER
