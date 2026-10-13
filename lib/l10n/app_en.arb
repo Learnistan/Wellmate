@@ -59,9 +59,6 @@
   "feeling_sad_exp": "You are feeling sad. A body scan can help you gently reconnect with yourself and release some tension from your body.",
   "feeling_default_exp": "This activity can help you take a small positive step for your wellbeing.",
 
-  "carpet_title_exp": "Herat Carpet Weaving",
-  "read_about_exp": "Read about {journeyName}",
-
   "createAccount": "Create Account",
   "createAccountSubtitle": "Start your journey to a calmer mind",
   "email": "Email",
