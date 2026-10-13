@@ -40,7 +40,6 @@ const Map<Journeys, JourneyModel> journeysData = {
       1,
       3,
       4,
-      21,
       5,
       8,
       9,
@@ -49,9 +48,10 @@ const Map<Journeys, JourneyModel> journeysData = {
       13,
       16,
       18,
+      21,
       23,
       32
-    ]
+    ],
   ),
     Journeys.womenDress: JourneyModel(
         name: 'Afghan Women Dress',
