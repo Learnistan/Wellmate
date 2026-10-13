@@ -14,6 +14,7 @@ class ChatRepositoryImpl implements ChatRepository {
     return ChatMessage(
       text: reply,
       isUser: false,
+      isGreeting: false
     );
   }
 }

@@ -71,6 +71,7 @@ class _ChatPageState extends State<ChatPage> {
               itemCount: provider.messages.length,
               itemBuilder: (context, index) {
                 final message = provider.messages[index];
+                final displayText = message.isGreeting ? loc.chatBotGreeting : message.text;
 
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
@@ -106,7 +107,7 @@ class _ChatPageState extends State<ChatPage> {
                             ],
                           ),
                           child: Text(
-                            message.text,
+                            displayText,
                             style: AppTextStyles.introDesc(locale).copyWith(
                               color: message.isUser
                                   ? Colors.white

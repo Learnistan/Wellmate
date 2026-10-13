@@ -8,13 +8,15 @@ class ChatProvider extends ChangeNotifier {
 
   ChatProvider(this.sendMessageUseCase);
 
-  final List<ChatMessage> messages = [];
+  final List<ChatMessage> messages = [
+    ChatMessage(text: '', isUser: false, isGreeting: true),
+  ];
   bool isLoading = false;
 
   Future<void> sendMessage(String text) async {
     if (text.trim().isEmpty) return;
 
-    messages.add(ChatMessage(text: text, isUser: true));
+    messages.add(ChatMessage(text: text, isUser: true, isGreeting: false));
     isLoading = true;
     notifyListeners();
 
@@ -27,6 +29,7 @@ class ChatProvider extends ChangeNotifier {
       messages.add(ChatMessage(
         text: 'Error: $e',
         isUser: false,
+        isGreeting: false
       ));
     }
 
