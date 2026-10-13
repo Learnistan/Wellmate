@@ -22,6 +22,7 @@ class ChatProvider extends ChangeNotifier {
 
     try {
       final botMessage = await sendMessageUseCase(text);
+      botMessage.animate = true;
       messages.add(botMessage);
     } catch (e) {
       debugPrint('CHAT ERROR: $e');

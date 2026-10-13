@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/theme/textStyles.dart';
 
+import '../../../../core/utils/typeWriter.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../providers/chatProvider.dart';
 
@@ -73,6 +74,12 @@ class _ChatPageState extends State<ChatPage> {
                 final message = provider.messages[index];
                 final displayText = message.isGreeting ? loc.chatBotGreeting : message.text;
 
+                final textStyle = AppTextStyles.introDesc(locale).copyWith(
+                  color: message.isUser ? Colors.white : Colors.black,
+                  fontSize: 15,
+                  height: 1.4,
+                );
+
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: Row(
@@ -106,16 +113,15 @@ class _ChatPageState extends State<ChatPage> {
                               ),
                             ],
                           ),
-                          child: Text(
-                            displayText,
-                            style: AppTextStyles.introDesc(locale).copyWith(
-                              color: message.isUser
-                                  ? Colors.white
-                                  : Colors.black,
-                              fontSize: 15,
-                              height: 1.4
-                            )
-                          ),
+                          child: message.animate
+                              ? TypewriterText(
+                            key: ValueKey(message),
+                            text: displayText,
+                            style: textStyle,
+                            onTick: _scrollToBottom,
+                            onFinished: () => message.animate = false,
+                          )
+                              : Text(displayText, style: textStyle),
                         ),
                       ),
 
@@ -214,5 +220,11 @@ class _ChatPageState extends State<ChatPage> {
         ],
       ),
     );
+  }
+
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    }
   }
 }
