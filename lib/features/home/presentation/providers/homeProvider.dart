@@ -1,10 +1,13 @@
 // HOME PROVIDER
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/activateAllActivitiesUseCase.dart';
 import 'package:wellmate/features/home/domain/useCases/getLastCompletedDifferenceUseCase.dart';
 import 'package:wellmate/features/home/domain/useCases/resetJourney.dart';
 
+import '../../../../core/providers/syncProvider.dart';
 import '../../../../core/services/notificationService.dart';
 import '../../domain/useCases/getProgressUseCase.dart';
 import '../../domain/useCases/initProgressUseCase.dart';
@@ -24,6 +27,7 @@ class HomeProvider extends ChangeNotifier {
   final GetProgressUseCase getProgressUseCase;
 
   final NotificationService notificationService;
+  final SyncProvider syncProvider;
 
   HomeProvider(
       this.initProgressUseCase,
@@ -32,7 +36,8 @@ class HomeProvider extends ChangeNotifier {
       this.getLastCompletedDifferenceUseCase,
       this.activateAllActivitiesUseCase,
       this.notificationService,
-      this.resetJourneyUseCase
+      this.resetJourneyUseCase,
+      this.syncProvider,
       );
 
   bool _initialized = false;
@@ -85,6 +90,8 @@ class HomeProvider extends ChangeNotifier {
       _level = currentLevel;
 
       notifyListeners();
+
+      unawaited(syncProvider.sync());
     }
   }
 
@@ -109,6 +116,8 @@ class HomeProvider extends ChangeNotifier {
       lastDate = null;
 
       notifyListeners();
+
+      unawaited(syncProvider.sync());
 
       return true;
     }

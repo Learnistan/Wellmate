@@ -164,6 +164,7 @@ class _MyAppState extends State<MyApp> {
   late final JourneyProvider journeyProvider = JourneyProvider()..loadJourney();
 
   late final SyncData syncData = SyncData([widget.repository4, widget.repository3, widget.repository6]);
+  late final SyncProvider syncProvider = SyncProvider(syncData, widget.firebaseAuth);
 
   late final ClearLocalData clearLocalData =
   ClearLocalData([widget.repository4, widget.repository3, widget.repository6]);
@@ -172,6 +173,12 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     widget.appController.initialize();
+  }
+
+  @override
+  void dispose() {
+    syncProvider.dispose();
+    super.dispose();
   }
 
   @override
@@ -213,6 +220,7 @@ class _MyAppState extends State<MyApp> {
             ActivateAllActivitiesUseCase(widget.repository2),
             widget.notificationService,
             ResetJourneyUseCase(widget.repository3),
+            syncProvider
           ),
         ),
         ChangeNotifierProvider(
@@ -239,12 +247,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
-        ChangeNotifierProvider(
-          create: (_) => SyncProvider(
-            syncData,
-            widget.firebaseAuth,
-          ),
-        ),
+        ChangeNotifierProvider.value(value: syncProvider),
       ],
       child: Builder(
         builder: (context) {
