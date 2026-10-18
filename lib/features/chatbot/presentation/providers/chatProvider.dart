@@ -1,20 +1,33 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/utils/rateLimiter.dart';
 import '../../domain/entities/chatMessage.dart';
 import '../../domain/useCases/sendMessage.dart';
 
 class ChatProvider extends ChangeNotifier {
   final SendMessage sendMessageUseCase;
+  final RateLimiter _limiter = RateLimiter();
 
   ChatProvider(this.sendMessageUseCase);
 
   final List<ChatMessage> messages = [
     ChatMessage(text: '', isUser: false, isGreeting: true),
   ];
+
   bool isLoading = false;
+  Duration? retryAfter;
 
   Future<void> sendMessage(String text) async {
-    if (text.trim().isEmpty) return;
+    if (text.trim().isEmpty || isLoading) return;
+
+    final wait = await _limiter.tryConsume();
+    if (wait != null) {
+      retryAfter = wait;
+      notifyListeners();
+      return;
+    }
+
+    retryAfter = null;
 
     messages.add(ChatMessage(text: text, isUser: true, isGreeting: false));
     isLoading = true;

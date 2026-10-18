@@ -255,6 +255,10 @@
   "chatBotTitle": "Wellmate Assistant",
   "chatBotHint": "Ask me anything...",
   "chatBotGreeting": "Hi, how do you feel?",
+  "chatLimitReached": "به سقف ۱۵ سوال در ساعت رسیدید. {minutes} دقیقه دیگر دوباره تلاش کنید.",
+  "@chatLimitReached": {
+    "placeholders": { "minutes": { "type": "int" } }
+  },
 
   "oneDayMissedDialogTitle": "You missed a day",
   "oneDayMissedDialogMessage": "That's okay—everyone slips sometimes. Just a reminder: if you miss one more day, your current journey progress will be lost. Keep going—you've got this!",

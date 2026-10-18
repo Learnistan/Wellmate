@@ -255,6 +255,10 @@
   "chatBotTitle": "د Wellmate مرستیال",
   "chatBotHint": "...هر څه چې غواړئ له ما وپوښتئ",
   "chatBotGreeting": "سلام، ته څنګه احساس کوې؟",
+  "chatLimitReached": "به سقف ۱۵ سوال در ساعت رسیدید. {minutes} دقیقه دیگر دوباره تلاش کنید.",
+  "@chatLimitReached": {
+    "placeholders": { "minutes": { "type": "int" } }
+  },
 
   "oneDayMissedDialogTitle": "تاسو یوه ورځ له لاسه ورکړه",
   "oneDayMissedDialogMessage": "پروا نه لري، کله ناکله دا د هر چا لپاره پېښېږي. یوازې په یاد ولرئ، که یوه بله ورځ هم له لاسه ورکړئ، د دې سفر اوسنی پرمختګ به مو له منځه ولاړ شي. نن دوام ورکړئ، تاسو یې کولی شئ!",

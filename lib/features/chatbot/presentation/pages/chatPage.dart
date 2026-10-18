@@ -164,6 +164,15 @@ class _ChatPageState extends State<ChatPage> {
               ),
             ),
 
+          if (provider.retryAfter != null)
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Text(
+                loc.chatLimitReached(provider.retryAfter!.inMinutes + 1),
+                style: const TextStyle(color: Colors.red),
+              ),
+            ),
+
           SafeArea(
             child: Container(
               padding: const EdgeInsets.fromLTRB(
