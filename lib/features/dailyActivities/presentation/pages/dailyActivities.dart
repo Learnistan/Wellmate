@@ -244,11 +244,7 @@ class _DailyActivitiesPageState
 
                         onTap: () async {
 
-                          final result =
-                          await context
-                              .push<String>(
-                            item.route,
-                          );
+                          final result = await context.push<Object?>(item.route);
 
                           if (result == "activity completed") {
 

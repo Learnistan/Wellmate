@@ -286,11 +286,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     );
 
                     if (selectedActivity.isActive) {
-                      final result =
-                      await context
-                          .push<String>(
-                        activity.route,
-                      );
+                      final result = await context.push<Object?>(activity.route);
 
                       if (result == "activity completed") {
                         // COMPLETE ACTIVITY

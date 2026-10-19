@@ -230,6 +230,7 @@ class _MyAppState extends State<MyApp> {
             updateActivity: UpdateActivity(widget.repository2),
             addActivityLog: AddActivityLog(widget.repository2),
             getTodayHydrationGlasses: GetTodayHydrationGlasses(widget.repository2),
+            syncProvider: syncProvider
           ),
         ),
         ChangeNotifierProvider(

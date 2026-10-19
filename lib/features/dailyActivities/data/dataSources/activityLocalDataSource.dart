@@ -50,7 +50,11 @@ class ActivityLocalDataSource {
 
     await db.insert(
       'activity_logs',
-      log.toMap(),
+      {
+        ...log.toMap(),
+        'is_synced': 0,
+        'updated_at': DateTime.now().toIso8601String(),
+      },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -165,5 +169,48 @@ class ActivityLocalDataSource {
         ).toMap(),
       );
     }
+  }
+
+  Future<List<Map<String, dynamic>>> getUnsyncedLogs() async {
+    final db = await dbHelper.database;
+    return db.query('activity_logs', where: 'is_synced = 0');
+  }
+
+  Future<void> markLogSynced(int activityId, String date, String? updatedAt) async {
+    final db = await dbHelper.database;
+
+    // Only mark as sent if the note didn't change while uploading.
+    await db.update(
+      'activity_logs',
+      {'is_synced': 1},
+      where: updatedAt == null
+          ? 'activity_id = ? AND date = ? AND updated_at IS NULL'
+          : 'activity_id = ? AND date = ? AND updated_at = ?',
+      whereArgs: updatedAt == null
+          ? [activityId, date]
+          : [activityId, date, updatedAt],
+    );
+  }
+
+  Future<bool> hasLogs() async {
+    final db = await dbHelper.database;
+    final rows = await db.query('activity_logs', limit: 1);
+    return rows.isNotEmpty;
+  }
+
+  Future<void> insertRestoredLog(Map<String, dynamic> remote) async {
+    final db = await dbHelper.database;
+
+    await db.insert(
+      'activity_logs',
+      {
+        'activity_id': (remote['activityId'] as num).toInt(),
+        'date': remote['date'],
+        'value': remote['value'],
+        'is_synced': 1, // came from Firestore, nothing to send
+        'updated_at': remote['updatedAt'],
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 }
