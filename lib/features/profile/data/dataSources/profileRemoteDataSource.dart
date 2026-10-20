@@ -6,6 +6,8 @@ class ProfileRemoteDataSource {
   final FirebaseFirestore firestore;
   ProfileRemoteDataSource(this.firestore);
 
+  static const _subcollections = ['progress', 'daily', 'activity_logs'];
+
   Future<void> save(ProfileModel p) {
     return firestore
         .collection('users')
@@ -35,11 +37,35 @@ class ProfileRemoteDataSource {
   Future<void> deleteProfile(String uid) async {
     final ref = firestore.collection('users').doc(uid);
 
-    // Throws if the server can't be reached, so no delete gets queued.
     await ref
         .get(const GetOptions(source: Source.server))
         .timeout(const Duration(seconds: 10));
 
+    for (final name in _subcollections) {
+      await _deleteCollection(ref.collection(name));
+    }
+
     await ref.delete().timeout(const Duration(seconds: 10));
+  }
+
+  Future<void> _deleteCollection(
+      CollectionReference<Map<String, dynamic>> collection,
+      ) async {
+    final snapshot = await collection
+        .get(const GetOptions(source: Source.server))
+        .timeout(const Duration(seconds: 10));
+
+    final docs = snapshot.docs;
+    if (docs.isEmpty) return;
+
+    for (var i = 0; i < docs.length; i += 500) {
+      final batch = firestore.batch();
+
+      for (final doc in docs.skip(i).take(500)) {
+        batch.delete(doc.reference);
+      }
+
+      await batch.commit().timeout(const Duration(seconds: 10));
+    }
   }
 }
