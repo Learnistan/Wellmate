@@ -1,9 +1,14 @@
+
 import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/widgets/ButtonCom.dart';
+
 import '../../../../core/theme/textStyles.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../providers/activityProvider.dart';
@@ -27,17 +32,26 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
 
   static const int _totalActivitySeconds = 120;
 
+  static const String _backgroundImage =
+      'assets/images/Breathing Activity bakground-01.png';
+
+  static const String _breathingAudio =
+      'audios/Breathing_english.mpeg';
+
+  // Audio player.
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  bool _isMuted = false;
+
   late AnimationController _circleController;
   late AnimationController _sessionController;
-
   late Animation<double> _sizeAnimation;
 
   Timer? _timer;
+
   int _remainingSeconds = _totalActivitySeconds;
 
-  String _phaseLabel = "";
+  String _phaseLabel = '';
   bool _activityStarted = false;
-
   bool _dialogShown = false;
 
   @override
@@ -56,31 +70,39 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
 
     _sizeAnimation = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween(begin: 0.5, end: 1.0)
-            .chain(CurveTween(curve: Curves.easeInOut)),
+        tween: Tween<double>(begin: 0.5, end: 1.0).chain(
+          CurveTween(curve: Curves.easeInOut),
+        ),
         weight: _breathInSeconds.toDouble(),
       ),
       TweenSequenceItem(
-        tween: ConstantTween(1.0),
+        tween: ConstantTween<double>(1.0),
         weight: _holdSeconds.toDouble(),
       ),
       TweenSequenceItem(
-        tween: Tween(begin: 1.0, end: 0.5)
-            .chain(CurveTween(curve: Curves.easeInOut)),
+        tween: Tween<double>(begin: 1.0, end: 0.5).chain(
+          CurveTween(curve: Curves.easeInOut),
+        ),
         weight: _breathOutSeconds.toDouble(),
       ),
     ]).animate(_circleController);
 
     _circleController.addListener(() {
+      if (!mounted || !_activityStarted) return;
+
       final t = _circleController.value;
 
-      final breathInEnd = _breathInSeconds / _totalCycleDuration;
+      final breathInEnd =
+          _breathInSeconds / _totalCycleDuration;
+
       final holdEnd =
-          (_breathInSeconds + _holdSeconds) / _totalCycleDuration;
+          (_breathInSeconds + _holdSeconds) /
+              _totalCycleDuration;
 
       final loc = AppLocalizations.of(context)!;
 
-      String next;
+      final String next;
+
       if (t < breathInEnd) {
         next = loc.breatheIn;
       } else if (t < holdEnd) {
@@ -90,16 +112,22 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
       }
 
       if (next != _phaseLabel) {
-        setState(() => _phaseLabel = next);
+        setState(() {
+          _phaseLabel = next;
+        });
       }
     });
 
     _sessionController.addStatusListener((status) {
-      if (status == AnimationStatus.completed && !_dialogShown) {
+      if (status == AnimationStatus.completed &&
+          !_dialogShown) {
         _dialogShown = true;
 
         _timer?.cancel();
         _circleController.stop();
+
+        // Stop the audio when the session finishes.
+        unawaited(_audioPlayer.stop());
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
@@ -110,20 +138,74 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
     });
   }
 
+  // Toggle audio mute/unmute.
+  Future<void> _toggleMute() async {
+    if (!mounted) return;
+
+    setState(() {
+      _isMuted = !_isMuted;
+    });
+
+    try {
+      await _audioPlayer.setVolume(_isMuted ? 0.0 : 1.0);
+    } catch (error) {
+      debugPrint('Audio volume error: $error');
+    }
+  }
+
+  // Start the English breathing audio.
+
+  Future<void> _playBreathingAudio() async {
+    try {
+      // Get the language currently selected in the app
+      final languageCode =
+          Localizations.localeOf(context).languageCode;
+
+      String audioPath;
+
+      switch (languageCode) {
+        case 'ps':
+          audioPath = 'audios/Breathing_pashto.mp3';
+          break;
+
+        case 'fa':
+          audioPath = 'audios/Breathing_dari.mp3';
+          break;
+
+        case 'en':
+        default:
+          audioPath = 'audios/Breathing_english.mp3';
+          break;
+      }
+
+      debugPrint('Selected language: $languageCode');
+      debugPrint('Playing audio: $audioPath');
+
+      await _audioPlayer.stop();
+
+      await _audioPlayer.setVolume(_isMuted ? 0.0 : 1.0);
+
+      await _audioPlayer.play(AssetSource(audioPath));
+
+    } catch (error, stackTrace) {
+      debugPrint('BREATHING AUDIO ERROR: $error');
+      debugPrint('$stackTrace');
+    }
+  }
+
+
   Future<void> _showCompletionDialog() async {
     if (!mounted) return;
 
     final loc = AppLocalizations.of(context)!;
 
-    await showDialog(
+    await showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (context) {
+      builder: (dialogContext) {
         return AlertDialog(
           title: Text(loc.hydrationPopupTitle),
-          content: Text(
-            loc.breathingDialogMessage,
-          ),
+          content: Text(loc.breathingDialogMessage),
           actions: [
             TextButton(
               onPressed: () {
@@ -131,8 +213,12 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
                   activityId: 1,
                   value: '',
                 );
-                Navigator.pop(context);
-                context.pop("activity completed");
+
+                Navigator.of(dialogContext).pop();
+
+                if (mounted) {
+                  context.pop('activity completed');
+                }
               },
               child: Text(loc.dialogActionButtonTitle),
             ),
@@ -142,8 +228,11 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
     );
   }
 
-  void _startActivity() {
+  // Start the breathing activity and audio.
+  Future<void> _startActivity() async {
     final loc = AppLocalizations.of(context)!;
+
+    _timer?.cancel();
 
     _remainingSeconds = _totalActivitySeconds;
     _dialogShown = false;
@@ -153,203 +242,287 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
       _phaseLabel = loc.breatheIn;
     });
 
+    // Start the breathing animation.
     _circleController.repeat();
     _sessionController.forward(from: 0);
 
-    _timer?.cancel();
+    // Start the 2-minute countdown.
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+          (timer) {
+        if (!mounted) {
+          timer.cancel();
+          return;
+        }
 
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_remainingSeconds == 0) {
-        timer.cancel();
-      } else {
-        setState(() => _remainingSeconds--);
-      }
-    });
+        if (_remainingSeconds <= 1) {
+          setState(() {
+            _remainingSeconds = 0;
+          });
+
+          timer.cancel();
+        } else {
+          setState(() {
+            _remainingSeconds--;
+          });
+        }
+      },
+    );
+
+    // Play the audio when Start is pressed.
+    await _playBreathingAudio();
   }
 
   String _formatTime(int seconds) {
-    final m = seconds ~/ 60;
-    final s = seconds % 60;
+    final minutes = seconds ~/ 60;
+    final remaining = seconds % 60;
 
-    return "${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}";
+    return '${minutes.toString().padLeft(2, '0')}:'
+        '${remaining.toString().padLeft(2, '0')}';
   }
 
   @override
   void dispose() {
+    _timer?.cancel();
+
     _circleController.dispose();
     _sessionController.dispose();
-    _timer?.cancel();
+
+    // Stop and release the audio player.
+    unawaited(_audioPlayer.dispose());
+
     super.dispose();
   }
 
-  bool get _isSessionComplete => _sessionController.isCompleted;
+  bool get _isSessionComplete =>
+      _sessionController.isCompleted;
 
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final locale = Localizations.localeOf(context);
 
-    return SafeArea(
-        child: Scaffold(
-          backgroundColor: AppColors.background,
-          appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: AppColors.background,
-            elevation: 0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black87),
-              onPressed: () => context.pop(),
-            ),
-            title: Text(
-              loc.breathingActivity,
-              style: AppTextStyles.semiBold(locale).copyWith(
-                fontSize: 20,
-              ),
+    return Scaffold(
+      backgroundColor: const Color(0xFFF5EFE3),
+      extendBodyBehindAppBar: true,
+
+      appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Color(0xFF6E4A55),
+          ),
+          onPressed: () => context.pop(),
+        ),
+
+        title: Text(
+          loc.breathingActivity,
+          style: AppTextStyles.semiBold(locale).copyWith(
+            fontSize: 20,
+            color: const Color(0xFF6E4A55),
+          ),
+        ),
+
+        actions: [
+          IconButton(
+            tooltip: _isMuted ? 'Unmute audio' : 'Mute audio',
+            onPressed: _toggleMute,
+            icon: Icon(
+              _isMuted
+                  ? Icons.volume_off_rounded
+                  : Icons.volume_up_rounded,
+              color: const Color(0xFF6E4A55),
+              size: 25,
             ),
           ),
-          body: LayoutBuilder(
-            builder: (context, constraints) {
-              final height = constraints.maxHeight;
-              final width = constraints.maxWidth;
+        ],
+      ),
 
-              final base = width * 0.45;
-              final spacingSmall = height * 0.02;
-              final spacingMedium = height * 0.04;
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Background image.
+          Positioned.fill(
+            child: Image.asset(
+              _backgroundImage,
+              fit: BoxFit.cover,
+              alignment: Alignment.center,
+              errorBuilder: (context, error, stackTrace) {
+                debugPrint(
+                  'Could not load breathing background: $error',
+                );
 
-              final displayText = _isSessionComplete
-                  ? loc.wellDone
-                  : (_activityStarted ? _phaseLabel : loc.letsBegin);
+                return Container(
+                  color: const Color(0xFFF5EFE3),
+                );
+              },
+            ),
+          ),
 
-              return Center(
-                child: SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: height,
+          // Breathing activity content.
+          SafeArea(
+            top: false,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final height = constraints.maxHeight;
+                final width = constraints.maxWidth;
+
+                final base = (width * 0.45).clamp(
+                  100.0,
+                  180.0,
+                );
+
+                final spacingSmall = height * 0.02;
+                final spacingMedium = height * 0.035;
+
+                final displayText = _isSessionComplete
+                    ? loc.wellDone
+                    : (_activityStarted
+                    ? _phaseLabel
+                    : loc.letsBegin);
+
+                return Center(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: width * 0.04,
+                      vertical: spacingSmall,
                     ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(height: spacingSmall),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: height -
+                            MediaQuery.of(context).padding.top,
+                      ),
+                      child: IntrinsicHeight(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: spacingSmall),
 
-                          AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 400),
-                            transitionBuilder: (child, animation) {
-                              final slide = Tween<Offset>(
-                                begin: const Offset(0, 0.6),
-                                end: Offset.zero,
-                              ).animate(animation);
+                            // Timer.
+                            AnimatedSwitcher(
+                              duration: const Duration(
+                                milliseconds: 400,
+                              ),
+                              transitionBuilder: (child, animation) {
+                                final slide = Tween<Offset>(
+                                  begin: const Offset(0, 0.3),
+                                  end: Offset.zero,
+                                ).animate(animation);
 
-                              return ClipRect(
-                                child: SlideTransition(
-                                  position: slide,
-                                  child: FadeTransition(
-                                    opacity: animation,
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: SlideTransition(
+                                    position: slide,
                                     child: child,
                                   ),
+                                );
+                              },
+                              child: _activityStarted
+                                  ? Text(
+                                _formatTime(_remainingSeconds),
+                                key: const ValueKey('timer'),
+                                style: AppTextStyles
+                                    .semiBold(locale)
+                                    .copyWith(
+                                  fontSize: (width * 0.08)
+                                      .clamp(28.0, 48.0),
+                                  color: const Color(0xFF98586B),
                                 ),
-                              );
-                            },
-                            child: _activityStarted
-                                ? Text(
-                              _formatTime(_remainingSeconds),
-                              key: const ValueKey("timer"),
-                              style: AppTextStyles.semiBold(locale)
-                                  .copyWith(
-                                fontSize: width * 0.08,
-                                color: AppColors.primary,
+                              )
+                                  : const SizedBox(
+                                key: ValueKey('no_timer'),
                               ),
-                            )
-                                : const SizedBox(
-                              key: ValueKey("no_timer"),
                             ),
-                          ),
 
-                          SizedBox(height: spacingSmall),
+                            SizedBox(height: spacingSmall),
 
-                          _isSessionComplete
-                              ? _buildDoneCircle(base)
-                              : _buildBreathingCircle(base),
+                            // Animated breathing circle.
+                            _isSessionComplete
+                                ? _buildDoneCircle(base)
+                                : _buildBreathingCircle(base),
 
-                          SizedBox(height: spacingMedium),
+                            SizedBox(height: spacingMedium),
 
-                          AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 400),
-                            transitionBuilder: (child, animation) {
-                              final slide = Tween<Offset>(
-                                begin: const Offset(0, 0.6),
-                                end: Offset.zero,
-                              ).animate(animation);
+                            // Breathing instructions.
+                            AnimatedSwitcher(
+                              duration: const Duration(
+                                milliseconds: 400,
+                              ),
+                              transitionBuilder: (child, animation) {
+                                final slide = Tween<Offset>(
+                                  begin: const Offset(0, 0.3),
+                                  end: Offset.zero,
+                                ).animate(animation);
 
-                              return ClipRect(
-                                child: SlideTransition(
-                                  position: slide,
-                                  child: FadeTransition(
-                                    opacity: animation,
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: SlideTransition(
+                                    position: slide,
                                     child: child,
                                   ),
+                                );
+                              },
+                              child: Text(
+                                displayText,
+                                key: ValueKey(displayText),
+                                textAlign: TextAlign.center,
+                                style: AppTextStyles
+                                    .semiBold(locale)
+                                    .copyWith(
+                                  fontSize: (width * 0.055)
+                                      .clamp(20.0, 30.0),
+                                  color: const Color(0xFF6E4A55),
                                 ),
-                              );
-                            },
-                            child: Text(
-                              displayText,
-                              key: ValueKey(displayText),
-                              textAlign: TextAlign.center,
-                              style: AppTextStyles.semiBold(locale).copyWith(
-                                fontSize: width * 0.055,
-                                color: _isSessionComplete
-                                    ? Colors.black54
-                                    : AppColors.primary,
                               ),
                             ),
-                          ),
 
-                          SizedBox(height: spacingMedium),
+                            SizedBox(height: spacingMedium),
 
-                          AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 400),
-                            transitionBuilder: (child, animation) {
-                              final slide = Tween<Offset>(
-                                begin: const Offset(0, 0.6),
-                                end: Offset.zero,
-                              ).animate(animation);
-
-                              return ClipRect(
-                                child: SlideTransition(
-                                  position: slide,
-                                  child: FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  ),
+                            // Start button.
+                            AnimatedSwitcher(
+                              duration: const Duration(
+                                milliseconds: 400,
+                              ),
+                              transitionBuilder: (child, animation) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                              child: !_activityStarted
+                                  ? Padding(
+                                key: const ValueKey('button'),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: width * 0.04,
                                 ),
-                              );
-                            },
-                            child: !_activityStarted
-                                ? Padding(
-                              key: const ValueKey("button"),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: width * 0.08,
+                                child: AppButton(
+                                  text: loc.start,
+                                  onPressed: _startActivity,
+                                ),
+                              )
+                                  : const SizedBox(
+                                key: ValueKey('no_button'),
                               ),
-                              child: AppButton(
-                                text: loc.start,
-                                onPressed: _startActivity,
-                              ),
-                            )
-                                : const SizedBox(
-                              key: ValueKey("no_button"),
                             ),
-                          ),
 
-                          SizedBox(height: spacingSmall),
-                        ],
+                            SizedBox(height: spacingSmall),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
+        ],
+      ),
     );
   }
 
@@ -357,7 +530,8 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
     return AnimatedBuilder(
       animation: _circleController,
       builder: (context, child) {
-        final scale = _activityStarted ? _sizeAnimation.value : 0.5;
+        final scale =
+        _activityStarted ? _sizeAnimation.value : 0.5;
 
         final coreSize = base * scale;
 
@@ -370,6 +544,7 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
               _buildRipple(coreSize, base, 3),
               _buildRipple(coreSize, base, 2),
               _buildRipple(coreSize, base, 1),
+
               Container(
                 width: coreSize,
                 height: coreSize,
@@ -385,8 +560,14 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
     );
   }
 
-  Widget _buildRipple(double coreSize, double base, int index) {
-    final rippleSize = coreSize + (base * 0.18 * index);
+  Widget _buildRipple(
+      double coreSize,
+      double base,
+      int index,
+      ) {
+    final rippleSize =
+        coreSize + (base * 0.18 * index);
+
     final opacity = 0.18 - (index * 0.04);
 
     return Container(
@@ -414,6 +595,7 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
           _buildRipple(coreSize, base, 3),
           _buildRipple(coreSize, base, 2),
           _buildRipple(coreSize, base, 1),
+
           Container(
             width: coreSize,
             height: coreSize,
