@@ -36,7 +36,7 @@ class _BreathingActivityPageState extends State<BreathingActivityPage>
       'assets/images/Breathing Activity bakground-01.png';
 
   static const String _breathingAudio =
-      'audios/Breathing_english.mpeg';
+      'audios/Breathing_english.mp3';
 
   // Audio player.
   final AudioPlayer _audioPlayer = AudioPlayer();
