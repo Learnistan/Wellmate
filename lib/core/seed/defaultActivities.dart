@@ -1,0 +1,69 @@
+import '../../features/dailyActivities/domain/entities/activity.dart';
+
+final List<Activity> defaultActivities = [
+  Activity(
+    id: 1,
+    title: "activity_breathing",
+    duration: "2",
+    iconPath: "air",
+    route: "/breathing",
+    isActive: true
+  ),
+  Activity(
+    id: 2,
+    title: "activity_movement",
+    duration: "15",
+    iconPath: "walk",
+    route: "/movement",
+    isActive: true
+  ),
+  Activity(
+    id: 3,
+    title: "activity_hydration",
+    duration: "10",
+    iconPath: "water",
+    route: '/hydration',
+    isActive: true
+  ),
+  Activity(
+    id: 4,
+    title: "activity_body_scan",
+    duration: "5",
+    iconPath: "body",
+    route: '/body-scan',
+    isActive: true
+  ),
+  Activity(
+    id: 5,
+    title: "activity_mood_calibration",
+    duration: "5",
+    iconPath: "check",
+    route: '/mood-calibration',
+    isActive: true
+  ),
+  Activity(
+      id: 6,
+      title: "morning_intentions",
+      duration: "3",
+      iconPath: "sun",
+      route: '/morning-intentions',
+      isActive: true
+  ),
+  Activity(
+      id: 7,
+      title: "evening_close",
+      duration: "3",
+      iconPath: "moon",
+      route: '/evening-close',
+      isActive: true
+  ),
+  Activity(
+      id: 8,
+      title: "stretch",
+      duration: "5",
+      iconPath: "stretch",
+      route: '/stretch',
+      isActive: true
+  ),
+
+];
