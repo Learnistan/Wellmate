@@ -54,7 +54,8 @@ const V1_REGION = "us-central1";
 // Firestore (roles/datastore.user) and read the two LiveKit secrets. The
 // Learnistan Workspace gives Google's default accounts no roles, and the
 // public AI chat should not share Majlis's database access anyway.
-const SERVICE_ACCOUNT = "majlis-functions@";
+// Full address: the deploy's secret-access step does not accept "name@".
+const SERVICE_ACCOUNT = `majlis-functions@${process.env.GCLOUD_PROJECT || "wellmate-56205"}.iam.gserviceaccount.com`;
 const SECRETS = [LIVEKIT_API_KEY, LIVEKIT_API_SECRET];
 const CALL = { region: REGION, secrets: SECRETS, serviceAccount: SERVICE_ACCOUNT };
 
