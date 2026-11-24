@@ -58,8 +58,22 @@ Tabs are now: 0 Home, 1 Games, 2 Majlis, 3 Daily activities, 4 Profile.
    firebase deploy --only firestore:rules,firestore:indexes --project wellmate-56205
    firebase deploy --project wellmate-56205 --only functions:majlisCreateSpace,functions:majlisJoin,functions:majlisStage,functions:majlisHost,functions:majlisWhisper,functions:majlisTea,functions:majlisRemind,functions:majlisReport,functions:majlisWebhook,functions:majlisSweep,functions:majlisOnUserDeleted
    ```
-5. LiveKit Cloud → Settings → Webhooks: add the `majlisWebhook` URL the
-   deploy prints.
+5. **Open the public functions.** The Learnistan Workspace blocks granting
+   access to "allUsers", so the deploy says "Unable to set the invoker" for
+   new callable/HTTP functions. Do what `chatWithOpenAI` already has: turn off
+   the Cloud Run invoker check (the functions still check the WellMate
+   sign-in, and the webhook checks LiveKit's signature):
+   ```bash
+   gcloud run services update majlisjoin --region asia-south2 --no-invoker-iam-check --project wellmate-56205
+   ```
+   (one per function: majliscreatespace, majlisjoin, majlisstage, majlishost,
+   majliswhisper, majlistea, majlisremind, majlisreport, majliswebhook).
+   Only needed when a function is first created; later deploys keep it.
+6. LiveKit Cloud → Settings → Webhooks: add
+   `https://asia-south2-wellmate-56205.cloudfunctions.net/majlisWebhook`.
+
+**Status (25 Nov 2026):** steps 1–5 done for wellmate-56205 (rules, indexes,
+11 functions, cleanup policy for old build images in asia-south2).
 
 Guides: add `majlis_guides/<uid>` with `{ "name": "Nargis" }` in the console.
 They can mute, move, remove (never the host), pin and end in any space.
