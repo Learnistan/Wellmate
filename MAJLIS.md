@@ -31,6 +31,11 @@ Tabs are now: 0 Home, 1 Games, 2 Majlis, 3 Daily activities, 4 Profile.
   Firestore (the `users/{uid}` sync data and Majlis). Deploying them replaces
   the rules in the console, so keep every feature's rules in this file.
 - Voice runs on LiveKit Cloud. Firestore only holds lists and settings.
+- Regions: Firestore is in `asia-south2` (Delhi), so the Majlis functions run
+  there too (`REGION` in `functions/majlis.js`, `functionsRegion` in
+  `firebase_majlis_repository.dart`). The account-deletion trigger is 1st gen,
+  which Delhi doesn't offer, so it runs in `us-central1`. The AI chat stays in
+  `us-central1`.
 
 ## Backend setup (one time, for wellmate-56205)
 
@@ -41,7 +46,7 @@ Tabs are now: 0 Home, 1 Games, 2 Majlis, 3 Daily activities, 4 Profile.
    firebase functions:secrets:set LIVEKIT_API_KEY --project wellmate-56205
    firebase functions:secrets:set LIVEKIT_API_SECRET --project wellmate-56205
    ```
-3. `functions/.env.wellmate-56205` (not secret):
+3. `functions/.env.wellmate-56205` (not secret, already in the repo):
    ```
    LIVEKIT_URL=wss://YOUR-PROJECT.livekit.cloud
    MAJLIS_REQUIRE_VERIFIED_EMAIL=true

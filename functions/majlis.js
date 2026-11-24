@@ -45,7 +45,11 @@ const REQUIRE_VERIFIED = defineBoolean("MAJLIS_REQUIRE_VERIFIED_EMAIL", { defaul
 // Then calls from anything but the real app are refused.
 const ENFORCE_APP_CHECK = defineBoolean("MAJLIS_ENFORCE_APP_CHECK", { default: false });
 
-const REGION = "us-central1";
+// Majlis runs in Delhi, next to WellMate's Firestore (asia-south2), so each
+// read and write stays in one region. 1st gen functions can't run there, so
+// the one account-deletion trigger (background only) stays in us-central1.
+const REGION = "asia-south2";
+const V1_REGION = "us-central1";
 const SECRETS = [LIVEKIT_API_KEY, LIVEKIT_API_SECRET];
 const CALL = { region: REGION, secrets: SECRETS };
 
@@ -883,7 +887,7 @@ exports.majlisSweep = onSchedule({ schedule: "every 10 minutes", region: REGION,
 
 /** When a WellMate account is deleted, its Majlis data goes too. */
 exports.majlisOnUserDeleted = functionsV1
-  .region(REGION)
+  .region(V1_REGION)
   .runWith({ secrets: ["LIVEKIT_API_KEY", "LIVEKIT_API_SECRET"] })
   .auth.user()
   .onDelete(async (user) => {

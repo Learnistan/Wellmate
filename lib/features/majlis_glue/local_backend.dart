@@ -3,6 +3,8 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'package:wellmate/features/majlis/data/firebase_majlis_repository.dart';
+
 /// For developers only: runs the whole app against the local Firebase
 /// emulators and LiveKit started by `tool/dev.sh` in the Majlis test repo
 /// (Learnistan/wellmate-majlis-demo), instead of the real wellmate-56205.
@@ -32,6 +34,8 @@ class LocalBackend {
     );
     await FirebaseAuth.instance.useAuthEmulator(host, 9099);
     FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
+    // The AI chat (us-central1) and Majlis (asia-south2) call different regions.
     FirebaseFunctions.instanceFor(region: 'us-central1').useFunctionsEmulator(host, 5001);
+    FirebaseFunctions.instanceFor(region: FirebaseMajlisRepository.functionsRegion).useFunctionsEmulator(host, 5001);
   }
 }

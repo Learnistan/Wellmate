@@ -12,13 +12,16 @@ import '../domain/majlis_repository.dart';
 /// (functions/majlis.js). The only thing the app writes directly is the
 /// user's own profile, and firestore.rules checks it.
 class FirebaseMajlisRepository implements MajlisRepository {
+  /// Where the Majlis Cloud Functions run: Delhi, next to WellMate's Firestore.
+  static const functionsRegion = 'asia-south2';
+
   FirebaseMajlisRepository({
     FirebaseAuth? auth,
     FirebaseFirestore? firestore,
     FirebaseFunctions? functions,
   })  : _auth = auth ?? FirebaseAuth.instance,
         _db = firestore ?? FirebaseFirestore.instance,
-        _fns = functions ?? FirebaseFunctions.instanceFor(region: 'us-central1');
+        _fns = functions ?? FirebaseFunctions.instanceFor(region: functionsRegion);
 
   final FirebaseAuth _auth;
   final FirebaseFirestore _db;
