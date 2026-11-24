@@ -1,0 +1,113 @@
+rules_version = '2';
+
+// WellMate Firestore rules (project wellmate-56205).
+// Deploying this file REPLACES the rules in the Firebase console, so every
+// feature that uses Firestore must have its match blocks here.
+// - users/{uid}/...: each person's own synced WellMate data (profile,
+//   progress, daily, activity_logs; branch id-26-firestore).
+// - majlis_*: Majlis. All writes except your own Majlis profile go through
+//   Cloud Functions (functions/majlis.js).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null
+        && request.auth.token.firebase.sign_in_provider != 'anonymous';
+    }
+
+    // ---- WellMate sync: only you can read and write your own data. ----------
+    match /users/{uid} {
+      allow read, write: if signedIn() && request.auth.uid == uid;
+      match /{rest=**} {
+        allow read, write: if signedIn() && request.auth.uid == uid;
+      }
+    }
+
+    // ---- Majlis --------------------------------------------------------------
+
+    // Veil names come from a fixed list (MajlisCatalog.veils), never free text.
+    // Keep this list, VEILS in functions/majlis.js and the catalog the same
+    // (test/catalog_sync_test.dart checks).
+    function veilNames() {
+      return [
+        'red_tulip', 'almond_blossom', 'morning_sun', 'night_star', 'little_lamp', 'kabul_rain',
+        'mulberry', 'pomegranate', 'apricot', 'walnut', 'saffron_moon', 'blue_butterfly',
+        'wild_rose', 'cypress', 'hindu_kush', 'soft_cloud', 'little_sparrow', 'green_apple',
+        'honey', 'autumn_leaf', 'sunflower', 'prayer_beads', 'little_teapot', 'warm_naan',
+        'peacock', 'cherry', 'shomali_grape', 'lemon_tree', 'clay_jug', 'little_lamb',
+        'morning_breeze', 'silver_moon', 'mountain_spring', 'salang_snow', 'panjshir_river', 'bamyan_sky',
+        'golden_wheat', 'fig_tree', 'jasmine', 'raindrop', 'little_fox'
+      ];
+    }
+
+    function isVeil(d) {
+      return d.veil is string && d.veil in veilNames()
+        && d.jewel is int && d.jewel >= 0 && d.jewel < 8
+        && d.motif is int && d.motif >= 0 && d.motif < 10;
+    }
+
+    function prefsOk(d) {
+      return (!('womenSpaces' in d) || d.womenSpaces is bool)
+        && (!('blocked' in d) || (d.blocked is list && d.blocked.size() <= 500));
+    }
+
+    // Your veil, your choices and your private numbers. Only you can read it.
+    match /majlis_profiles/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create: if signedIn() && request.auth.uid == uid
+        && isVeil(request.resource.data) && prefsOk(request.resource.data)
+        && request.resource.data.keys().hasOnly(['veil', 'jewel', 'motif', 'womenSpaces', 'blocked', 'createdAt', 'updatedAt']);
+      allow update: if signedIn() && request.auth.uid == uid
+        && isVeil(request.resource.data) && prefsOk(request.resource.data)
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['veil', 'jewel', 'motif', 'womenSpaces', 'blocked', 'updatedAt']);
+      allow delete: if false;
+    }
+
+    match /majlis_spaces/{spaceId} {
+      // Open and women-only spaces are listed for everyone signed in.
+      // Invite-only spaces: the host, and people who came in with the code.
+      allow get: if signedIn() && (
+        resource.data.audience != 'invite'
+        || resource.data.hostUid == request.auth.uid
+        || exists(/databases/$(database)/documents/majlis_spaces/$(spaceId)/members/$(request.auth.uid)));
+      allow list: if signedIn() && (
+        resource.data.audience in ['open', 'women']
+        || resource.data.hostUid == request.auth.uid);
+      allow write: if false;
+
+      // Whispers: only the host reads them. The sender is not stored here.
+      match /whispers/{whisperId} {
+        allow read: if signedIn()
+          && get(/databases/$(database)/documents/majlis_spaces/$(spaceId)).data.hostUid == request.auth.uid;
+        allow write: if false;
+      }
+      match /going/{uid} {
+        allow read: if signedIn() && request.auth.uid == uid;
+        allow write: if false;
+      }
+      match /members/{uid} {
+        allow read: if signedIn() && request.auth.uid == uid;
+        allow write: if false;
+      }
+      // Report tallies for auto-mute: Cloud Functions only.
+      match /reports/{uid} { allow read, write: if false; }
+
+      match /removed/{uid} {
+        allow read, write: if false;
+      }
+    }
+
+    // Your reminders across all scheduled spaces (collection-group query).
+    match /{path=**}/going/{goingId} {
+      allow read: if signedIn() && resource.data.uid == request.auth.uid;
+    }
+
+    // Team-only collections (read in the Firebase console).
+    match /majlis_reports/{id} { allow read, write: if false; }
+    match /majlis_whisper_log/{id} { allow read, write: if false; }
+    match /majlis_guides/{uid} { allow read, write: if false; }
+    match /majlis_invites/{code} { allow read, write: if false; }
+    match /majlis_rate/{uid} { allow read, write: if false; }
+  }
+}

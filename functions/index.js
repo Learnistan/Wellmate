@@ -30,3 +30,6 @@ exports.chatWithOpenAI = onCall(
     };
   }
 );
+
+// Majlis: live voice spaces (see functions/majlis.js).
+Object.assign(exports, require("./majlis"));

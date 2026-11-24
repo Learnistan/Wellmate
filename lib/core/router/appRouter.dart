@@ -29,6 +29,7 @@ import 'package:wellmate/features/onboarding/presentation/pages/multipleChoiceQu
 import 'package:wellmate/features/onboarding/presentation/pages/selectJourneyPage.dart';
 
 import 'package:wellmate/features/shell/presentation/mainShell.dart';
+import 'package:wellmate/features/majlis_glue/majlis_scope.dart';
 
 import '../../features/auth/presentation/pages/loginPage.dart';
 import '../../features/home/presentation/pages/homePage.dart';
@@ -180,7 +181,7 @@ class AppRouter {
 
       GoRoute(
         path: '/shell',
-        builder: (context, state) => const MainShell(),
+        builder: (context, state) => const MajlisScope(child: MainShell()),
       ),
 
       GoRoute(
