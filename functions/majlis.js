@@ -50,8 +50,13 @@ const ENFORCE_APP_CHECK = defineBoolean("MAJLIS_ENFORCE_APP_CHECK", { default: f
 // the one account-deletion trigger (background only) stays in us-central1.
 const REGION = "asia-south2";
 const V1_REGION = "us-central1";
+// Majlis runs as its own service account, which may only read and write
+// Firestore (roles/datastore.user) and read the two LiveKit secrets. The
+// Learnistan Workspace gives Google's default accounts no roles, and the
+// public AI chat should not share Majlis's database access anyway.
+const SERVICE_ACCOUNT = "majlis-functions@";
 const SECRETS = [LIVEKIT_API_KEY, LIVEKIT_API_SECRET];
-const CALL = { region: REGION, secrets: SECRETS };
+const CALL = { region: REGION, secrets: SECRETS, serviceAccount: SERVICE_ACCOUNT };
 
 const TOPICS = ["chai", "sleep", "study", "moms", "poetry", "faith", "hope", "home"];
 const LANGS = ["fa", "ps", "en"];
@@ -791,7 +796,7 @@ async function countReport(spaceId, target, by) {
  * Point LiveKit's webhook at this URL. It keeps the hallway's counts honest
  * and records private stats (spaces joined, minutes listened).
  */
-exports.majlisWebhook = onRequest({ region: REGION, secrets: SECRETS }, async (req, res) => {
+exports.majlisWebhook = onRequest({ region: REGION, secrets: SECRETS, serviceAccount: SERVICE_ACCOUNT }, async (req, res) => {
   let event;
   try {
     const receiver = new WebhookReceiver(LIVEKIT_API_KEY.value(), LIVEKIT_API_SECRET.value());
@@ -866,7 +871,7 @@ async function onParticipantLeft(spaceId, participant) {
 
 // ---- Housekeeping -------------------------------------------------------------
 
-exports.majlisSweep = onSchedule({ schedule: "every 10 minutes", region: REGION, secrets: SECRETS }, async () => {
+exports.majlisSweep = onSchedule({ schedule: "every 10 minutes", region: REGION, secrets: SECRETS, serviceAccount: SERVICE_ACCOUNT }, async () => {
   const now = Date.now();
   const live = await spaces().where("status", "==", "live").get();
   for (const doc of live.docs) {
@@ -888,7 +893,7 @@ exports.majlisSweep = onSchedule({ schedule: "every 10 minutes", region: REGION,
 /** When a WellMate account is deleted, its Majlis data goes too. */
 exports.majlisOnUserDeleted = functionsV1
   .region(V1_REGION)
-  .runWith({ secrets: ["LIVEKIT_API_KEY", "LIVEKIT_API_SECRET"] })
+  .runWith({ secrets: ["LIVEKIT_API_KEY", "LIVEKIT_API_SECRET"], serviceAccount: SERVICE_ACCOUNT })
   .auth.user()
   .onDelete(async (user) => {
     const uid = user.uid;

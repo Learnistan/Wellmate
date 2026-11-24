@@ -69,10 +69,15 @@ Tabs are now: 0 Home, 1 Games, 2 Majlis, 3 Daily activities, 4 Profile.
    (one per function: majliscreatespace, majlisjoin, majlisstage, majlishost,
    majliswhisper, majlistea, majlisremind, majlisreport, majliswebhook).
    Only needed when a function is first created; later deploys keep it.
-6. LiveKit Cloud → Settings → Webhooks: add
+6. **Service account.** The Workspace also gives Google's default service
+   accounts no roles, so Majlis runs as its own account
+   `majlis-functions@wellmate-56205.iam.gserviceaccount.com` with only
+   `roles/datastore.user` (the deploy adds access to the two LiveKit secrets).
+   The public AI chat keeps no database access.
+7. LiveKit Cloud → Settings → Webhooks: add
    `https://asia-south2-wellmate-56205.cloudfunctions.net/majlisWebhook`.
 
-**Status (25 Nov 2026):** steps 1–5 done for wellmate-56205 (rules, indexes,
+**Status (25 Nov 2026):** steps 1–6 done for wellmate-56205 (rules, indexes,
 11 functions, cleanup policy for old build images in asia-south2).
 
 Guides: add `majlis_guides/<uid>` with `{ "name": "Nargis" }` in the console.
