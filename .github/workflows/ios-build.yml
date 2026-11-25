@@ -27,6 +27,10 @@ jobs:
           xcodebuild -version
           pod --version
 
+      # Build the way the team's Mac does: plugins through CocoaPods
+      # (newer Flutter uses Swift Package Manager by default).
+      - run: flutter config --no-enable-swift-package-manager
+
       - run: flutter pub get
 
       - name: Install iOS libraries (CocoaPods)
