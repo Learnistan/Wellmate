@@ -34,7 +34,9 @@ jobs:
       - run: flutter pub get
 
       - name: Install iOS libraries (CocoaPods)
-        run: cd ios && pod install --repo-update
+        # Majlis needs a newer Firebase than the saved Podfile.lock; if the
+        # locked versions don't fit, let CocoaPods move Firebase forward.
+        run: cd ios && (pod install --repo-update || pod update Firebase)
 
       - name: Build the iOS app (no signing)
         run: flutter build ios --release --no-codesign
