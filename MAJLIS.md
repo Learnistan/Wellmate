@@ -99,10 +99,60 @@ With `WELLMATE_LOCAL_BACKEND` set, the whole app (sign-in too) uses the
 local emulators. It needs a profile build (Firebase then starts from Dart, see
 `android/app/src/profile/AndroidManifest.xml`). Store builds never set it.
 
-## Before release
+## Releasing Majlis
 
-- Android: Play Console must list the media-playback foreground service
-  ("keeps a live audio space playing while the screen is off").
-- iOS: `pod install`; microphone text and background audio are in Info.plist.
-- Two real phones on different networks, a screen-off test, an iPhone test.
+Both stores: raise `version:` in `pubspec.yaml` (build number above the last
+store build), merge into `dev` and then `main`, build with the team's signing.
+Test first with the team: Google Play internal testing and TestFlight.
+
+### iOS (a Mac with Xcode and CocoaPods)
+
+1. `flutter pub get`, then `cd ios && pod install`, and commit the new
+   `ios/Podfile.lock`. GitHub's **iOS build check** (`.github/workflows/ios-build.yml`)
+   builds the app without signing on every pull request and saves the same file.
+2. Already in `Info.plist`: the microphone text and background audio
+   (`UIBackgroundModes: audio`). Nothing else to set up for Majlis.
+3. Test on a real iPhone: the microphone prompt comes only after "Join the
+   stage"; sound keeps playing with the screen locked; loudspeaker and
+   Bluetooth headphones; a phone call in the middle of a space.
+4. Xcode → Product → Archive → upload → TestFlight for the team.
+5. Export compliance: Majlis voice uses WebRTC's standard encryption (like
+   HTTPS), which normally counts as exempt. Answer it in App Store Connect.
+6. App Store Connect → App Privacy: add **User Content → Other User Content**
+   (space titles, written whispers, reports), linked to the user, for App
+   Functionality. Live voice is not recorded or kept, so it is not "collected"
+   in Apple's sense (it is only passed through in real time).
+7. App Review needs a **demo account** (email, verified) and these notes:
+
+   > WellMate now includes Majlis, live voice spaces (the middle tab). People
+   > appear under a chosen veil name and an illustrated portrait, never a real
+   > name or photo, and nothing is recorded. Safety: every person card has
+   > Report and Block; hosts can mute, move people back to listening and
+   > remove them; WellMate guides can moderate any space; three reports from
+   > different people mute a speaker automatically; reports reach our team.
+   > To try it: sign in with the demo account, open Majlis, tap "Start a
+   > space". The microphone is used only after you choose to speak.
+   > Background audio keeps a live conversation playing while the screen is
+   > locked.
+
+8. Apple checks apps where users talk to each other (guideline 1.2): the
+   privacy policy and terms on wellmate.app should mention Majlis, say that
+   abusive content isn't allowed, and give a contact address.
+
+### Android
+
+1. Play Console → App content → **Foreground service**: declare media
+   playback, "keeps a live audio space playing while the screen is off"
+   (Google may ask for a short video).
+2. **Data safety**: Audio → Voice or sound recordings: collected, processed
+   ephemerally (not stored), optional, app functionality. Plus Other
+   user-generated content (space titles, whispers, reports).
+3. Current Flutter (3.50) needs Android Gradle Plugin 9.1.1 or newer;
+   `android/settings.gradle.kts` still says 9.0.1.
+
+### Before opening it to everyone
+
+- Two real phones on different networks (one on mobile data), screen off.
+- At least one WellMate guide (`majlis_guides/<uid>`) who reads `majlis_reports`.
+- Helplines approved (Majlis shows none until then).
 - A native speaker reads the Dari and Pashto (list at the top of the strings file).

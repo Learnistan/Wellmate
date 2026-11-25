@@ -1,0 +1,43 @@
+# Builds the iOS app on GitHub's Macs (no signing) for every pull request
+# into dev or main, so iOS problems show up before release. It also saves
+# the resulting ios/Podfile.lock, so the team can commit the same iOS
+# library versions. Signing and upload stay on the team's own Mac.
+name: iOS build check
+
+on:
+  pull_request:
+    branches: [dev, main]
+  workflow_dispatch:
+
+jobs:
+  ios:
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Tool versions
+        run: |
+          flutter --version
+          xcodebuild -version
+          pod --version
+
+      - run: flutter pub get
+
+      - name: Install iOS libraries (CocoaPods)
+        run: cd ios && pod install --repo-update
+
+      - name: Build the iOS app (no signing)
+        run: flutter build ios --release --no-codesign
+
+      - name: Save Podfile.lock
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Podfile.lock
+          path: ios/Podfile.lock
