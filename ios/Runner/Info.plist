@@ -64,6 +64,8 @@
 	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>WellMate does not use your camera. Majlis is voice only; this is required because its voice library also supports video.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Majlis uses the microphone only when you choose to speak in a space.</string>
 	<key>UIBackgroundModes</key>
