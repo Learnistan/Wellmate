@@ -5,6 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:wellmate/features/auth/domain/useCases/checkEmailVerification.dart';
 import 'package:wellmate/features/auth/domain/useCases/renderVerificationEmail.dart';
 import '../../../../core/enums/authfailureType.dart';
+import '../../../../core/providers/journeyProvider.dart';
+import '../../../../core/sync/clearLocalData.dart';
+import '../../../../core/sync/syncData.dart';
+import '../../../profile/domain/entities/profileEntity.dart';
+import '../../../profile/domain/useCases/deleteProfile.dart';
+import '../../../profile/domain/useCases/ensureProfile.dart';
+import '../../../profile/domain/useCases/getProfile.dart';
+import '../../../profile/domain/useCases/reauthenticateUser.dart';
+import '../../../profile/domain/useCases/saveProfile.dart';
 import '../../domain/entities/userEntity.dart';
 import '../../domain/useCases/signIn.dart';
 import '../../domain/useCases/signInWithApple.dart';
@@ -25,6 +34,14 @@ class AuthProvider with ChangeNotifier {
   final SignInWithApple signInWithAppleUseCase;
   final SendPasswordResetEmail sendPasswordResetEmailUseCase;
   final DeleteAccount deleteAccountUseCase;
+  final SaveProfile saveProfileUseCase;
+  final JourneyProvider journeyProvider;
+  final DeleteProfile deleteProfileUseCase;
+  final ReauthenticateUser reauthenticateUserUseCase;
+  final EnsureProfile ensureProfileUseCase;
+  final SyncData syncData;
+  final ClearLocalData clearLocalData;
+  final GetProfile getProfileUseCase;
 
   AuthProvider({
     required this.firebaseAuth,
@@ -37,6 +54,14 @@ class AuthProvider with ChangeNotifier {
     required this.signInWithAppleUseCase,
     required this.sendPasswordResetEmailUseCase,
     required this.deleteAccountUseCase,
+    required this.saveProfileUseCase,
+    required this.journeyProvider,
+    required this.deleteProfileUseCase,
+    required this.reauthenticateUserUseCase,
+    required this.ensureProfileUseCase,
+    required this.clearLocalData,
+    required this.syncData,
+    required this.getProfileUseCase
   }) {
     _listenToAuthChanges();
   }
@@ -68,6 +93,8 @@ class AuthProvider with ChangeNotifier {
 
   String? get pendingEmail => _pendingEmail;
 
+  final Map<String, Future<void>> _restores = {};
+
   bool get isGoogleUser {
     final user = firebaseAuth.currentUser;
 
@@ -95,11 +122,18 @@ class AuthProvider with ChangeNotifier {
   void _listenToAuthChanges() {
     _authSubscription =
         firebaseAuth.userChanges().listen(
-              (firebaseUser) {
+              (firebaseUser) async {
             if (firebaseUser == null) {
               _user = null;
               _pendingEmail = null;
               _isVerificationPending = false;
+            } else if (firebaseUser.emailVerified) {
+              await _restoreJourney(firebaseUser.uid);
+
+              _user = UserEntity(
+                id: firebaseUser.uid,
+                email: firebaseUser.email ?? '',
+                emailVerified: true);
             } else {
               final isSocialLogin = firebaseUser.providerData.any(
                     (provider) =>
@@ -143,6 +177,8 @@ class AuthProvider with ChangeNotifier {
     try {
       final result = await signInUseCase(email, password);
 
+      await _restoreJourney(result.id);
+
       _user = result;
       _pendingEmail = null;
       _isVerificationPending = false;
@@ -177,11 +213,23 @@ class AuthProvider with ChangeNotifier {
   Future<bool> register(
       String email,
       String password,
+      String username,
+      DateTime dateOfBirth,
       ) async {
     _startLoading();
 
     try {
       final result = await signUpUseCase(email, password);
+
+      try {
+        await saveProfileUseCase(ProfileEntity(
+          uid: result.id, // assuming signUp returns UserEntity with id
+          username: username,
+          dateOfBirth: dateOfBirth,
+        ));
+      } catch (_) {
+        // A local save error must not block registration.
+      }
 
       _user = null;
       _pendingEmail = result.email;
@@ -213,6 +261,8 @@ class AuthProvider with ChangeNotifier {
         _error = AuthFailureType.emailNotVerified;
         return false;
       }
+
+      await _restoreJourney(verifiedUser.id);
 
       _user = verifiedUser;
       _pendingEmail = null;
@@ -257,7 +307,16 @@ class AuthProvider with ChangeNotifier {
     _startLoading();
 
     try {
+      // Push unsynced data while she's still signed in (max 5 seconds).
+      final uid = firebaseAuth.currentUser?.uid;
+      if (uid != null) {
+        try {
+          await syncData(uid).timeout(const Duration(seconds: 5));
+        } catch (_) {}
+      }
+
       await signOutUseCase();
+      await _clearLocalUserData();
 
       _user = null;
       _pendingEmail = null;
@@ -373,9 +432,25 @@ class AuthProvider with ChangeNotifier {
     _startLoading();
 
     try {
-      await deleteAccountUseCase(
-        password: password,
-      );
+      // 1. Verify identity first. A wrong password stops here, nothing deleted.
+      await reauthenticateUserUseCase(password: password);
+
+      // 2. Delete the Firestore profile.
+      final uid = firebaseAuth.currentUser?.uid;
+      if (uid != null) {
+        try {
+          await deleteProfileUseCase(uid);
+        } catch (_) {
+          _error = AuthFailureType.networkError;
+          return false;
+        }
+      }
+
+      // 3. Delete the Auth account.
+      await deleteAccountUseCase();
+
+      // 4. Clear local data.
+      await _clearLocalUserData();
 
       _user = null;
       _pendingEmail = null;
@@ -391,6 +466,42 @@ class AuthProvider with ChangeNotifier {
       return false;
     } finally {
       _stopLoading();
+    }
+  }
+
+  Future<void> _restoreJourney(String uid) {
+    return _restores.putIfAbsent(uid, () async {
+      try {
+        // 1. Pull everything from remote into local (profile, progress...).
+        await syncData.restore(uid);
+
+        // 2. Read the profile from local, like any other screen.
+        final profile = await getProfileUseCase(uid);
+
+        if (profile == null) {
+          await ensureProfileUseCase(
+            uid,
+            username: firebaseAuth.currentUser?.displayName,
+          );
+        }
+
+        final journey = profile?.selectedJourney;
+        if (journey != null) {
+          await journeyProvider.saveSelectedJourney(journey);
+        }
+      } catch (_) {
+        // Never block login because of this.
+      }
+    });
+  }
+
+  Future<void> _clearLocalUserData() async {
+    _restores.clear();
+    try {
+      await clearLocalData();
+      await journeyProvider.clearSelectedJourney();
+    } catch (_) {
+      // Cleanup errors must not block logout.
     }
   }
 }

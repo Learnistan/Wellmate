@@ -1,5 +1,8 @@
+import 'dart:async'; // NEW (for unawaited)
+
 import 'package:flutter/material.dart';
 import 'package:wellmate/features/dailyActivities/domain/useCases/getTodayHydrationGlasses.dart';
+import '../../../../core/providers/syncProvider.dart'; // NEW
 import '../../../../core/seed/defaultActivities.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/entities/activityLog.dart';
@@ -14,6 +17,7 @@ class ActivityProvider extends ChangeNotifier {
   final UpdateActivity updateActivity;
   final AddActivityLog addActivityLog;
   final GetTodayHydrationGlasses getTodayHydrationGlasses;
+  final SyncProvider syncProvider; // NEW
 
   List<Activity> activities = [];
 
@@ -22,11 +26,17 @@ class ActivityProvider extends ChangeNotifier {
     required this.getActivities,
     required this.updateActivity,
     required this.addActivityLog,
-    required this.getTodayHydrationGlasses
+    required this.getTodayHydrationGlasses,
+    required this.syncProvider, // NEW
   });
 
   bool isLoading = false;
   int hydrationGlasses = 0;
+
+  void _pushToCloud() {
+    unawaited(syncProvider.refreshStatus());
+    unawaited(syncProvider.sync());
+  }
 
   Future<void> loadActivities() async {
     activities = await getActivities();
@@ -49,6 +59,9 @@ class ActivityProvider extends ChangeNotifier {
     );
 
     await updateActivity(updated);
+
+    _pushToCloud();
+
     await loadActivities();
   }
 
@@ -80,6 +93,8 @@ class ActivityProvider extends ChangeNotifier {
     );
 
     await addActivityLog(log);
+
+    _pushToCloud();
 
     await loadTodayHydrationGlasses();
 

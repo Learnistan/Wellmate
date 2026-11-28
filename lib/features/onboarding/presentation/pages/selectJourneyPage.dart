@@ -6,11 +6,14 @@ import 'package:provider/provider.dart';
 import '../../../../core/constants/journeysData.dart';
 import '../../../../core/enums/journeys.dart';
 import '../../../../core/providers/journeyProvider.dart';
+import '../../../../core/providers/syncProvider.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/textStyles.dart';
 import '../../../../core/utils/getProperText.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../auth/presentation/provider/authProvider.dart';
 import '../../../home/presentation/providers/homeProvider.dart';
+import '../../../profile/domain/useCases/updateSelectedJourney.dart';
 import '../../../shell/presentation/navigationProvider.dart';
 
 class SelectJourneyPage extends ConsumerStatefulWidget {
@@ -24,19 +27,32 @@ class _SelectJourneyPageState extends ConsumerState<SelectJourneyPage> {
   bool _isSaving = false;
 
   Future<void> _selectJourney(Journeys journeyKey) async {
-    setState(() {
-      _isSaving = true;
-    });
+    setState(() => _isSaving = true);
 
-    await context.read<JourneyProvider>().saveSelectedJourney(journeyKey);
+    try {
+      await context.read<JourneyProvider>().saveSelectedJourney(journeyKey);
 
-    final homeProvider = context.read<HomeProvider>();
-    await homeProvider.initProgress();
+      final uid = context.read<AuthProvider>().user?.id;
+      if (uid != null) {
+        try {
+          await context.read<UpdateSelectedJourney>()(uid, journeyKey); // local, instant
+        } catch (_) {}
 
-    if (!context.mounted) return;
+        final sync = context.read<SyncProvider>();
+        sync.refreshStatus(); // label appears right away (local check)
+        sync.sync();          // background push, not awaited
+      }
 
-    ref.read(navigationIndexProvider.notifier).state = 0;
-    context.go('/shell');
+      final homeProvider = context.read<HomeProvider>();
+      await homeProvider.initProgress();
+
+      if (!mounted) return;
+
+      ref.read(navigationIndexProvider.notifier).state = 0;
+      context.go('/shell');
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
   }
 
   void _openJourneyDetails({

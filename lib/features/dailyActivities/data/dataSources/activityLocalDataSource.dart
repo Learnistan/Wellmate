@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import 'package:sqflite/sqflite.dart';
+import '../../../../core/seed/defaultActivities.dart';
 import '../models/activityLogModel.dart';
 import '../models/activityModel.dart';
 import '../../../../core/database/databaseHelper.dart';
 
 class ActivityLocalDataSource {
+
   final DatabaseHelper dbHelper;
+  String get _today => DateTime.now().toIso8601String().split('T').first;
 
   ActivityLocalDataSource(this.dbHelper);
 
@@ -32,7 +35,10 @@ class ActivityLocalDataSource {
 
     await db.update(
       'activities',
-      activity.toMap(),
+      {
+        ...activity.toMap(),
+        'completed_on': activity.isActive ? null : _today,
+      },
       where: 'id = ?',
       whereArgs: [activity.id],
     );
@@ -44,7 +50,11 @@ class ActivityLocalDataSource {
 
     await db.insert(
       'activity_logs',
-      log.toMap(),
+      {
+        ...log.toMap(),
+        'is_synced': 0,
+        'updated_at': DateTime.now().toIso8601String(),
+      },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -109,6 +119,98 @@ class ActivityLocalDataSource {
     await db.update(
       'activities',
       {'isActive': 1},
+    );
+  }
+
+  Future<void> clearUserData() async {
+    final db = await dbHelper.database;
+    await db.delete('activity_logs');
+    await db.update('activities', {'isActive': 1, 'completed_on': null});
+  }
+
+  Future<List<int>> getCompletedTodayIds() async {
+    final db = await dbHelper.database;
+    final rows = await db.query(
+      'activities',
+      columns: ['id'],
+      where: 'completed_on = ?',
+      whereArgs: [_today],
+    );
+    return rows.map((r) => r['id'] as int).toList()..sort();
+  }
+
+  Future<void> markCompleted(List<int> ids) async {
+    if (ids.isEmpty) return;
+    final db = await dbHelper.database;
+    await db.update(
+      'activities',
+      {'isActive': 0, 'completed_on': _today},
+      where: 'id IN (${ids.map((_) => '?').join(',')})',
+      whereArgs: ids,
+    );
+  }
+
+  Future<void> seedDefaultsIfEmpty() async {
+    final db = await dbHelper.database;
+    final count =
+        Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM activities')) ?? 0;
+    if (count > 0) return;
+
+    for (final a in defaultActivities) {
+      await db.insert(
+        'activities',
+        ActivityModel(
+          id: a.id,
+          title: a.title,
+          isActive: a.isActive,
+          duration: a.duration,
+          iconPath: a.iconPath,
+          route: a.route,
+        ).toMap(),
+      );
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getUnsyncedLogs() async {
+    final db = await dbHelper.database;
+    return db.query('activity_logs', where: 'is_synced = 0');
+  }
+
+  Future<void> markLogSynced(int activityId, String date, String? updatedAt) async {
+    final db = await dbHelper.database;
+
+    // Only mark as sent if the note didn't change while uploading.
+    await db.update(
+      'activity_logs',
+      {'is_synced': 1},
+      where: updatedAt == null
+          ? 'activity_id = ? AND date = ? AND updated_at IS NULL'
+          : 'activity_id = ? AND date = ? AND updated_at = ?',
+      whereArgs: updatedAt == null
+          ? [activityId, date]
+          : [activityId, date, updatedAt],
+    );
+  }
+
+  Future<bool> hasLogs() async {
+    final db = await dbHelper.database;
+    final rows = await db.query('activity_logs', limit: 1);
+    return rows.isNotEmpty;
+  }
+
+  Future<void> insertRestoredLog(Map<String, dynamic> remote) async {
+    final db = await dbHelper.database;
+
+    await db.insert(
+      'activity_logs',
+      {
+        'activity_id': (remote['activityId'] as num).toInt(),
+        'date': remote['date'],
+        'value': remote['value'],
+        'is_synced': 1, // came from Firestore, nothing to send
+        'updated_at': remote['updatedAt'],
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 }

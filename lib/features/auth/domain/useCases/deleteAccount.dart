@@ -4,10 +4,5 @@ class DeleteAccount {
   final AuthRepository repository;
 
   DeleteAccount(this.repository);
-
-  Future<void> call({String? password}) {
-    return repository.deleteAccount(
-      password: password,
-    );
-  }
+  Future<void> call() => repository.deleteAccount();
 }
