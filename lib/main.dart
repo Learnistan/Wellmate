@@ -56,12 +56,17 @@ import 'features/home/presentation/providers/homeProvider.dart';
 import 'features/profile/data/dataSources/profileDataSource.dart';
 import 'l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'features/majlis_glue/local_backend.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  if (LocalBackend.enabled) {
+    await LocalBackend.initialize(); // developers only, see local_backend.dart
+  } else {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
 
   await GoogleSignIn.instance.initialize();
 

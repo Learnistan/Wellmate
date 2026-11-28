@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Majlis small notification icon: the tea glass as a microphone, white on
+     transparent (Android tints it). Copy into WellMate with the manifest
+     meta-data com.learnistan.wellmate.majlis.NOTIFICATION_ICON. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M8.3,6.4H15.7C15.4,8.7 14.2,9.9 14.2,11.6C14.2,13.4 15.3,14.4 15.1,16C14.9,17.6 13.6,18.5 12,18.5C10.4,18.5 9.1,17.6 8.9,16C8.7,14.4 9.8,13.4 9.8,11.6C9.8,9.9 8.6,8.7 8.3,6.4Z" />
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="1.6"
+        android:strokeLineCap="round"
+        android:pathData="M7.6,6.1H16.4" />
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:pathData="M6.2,13.6C6.2,18.4 8.8,20.6 12,20.6C15.2,20.6 17.8,18.4 17.8,13.6M12,20.6V22.6M9.3,22.8H14.7" />
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="1.4"
+        android:strokeLineCap="round"
+        android:pathData="M11.9,4.3C11,3.6 11.3,2.7 12.1,2.1C12.7,1.6 12.8,1.1 12.5,0.7" />
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:pathData="M3.4,11.8C2.3,13.4 2.3,15.8 3.4,17.4M20.6,11.8C21.7,13.4 21.7,15.8 20.6,17.4" />
+</vector>

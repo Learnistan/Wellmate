@@ -22,6 +22,8 @@ import '../../../../core/utils/timeUtils.dart';
 import '../../../../core/widgets/floatingBubbleButton.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../dailyActivities/presentation/providers/activityProvider.dart';
+import '../../../majlis_glue/majlis_home_bits.dart';
+import '../../../majlis_glue/majlis_scope.dart';
 import '../../../shell/presentation/navigationProvider.dart';
 import '../providers/homeProvider.dart';
 
@@ -60,7 +62,29 @@ class _HomePageState extends ConsumerState<HomePage> {
         if (next == 0) {
           _listenerAdded = false;
           context.read<HomeProvider>().loadLevel();
+
+          // A Majlis visit moved the journey on while Home was hidden.
+          if (ref.read(majlisJourneyStepProvider)) {
+            ref.read(majlisJourneyStepProvider.notifier).state = false;
+            _replayJourneyStep();
+          }
         }
+      },
+    );
+
+    // After a Majlis visit the person felt tired, anxious or sad:
+    // offer the same activity Home offers for that feeling.
+    ref.listenManual<int?>(
+      majlisFeelingProvider,
+          (previous, next) {
+        if (next == null || !mounted) return;
+        ref.read(majlisFeelingProvider.notifier).state = null;
+        _showMoodActivityModal(
+          index: next,
+          locale: Localizations.localeOf(context),
+          loc: AppLocalizations.of(context)!,
+          fromMajlis: true,
+        );
       },
     );
 
@@ -144,8 +168,11 @@ class _HomePageState extends ConsumerState<HomePage> {
   void _showMoodActivityModal({
     required int index,
     required Locale locale,
-    required AppLocalizations loc
+    required AppLocalizations loc,
+    bool fromMajlis = false,
   }) {
+    final majlis = MajlisScope.read(context);
+
     final data = _moodRecommendation(index, loc);
     final activity = defaultActivities.firstWhere(
           (activity) => activity.title == data['activityKey'],
@@ -359,6 +386,18 @@ class _HomePageState extends ConsumerState<HomePage> {
 
                 const SizedBox(height: 10),
 
+                // Tired, anxious or sad: Majlis as a second way to feel better.
+                if (!fromMajlis && index >= 2 && majlis != null) ...[
+                  MajlisFeelingLink(
+                    hallway: majlis.hallway,
+                    onTap: () {
+                      Navigator.pop(context);
+                      majlis.openTab();
+                    },
+                  ),
+                  const SizedBox(height: 6),
+                ],
+
                 TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: Text(
@@ -428,7 +467,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                   onPressed: () {
                     Navigator.pop(context);
 
-                    ref.read(navigationIndexProvider.notifier).state = 3;
+                    // Profile is the fifth tab (Majlis is in the middle).
+                    ref.read(navigationIndexProvider.notifier).state = 4;
 
                     Future.delayed(const Duration(milliseconds: 300), () {
                       ref.read(scrollProfileToBottomProvider.notifier).state =
@@ -473,6 +513,16 @@ class _HomePageState extends ConsumerState<HomePage> {
         _videoReady = true;
       });
     }
+  }
+
+  /// Plays the latest journey step again, for a step earned in Majlis while
+  /// Home was hidden. Skipped on the last step (it has its own celebration).
+  Future<void> _replayJourneyStep() async {
+    await Future.delayed(const Duration(milliseconds: 450));
+    if (!mounted) return;
+    final level = context.read<HomeProvider>().level;
+    if (level <= 0 || level >= pauseSeconds.length - 1) return;
+    await updateVideoForLevel(level, animate: true);
   }
 
   Future<void> updateVideoForLevel(
@@ -725,7 +775,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ),
                   ),
 
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 22),
+
+                  // Who is talking in Majlis right now, one tap away.
+                  const MajlisHomeCard(),
+
+                  const SizedBox(height: 26),
 
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

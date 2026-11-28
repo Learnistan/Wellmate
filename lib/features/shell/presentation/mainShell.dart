@@ -5,6 +5,7 @@ import 'package:wellmate/core/theme/colors.dart';
 import 'package:wellmate/core/widgets/curvedNavBar.dart';
 import 'package:wellmate/features/dailyActivities/presentation/pages/dailyActivities.dart';
 import 'package:wellmate/features/mindfulGames/presentation/pages/mindfulGamesPage.dart';
+import 'package:wellmate/features/majlis_glue/majlis_scope.dart';
 import 'package:wellmate/features/profile/presentation/pages/profilePage.dart';
 
 import '../../home/presentation/pages/homePage.dart';
@@ -20,6 +21,7 @@ class MainShell extends ConsumerWidget {
     final pages = const [
       HomePage(),
       MindfulGamesPage(),
+      MajlisTab(),
       DailyActivitiesPage(),
       ProfilePage(),
     ];
