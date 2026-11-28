@@ -2,6 +2,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellmate/core/theme/colors.dart';
+import 'package:wellmate/features/majlis_glue/majlis_home_bits.dart';
+import 'package:wellmate/features/majlis_glue/majlis_scope.dart';
 
 class CurvedNavBar extends StatelessWidget {
   final int currentIndex;
@@ -23,6 +25,11 @@ class CurvedNavBar extends StatelessWidget {
       {
         'active': 'assets/icons/ic_games_active.svg',
         'inactive': 'assets/icons/ic_games_inactive.svg',
+      },
+      // Majlis (index 2): drawn by MajlisNavIcon, with a dot when someone is live.
+      {
+        'active': 'assets/icons/ic_majlis_active.svg',
+        'inactive': 'assets/icons/ic_majlis_inactive.svg',
       },
       {
         'active': 'assets/icons/ic_dailyActivities_active.svg',
@@ -50,6 +57,10 @@ class CurvedNavBar extends StatelessWidget {
         navItems.length,
             (index) {
           final bool isSelected = currentIndex == index;
+
+          if (index == MajlisScope.tabIndex) {
+            return MajlisNavIcon(selected: isSelected);
+          }
 
           return SvgPicture.asset(
             isSelected
