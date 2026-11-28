@@ -63,6 +63,14 @@ jobs:
       - name: Install iOS libraries (CocoaPods)
         run: cd ios && (pod install --repo-update || pod update Firebase)
 
+      # Without these, permission_handler answers "denied" on iPhone without
+      # asking (see post_install in ios/Podfile).
+      - name: Check the permission switches
+        run: |
+          for P in PERMISSION_SENSORS PERMISSION_MICROPHONE; do
+            grep -q "$P=1" ios/Pods/Pods.xcodeproj/project.pbxproj || { echo "::error::$P=1 missing in the Pods project"; exit 1; }
+          done
+
       - name: Write the API key to a private file
         env:
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
